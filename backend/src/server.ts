@@ -28,7 +28,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Security & Utility Middlewares
-app.use(helmet({
+app.use((helmet as any)({
   contentSecurityPolicy: false // Disabled for dev flexibility
 }));
 
