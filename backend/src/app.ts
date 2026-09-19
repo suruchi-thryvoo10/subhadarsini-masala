@@ -34,12 +34,26 @@ app.use(express.urlencoded({ extended: true }));
 // Apply rate limiter to /api
 app.use('/api', apiRateLimiter);
 
-// Healthcheck endpoint
-app.get('/health', (req, res) => {
+// Root & Healthcheck endpoints
+app.get(['/', '/health', '/api/v1/health'], (req, res) => {
   res.status(200).json({
     status: 'UP',
-    brand: 'Subhadarshini Spices & Foods',
-    environment: process.env.NODE_ENV || 'development',
+    brand: 'Subhadarshini Spices & Foods Pvt. Ltd.',
+    service: 'Subhadarshini API Node Instance',
+    environment: process.env.NODE_ENV || 'production',
+    endpoints: {
+      health: '/health',
+      auth: '/api/v1/auth',
+      products: '/api/v1/products',
+      categories: '/api/v1/categories',
+      orders: '/api/v1/orders',
+      quality: '/api/v1/quality',
+      recipes: '/api/v1/recipes',
+      enquiries: '/api/v1/enquiries',
+      dealers: '/api/v1/dealers',
+      careers: '/api/v1/careers',
+      reviews: '/api/v1/reviews'
+    },
     timestamp: new Date().toISOString()
   });
 });
