@@ -47,14 +47,21 @@ export const ProductsPage: React.FC = () => {
         limit: '24'
       }).toString();
 
-      const res = await fetch(getApiUrl(`/api/v1/products?${query}`));
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 8000);
+
+      const res = await fetch(getApiUrl(`/api/v1/products?${query}`), {
+        signal: controller.signal
+      });
+      clearTimeout(timeoutId);
+
       const data = await res.json();
       if (data.success) {
         setProducts(data.data);
         setTotal(data.meta?.total || data.data.length);
       }
     } catch (err) {
-      console.error(err);
+      console.error('Fetch products error:', err);
     } finally {
       setLoading(false);
     }
