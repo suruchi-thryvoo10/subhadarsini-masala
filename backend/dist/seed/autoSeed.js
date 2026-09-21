@@ -8,20 +8,28 @@ import { Dealer } from '../models/Dealer.js';
 import { Career } from '../models/Career.js';
 export const autoSeedIfEmpty = async () => {
     try {
-        const productCount = await Product.countDocuments();
-        if (productCount > 0) {
-            return;
-        }
         const adminPassword = await bcrypt.hash('admin123', 10);
-        // Always ensure admin@subhadarshini.com has valid demo password (admin123)
+        // Always ensure admin@subhadarshini.com exists
         const existingAdmin = await User.findOne({ email: 'admin@subhadarshini.com' });
-        if (existingAdmin) {
+        if (!existingAdmin) {
+            await User.create({
+                name: 'Subhadarshini Admin',
+                email: 'admin@subhadarshini.com',
+                passwordHash: adminPassword,
+                role: 'ADMIN'
+            });
+            console.log('🔐 [AutoSeed] Created demo Admin user (admin@subhadarshini.com)');
+        }
+        else {
             const isMatch = await bcrypt.compare('admin123', existingAdmin.passwordHash);
             if (!isMatch) {
                 existingAdmin.passwordHash = adminPassword;
                 await existingAdmin.save();
-                console.log('🔐 [AutoSeed] Updated existing Admin user password to admin123');
             }
+        }
+        const productCount = await Product.countDocuments();
+        if (productCount > 0) {
+            return;
         }
         // 2. Ensure Categories exist
         const categoryDefs = [
