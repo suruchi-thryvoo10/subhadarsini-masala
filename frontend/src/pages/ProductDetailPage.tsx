@@ -74,11 +74,14 @@ export const ProductDetailPage: React.FC = () => {
         <div className="bg-white rounded-3xl border border-spice-brown/10 p-6 md:p-10 shadow-sm grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
           {/* Image Gallery */}
           <div className="space-y-4">
-            <div className="aspect-square rounded-2xl overflow-hidden bg-spice-beige/40 border border-spice-brown/10">
+            <div className="aspect-square rounded-2xl overflow-hidden bg-white p-6 border border-spice-brown/10 flex items-center justify-center">
               <img
-                src={product.images[0] || 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=800&q=80'}
+                src={product.images[0] || 'https://www.subhadarshini.com/admin/assets/upload/1852132731_sambarmasala.png'}
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = 'https://www.subhadarshini.com/admin/assets/upload/1852132731_sambarmasala.png';
+                }}
                 alt={product.name}
-                className="w-full h-full object-cover"
+                className="max-h-full max-w-full object-contain drop-shadow-md"
               />
             </div>
           </div>

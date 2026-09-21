@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, ShoppingBag, Star, ShieldCheck } from 'lucide-react';
+import { Heart, ShoppingBag, Star, Check } from 'lucide-react';
 import { Product } from '../../types';
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
@@ -14,6 +14,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { toggleWishlist, isInWishlist } = useWishlist();
 
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
+  const [justAdded, setJustAdded] = useState(false);
+
   const selectedVariant = product.variants[selectedVariantIndex] || product.variants[0];
 
   const inWishlist = isInWishlist(product._id);
@@ -21,18 +23,27 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     ? Math.round(((selectedVariant.price - selectedVariant.discountPrice) / selectedVariant.price) * 100)
     : 0;
 
+  const handleAddToCart = () => {
+    addToCart(product, selectedVariant.size);
+    setJustAdded(true);
+    setTimeout(() => setJustAdded(false), 1500);
+  };
+
   return (
     <div className="group bg-white rounded-2xl border border-spice-brown/10 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between overflow-hidden">
       {/* Product Image Box */}
-      <div className="relative aspect-square overflow-hidden bg-spice-beige/40">
+      <div className="relative aspect-square overflow-hidden bg-white p-3 flex items-center justify-center border-b border-spice-brown/5">
         <img
-          src={product.images[0] || 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=800&q=80'}
+          src={product.images[0] || 'https://www.subhadarshini.com/admin/assets/upload/1852132731_sambarmasala.png'}
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = 'https://www.subhadarshini.com/admin/assets/upload/1852132731_sambarmasala.png';
+          }}
           alt={product.name}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-500 drop-shadow-sm"
         />
 
         {/* Badges */}
-        <div className="absolute top-3 left-3 flex flex-col gap-1">
+        <div className="absolute top-3 left-3 flex flex-col gap-1 z-10">
           {discountPercent > 0 && (
             <span className="bg-spice-red text-white font-bold text-[10px] px-2 py-0.5 rounded-full tracking-wider uppercase shadow">
               {discountPercent}% OFF
@@ -48,7 +59,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         {/* Wishlist Button */}
         <button
           onClick={() => toggleWishlist(product)}
-          className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-spice-brown hover:text-spice-red transition-colors shadow"
+          className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-spice-brown hover:text-spice-red transition-colors shadow z-10"
           title={inWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
         >
           <Heart className={`w-4 h-4 ${inWishlist ? 'fill-spice-red text-spice-red' : ''}`} />
@@ -61,18 +72,18 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           {/* Category Tag & Rating */}
           <div className="flex items-center justify-between text-xs text-spice-saffron font-medium mb-1">
             <span className="uppercase tracking-wider text-[11px] font-bold">
-              {typeof product.category === 'object' ? product.category.name : 'Spice Blend'}
+              {typeof product.category === 'object' ? product.category.name : 'Pure Spice'}
             </span>
             <div className="flex items-center gap-1 text-spice-brown/80 font-bold">
               <Star className="w-3.5 h-3.5 fill-spice-turmeric text-spice-turmeric" />
-              <span>{product.ratingAvg || 4.8}</span>
-              <span className="text-spice-brown/40 text-[10px]">({product.ratingCount || 12})</span>
+              <span>{product.ratingAvg || 4.9}</span>
+              <span className="text-spice-brown/40 text-[10px]">({product.ratingCount || 45})</span>
             </div>
           </div>
 
           {/* Product Name */}
           <Link to={`/products/${product.slug}`} className="block">
-            <h3 className="font-serif font-bold text-lg text-spice-brown group-hover:text-spice-red transition-colors line-clamp-1">
+            <h3 className="font-serif font-bold text-base text-spice-brown group-hover:text-spice-red transition-colors line-clamp-1">
               {product.name}
             </h3>
           </Link>
@@ -119,10 +130,20 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             </div>
 
             <button
-              onClick={() => addToCart(product, selectedVariant.size)}
-              className="px-3.5 py-2 rounded-xl bg-spice-brown hover:bg-spice-red text-white text-xs font-bold flex items-center gap-1.5 transition-colors shadow-sm"
+              onClick={handleAddToCart}
+              className={`px-3.5 py-2 rounded-xl text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm ${
+                justAdded ? 'bg-green-600' : 'bg-spice-brown hover:bg-spice-red'
+              }`}
             >
-              <ShoppingBag className="w-3.5 h-3.5" /> Add to Cart
+              {justAdded ? (
+                <>
+                  <Check className="w-3.5 h-3.5" /> Added
+                </>
+              ) : (
+                <>
+                  <ShoppingBag className="w-3.5 h-3.5" /> Add to Cart
+                </>
+              )}
             </button>
           </div>
         </div>
