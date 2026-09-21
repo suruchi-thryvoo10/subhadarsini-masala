@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import { WishlistProvider } from './context/WishlistContext';
+import { QuickViewProvider } from './context/QuickViewContext';
 import { App } from './App';
 import './index.css';
 
@@ -17,7 +18,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <AuthProvider>
           <CartProvider>
             <WishlistProvider>
-              <App />
+              <QuickViewProvider>
+                <App />
+              </QuickViewProvider>
             </WishlistProvider>
           </CartProvider>
         </AuthProvider>

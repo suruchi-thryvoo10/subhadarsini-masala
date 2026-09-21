@@ -4,6 +4,7 @@ import { ProductCard } from '../components/product/ProductCard';
 import { Product, Category } from '../types';
 import { Search, SlidersHorizontal, ArrowUpDown } from 'lucide-react';
 import { fetchApi } from '../config/api';
+import { StaggerGroup, StaggerItem } from '../components/ui/Reveal';
 
 export const ProductsPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -197,11 +198,13 @@ export const ProductsPage: React.FC = () => {
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <StaggerGroup className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {products.map((product) => (
-              <ProductCard key={product._id} product={product} />
+              <StaggerItem key={product._id}>
+                <ProductCard product={product} />
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerGroup>
         )}
       </div>
     </div>

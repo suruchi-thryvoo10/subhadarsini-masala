@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, ShoppingBag, Star, Check } from 'lucide-react';
+import { Heart, ShoppingBag, Star, Check, Eye } from 'lucide-react';
 import { Product } from '../../types';
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
 import { productImageUrl, handleImageError } from '../../config/images';
+import { useQuickView } from '../../context/QuickViewContext';
 
 interface ProductCardProps {
   product: Product;
@@ -13,6 +14,7 @@ interface ProductCardProps {
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { addToCart } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
+  const { openQuickView } = useQuickView();
 
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
   const [justAdded, setJustAdded] = useState(false);
@@ -74,6 +76,15 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           title={inWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
         >
           <Heart className={`w-4 h-4 ${inWishlist ? 'fill-spice-red text-spice-red' : ''}`} />
+        </button>
+
+        {/* Quick View — keyboard reachable, and always visible on touch devices
+            where there is no hover state to reveal it. */}
+        <button
+          onClick={() => openQuickView(product)}
+          className="absolute inset-x-3 bottom-3 z-10 py-2 rounded-xl bg-spice-brown/90 backdrop-blur-sm text-white text-[11px] font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 shadow-lg opacity-100 translate-y-0 sm:opacity-0 sm:translate-y-2 sm:group-hover:opacity-100 sm:group-hover:translate-y-0 focus-visible:opacity-100 focus-visible:translate-y-0 transition-all duration-300 hover:bg-spice-red"
+        >
+          <Eye className="w-3.5 h-3.5" /> Quick View
         </button>
       </div>
 

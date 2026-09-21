@@ -3,6 +3,8 @@ const CategorySchema = new Schema({
     name: { type: String, required: true },
     slug: { type: String, required: true, unique: true, index: true },
     description: { type: String },
+    tagline: { type: String },
+    highlights: [{ type: String }],
     image: { type: String },
     sortOrder: { type: Number, default: 0 },
     isActive: { type: Boolean, default: true }

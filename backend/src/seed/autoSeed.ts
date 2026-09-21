@@ -7,7 +7,7 @@ import { Recipe } from '../models/Recipe.js';
 import { Dealer } from '../models/Dealer.js';
 import { Career } from '../models/Career.js';
 import { Review } from '../models/Review.js';
-import { PRODUCT_IMAGES, CATEGORY_IMAGES, FALLBACK_IMAGES, resolveProductImage } from '../data/productImages.js';
+import { PRODUCT_IMAGES, CATEGORY_IMAGES, FALLBACK_IMAGES, resolveProductImage, resolveProductImages } from '../data/productImages.js';
 
 export const autoSeedIfEmpty = async () => {
   try {
@@ -36,6 +36,8 @@ export const autoSeedIfEmpty = async () => {
       {
         name: 'Ground Spices',
         slug: 'ground-spices',
+        tagline: "Single-origin roots and pods, cold-milled so the aroma survives the grinding.",
+        highlights: ["Cryogenic low-heat milling","Natural colour, zero added dyes","Curcumin & capsaicin assayed per batch"],
         description: '100% Pure, cold-milled single-origin Indian spices with natural essential oils preserved.',
         image: CATEGORY_IMAGES['ground-spices'],
         sortOrder: 1
@@ -43,6 +45,8 @@ export const autoSeedIfEmpty = async () => {
       {
         name: 'Blended Spices',
         slug: 'blended-spices',
+        tagline: "Recipes weighed to the gram, ground fresh, and balanced for one dish at a time.",
+        highlights: ["Dish-specific formulations","Whole spices roasted before blending","No starch or salt fillers"],
         description: 'Authentic royal recipes ground to perfection for curries, gravies, and biryanis.',
         image: CATEGORY_IMAGES['blended-spices'],
         sortOrder: 2
@@ -50,6 +54,8 @@ export const autoSeedIfEmpty = async () => {
       {
         name: 'Whole Spices',
         slug: 'whole-spices',
+        tagline: "Hand-sorted seeds, pods and leaves, cleaned and graded before they reach the pack.",
+        highlights: ["Size-graded for even roasting","De-stoned and sieved twice","Moisture held under 8%"],
         description: 'Handpicked premium whole spice seeds, pods, and barks from Kerala and Western Ghats.',
         image: CATEGORY_IMAGES['whole-spices'],
         sortOrder: 3
@@ -57,6 +63,8 @@ export const autoSeedIfEmpty = async () => {
       {
         name: 'Gourmet Seasonings',
         slug: 'gourmet-seasonings',
+        tagline: "Odia kitchen classics and roasted blends you would otherwise grind at home.",
+        highlights: ["Traditional regional recipes","Small-batch roasted","Made for finishing, not just cooking"],
         description: 'Handcrafted artisan spice rubs, roasted powders, and traditional Odia spice blends.',
         image: CATEGORY_IMAGES['gourmet-seasonings'],
         sortOrder: 4
@@ -64,6 +72,8 @@ export const autoSeedIfEmpty = async () => {
       {
         name: 'Premium Food Items',
         slug: 'premium-food-items',
+        tagline: "The everyday staples a working kitchen runs out of first.",
+        highlights: ["Food-grade certified","Sieved for lump-free use","Family packs and refills"],
         description: 'Everyday kitchen staples — soya chunks, daliya, corn flour, black salt and more.',
         image: CATEGORY_IMAGES['premium-food-items'],
         sortOrder: 5
@@ -71,6 +81,8 @@ export const autoSeedIfEmpty = async () => {
       {
         name: 'Upcoming Products',
         slug: 'upcoming-products',
+        tagline: "Launching soon — in final packaging and quality trials right now.",
+        highlights: ["In pilot production","Lab trials under way","Dealer pre-orders opening shortly"],
         description: 'New Subhadarshini products launching soon.',
         image: CATEGORY_IMAGES['upcoming-products'],
         sortOrder: 6
@@ -82,9 +94,14 @@ export const autoSeedIfEmpty = async () => {
       let cat = await Category.findOne({ slug: catDef.slug });
       if (!cat) {
         cat = await Category.create(catDef);
-      } else if (cat.image !== catDef.image) {
+      } else {
+        // Keep the landing-page copy and artwork in sync with this file.
         cat.image = catDef.image;
-        await cat.save();
+        cat.description = catDef.description;
+        cat.tagline = catDef.tagline;
+        cat.highlights = catDef.highlights;
+        cat.sortOrder = catDef.sortOrder;
+        if (cat.isModified()) await cat.save();
       }
       categoryMap[catDef.slug] = cat._id;
     }
@@ -865,7 +882,7 @@ export const autoSeedIfEmpty = async () => {
     // Every product image is resolved from the single canonical catalogue so the
     // seed data and the shipped assets can never drift apart.
     for (const product of productCatalog) {
-      product.images = [resolveProductImage(product.slug, FALLBACK_IMAGES.ground)];
+      product.images = resolveProductImages(product.slug, FALLBACK_IMAGES.ground);
     }
 
     // Smart Bulk Upsert: Create any products that don't exist yet
@@ -883,13 +900,13 @@ export const autoSeedIfEmpty = async () => {
     // are written, so this is a no-op once the catalogue is in sync.
     const imageFixes = existingProducts
       .filter((p) => {
-        const expected = resolveProductImage(p.slug, '');
-        return expected && p.images?.[0] !== expected;
+        const expected = resolveProductImages(p.slug, '');
+        return expected.length > 0 && JSON.stringify(p.images) !== JSON.stringify(expected);
       })
       .map((p) => ({
         updateOne: {
           filter: { _id: p._id },
-          update: { $set: { images: [resolveProductImage(p.slug)] } }
+          update: { $set: { images: resolveProductImages(p.slug) } }
         }
       }));
 

@@ -2,6 +2,8 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
+import { QuickViewModal } from './components/product/QuickViewModal';
+import { useQuickView } from './context/QuickViewContext';
 
 import { HomePage } from './pages/HomePage';
 import { ProductsPage } from './pages/ProductsPage';
@@ -19,6 +21,7 @@ import { ContactPage } from './pages/ContactPage';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { ProfilePage } from './pages/ProfilePage';
+import { CategoryPage } from './pages/CategoryPage';
 
 import { AdminDashboardPage } from './pages/admin/AdminDashboardPage';
 import { AdminProductsPage } from './pages/admin/AdminProductsPage';
@@ -27,6 +30,8 @@ import { AdminBatchesPage } from './pages/admin/AdminBatchesPage';
 import { AdminAuditLogsPage } from './pages/admin/AdminAuditLogsPage';
 
 export const App: React.FC = () => {
+  const { product, closeQuickView } = useQuickView();
+
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
@@ -35,6 +40,7 @@ export const App: React.FC = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/products/:slug" element={<ProductDetailPage />} />
+          <Route path="/category/:slug" element={<CategoryPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/orders/track/:orderNumber" element={<OrderTrackPage />} />
@@ -58,6 +64,7 @@ export const App: React.FC = () => {
         </Routes>
       </main>
       <Footer />
+      <QuickViewModal product={product} onClose={closeQuickView} />
     </div>
   );
 };

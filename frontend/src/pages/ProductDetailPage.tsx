@@ -6,7 +6,8 @@ import { useWishlist } from '../context/WishlistContext';
 import { Star, ShieldCheck, Heart, ShoppingBag, Truck, Check, RefreshCw } from 'lucide-react';
 import { ProductCard } from '../components/product/ProductCard';
 import { getApiUrl } from '../config/api';
-import { productImageUrl, handleImageError } from '../config/images';
+import { ProductGallery } from '../components/product/ProductGallery';
+import { Reveal, StaggerGroup, StaggerItem } from '../components/ui/Reveal';
 
 export const ProductDetailPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -60,6 +61,10 @@ export const ProductDetailPage: React.FC = () => {
 
   const selectedVariant = product.variants[selectedVariantIndex] || product.variants[0];
   const inWishlist = isInWishlist(product._id);
+  const isUnavailable = product.isUpcoming || selectedVariant.stock === 0;
+  const discountPercent = selectedVariant.discountPrice
+    ? Math.round(((selectedVariant.price - selectedVariant.discountPrice) / selectedVariant.price) * 100)
+    : 0;
 
   return (
     <div className="bg-spice-cream min-h-screen py-10">
@@ -74,19 +79,21 @@ export const ProductDetailPage: React.FC = () => {
         {/* Product Grid Layout */}
         <div className="bg-white rounded-3xl border border-spice-brown/10 p-6 md:p-10 shadow-sm grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
           {/* Image Gallery */}
-          <div className="space-y-4">
-            <div className="aspect-square rounded-2xl overflow-hidden bg-white p-6 border border-spice-brown/10 flex items-center justify-center">
-              <img
-                src={productImageUrl(product)}
-                onError={handleImageError}
-                alt={`${product.name} packaging`}
-                width={900}
-                height={900}
-                decoding="async"
-                className="w-full h-full object-contain drop-shadow-md"
-              />
-            </div>
-          </div>
+          <ProductGallery
+            images={product.images}
+            productName={product.name}
+            badge={
+              product.isUpcoming ? (
+                <span className="bg-spice-brown text-white font-bold text-[10px] px-2.5 py-1 rounded-full tracking-wider uppercase shadow">
+                  Coming Soon
+                </span>
+              ) : discountPercent > 0 ? (
+                <span className="bg-spice-red text-white font-bold text-[10px] px-2.5 py-1 rounded-full tracking-wider uppercase shadow">
+                  {discountPercent}% Off
+                </span>
+              ) : null
+            }
+          />
 
           {/* Product Details & Actions */}
           <div className="flex flex-col justify-between">
@@ -179,7 +186,7 @@ export const ProductDetailPage: React.FC = () => {
 
                 <button
                   onClick={() => addToCart(product, selectedVariant.size, quantity)}
-                  disabled={product.isUpcoming || selectedVariant.stock === 0}
+                  disabled={isUnavailable}
                   className="flex-1 py-3.5 px-6 rounded-xl bg-spice-brown hover:bg-spice-red disabled:bg-spice-brown/30 disabled:cursor-not-allowed text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg transition-all"
                 >
                   <ShoppingBag className="w-4 h-4" />
@@ -203,7 +210,7 @@ export const ProductDetailPage: React.FC = () => {
         </div>
 
         {/* Nutritional & Ingredients Specifications */}
-        <div className="bg-white rounded-3xl border border-spice-brown/10 p-6 md:p-10 shadow-sm mb-16">
+        <Reveal className="bg-white rounded-3xl border border-spice-brown/10 p-6 md:p-10 shadow-sm mb-16">
           <h2 className="font-serif text-2xl font-bold text-spice-brown mb-6">
             Product Specifications & Nutrition
           </h2>
@@ -255,19 +262,60 @@ export const ProductDetailPage: React.FC = () => {
               </table>
             </div>
           </div>
-        </div>
+        </Reveal>
 
         {/* Related Products */}
         {relatedProducts.length > 0 && (
           <div>
             <h2 className="font-serif text-2xl font-bold text-spice-brown mb-6">You Might Also Like</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <StaggerGroup className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
               {relatedProducts.map((p) => (
-                <ProductCard key={p._id} product={p} />
+                <StaggerItem key={p._id}>
+                  <ProductCard product={p} />
+                </StaggerItem>
               ))}
-            </div>
+            </StaggerGroup>
           </div>
         )}
+      </div>
+
+      {/* Sticky add-to-cart bar — phones only, where the real button scrolls
+          out of view long before the reader finishes the specs. */}
+      <div className="lg:hidden sticky bottom-0 inset-x-0 z-30 bg-white/95 backdrop-blur-sm border-t border-spice-brown/15 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
+        <div className="px-4 py-3 flex items-center gap-3">
+          <div className="min-w-0 flex-1">
+            <p className="text-[11px] font-bold text-spice-brown/60 truncate">
+              {selectedVariant.size} pack
+            </p>
+            <div className="flex items-baseline gap-1.5">
+              <span className="font-serif text-lg font-bold text-spice-brown">
+                ₹{selectedVariant.discountPrice || selectedVariant.price}
+              </span>
+              {selectedVariant.discountPrice && (
+                <span className="text-[11px] text-spice-brown/40 line-through">
+                  ₹{selectedVariant.price}
+                </span>
+              )}
+            </div>
+          </div>
+
+          <button
+            onClick={() => toggleWishlist(product)}
+            aria-label={inWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
+            className="w-11 h-11 shrink-0 rounded-xl border border-spice-brown/20 flex items-center justify-center text-spice-brown"
+          >
+            <Heart className={`w-4 h-4 ${inWishlist ? 'fill-spice-red text-spice-red' : ''}`} />
+          </button>
+
+          <button
+            onClick={() => addToCart(product, selectedVariant.size, quantity)}
+            disabled={isUnavailable}
+            className="flex-1 max-w-[55%] py-3 px-4 rounded-xl bg-spice-brown disabled:bg-spice-brown/30 disabled:cursor-not-allowed text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm"
+          >
+            <ShoppingBag className="w-4 h-4" />
+            {product.isUpcoming ? 'Coming Soon' : selectedVariant.stock === 0 ? 'Sold Out' : 'Add to Cart'}
+          </button>
+        </div>
       </div>
     </div>
   );

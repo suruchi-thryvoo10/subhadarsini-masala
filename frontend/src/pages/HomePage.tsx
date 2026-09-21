@@ -8,6 +8,7 @@ import { Product, Recipe, Category } from '../types';
 import { ArrowRight, Star, Clock, ChefHat, ShieldCheck, Quote } from 'lucide-react';
 import { fetchApi } from '../config/api';
 import { resolveImageUrl, handleImageError } from '../config/images';
+import { Reveal, StaggerGroup, StaggerItem } from '../components/ui/Reveal';
 
 export const HomePage: React.FC = () => {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
@@ -51,7 +52,7 @@ export const HomePage: React.FC = () => {
       {/* 3. Featured Categories */}
       <section className="py-20 bg-spice-cream">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-12">
+          <Reveal className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-12">
             <div>
               <span className="text-spice-saffron font-bold text-xs uppercase tracking-widest block mb-2">
                 Curated Collections
@@ -66,16 +67,16 @@ export const HomePage: React.FC = () => {
             >
               View All Catalogue →
             </Link>
-          </div>
+          </Reveal>
 
-          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 sm:gap-6">
+          <StaggerGroup className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 sm:gap-6">
             {(loading ? Array.from({ length: 6 }) : categories).map((cat: any, idx: number) =>
               loading ? (
                 <div key={idx} className="aspect-[4/5] rounded-2xl bg-white/60 animate-pulse" />
               ) : (
+                <StaggerItem key={cat._id}>
                 <Link
-                  key={cat._id}
-                  to={`/products?category=${cat.slug}`}
+                  to={`/category/${cat.slug}`}
                   className="group relative rounded-2xl overflow-hidden shadow-md aspect-[4/5] flex flex-col justify-end p-4 sm:p-5 border border-spice-brown/10 hover:shadow-xl transition-all bg-spice-beige/40"
                 >
                   <img
@@ -95,23 +96,24 @@ export const HomePage: React.FC = () => {
                     </span>
                   </div>
                 </Link>
+                </StaggerItem>
               )
             )}
-          </div>
+          </StaggerGroup>
         </div>
       </section>
 
       {/* 4. Featured Products */}
       <section className="py-20 bg-spice-beige/30 border-y border-spice-brown/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-12">
+          <Reveal className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-spice-saffron font-bold text-xs uppercase tracking-widest block mb-2">
               Bestsellers & Favorites
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl font-bold text-spice-brown">
               Handcrafted Spice Selection
             </h2>
-          </div>
+          </Reveal>
 
           {loading ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -133,11 +135,13 @@ export const HomePage: React.FC = () => {
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <StaggerGroup className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
               {featuredProducts.map((product) => (
-                <ProductCard key={product._id} product={product} />
+                <StaggerItem key={product._id}>
+                  <ProductCard product={product} />
+                </StaggerItem>
               ))}
-            </div>
+            </StaggerGroup>
           )}
         </div>
       </section>
@@ -148,7 +152,7 @@ export const HomePage: React.FC = () => {
       {/* 6. Batch Quality Traceability CTA Banner */}
       <section className="py-16 bg-gradient-to-r from-spice-red via-spice-saffron to-spice-red text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-between gap-8">
-          <div className="space-y-3 max-w-2xl">
+          <Reveal from="right" className="space-y-3 max-w-2xl">
             <div className="inline-flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full text-xs font-bold">
               <ShieldCheck className="w-4 h-4 text-spice-turmeric" /> Digital Batch Traceability
             </div>
@@ -158,7 +162,7 @@ export const HomePage: React.FC = () => {
             <p className="text-sm text-spice-beige/90 leading-relaxed">
               Every Subhadarshini product package carries a unique batch number. Check purity scores, active curcumin levels, and lab test certificates in real-time.
             </p>
-          </div>
+          </Reveal>
           <Link
             to="/quality"
             className="px-8 py-4 rounded-full bg-spice-cream text-spice-brown font-bold text-sm hover:bg-white transition-all shadow-xl shrink-0"

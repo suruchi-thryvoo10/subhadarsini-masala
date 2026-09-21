@@ -21,7 +21,12 @@ export const FALLBACK_IMAGES = {
   whole: img('kitchen-king')
 };
 
-export const PRODUCT_IMAGES: Record<string, string> = {
+/**
+ * A product maps to either a single image or an ordered gallery. The first entry
+ * is the card/thumbnail shot; add further angles (back-of-pack nutrition panel,
+ * lifestyle) by turning the value into an array.
+ */
+export const PRODUCT_IMAGES: Record<string, string | string[]> = {
   // --- Ground Spices ---
   'subhadarshini-pure-turmeric-powder': img('turmeric-powder'),
   'subhadarshini-red-chilli-powder': img('red-chilli-powder'),
@@ -47,7 +52,7 @@ export const PRODUCT_IMAGES: Record<string, string> = {
   'subhadarshini-sabji-masala': img('curry-powder'),
   'subhadarshini-chana-masala': img('chana-masala'),
   'subhadarshini-egg-curry-masala': img('egg-curry-masala'),
-  'subhadarshini-shahi-reserve-garam-masala': img('sambar-masala-box'),
+  'subhadarshini-shahi-reserve-garam-masala': FALLBACK_IMAGES.ground,
 
   // --- Whole Spices ---
   'subhadarshini-premium-cumin-seeds': img('cumin-seeds'),
@@ -88,5 +93,13 @@ export const CATEGORY_IMAGES: Record<string, string> = {
   'upcoming-products': img('sattu-powder')
 };
 
+/** Full ordered gallery for a product. Always at least one entry. */
+export const resolveProductImages = (slug: string, fallback = FALLBACK_IMAGES.ground): string[] => {
+  const entry = PRODUCT_IMAGES[slug];
+  if (!entry) return fallback ? [fallback] : [];
+  return Array.isArray(entry) ? entry : [entry];
+};
+
+/** Primary (card) image for a product. */
 export const resolveProductImage = (slug: string, fallback = FALLBACK_IMAGES.ground): string =>
-  PRODUCT_IMAGES[slug] || fallback;
+  resolveProductImages(slug, fallback)[0] || fallback;

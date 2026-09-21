@@ -34,6 +34,10 @@ export interface Category {
   name: string;
   slug: string;
   description?: string;
+  /** Short hero line on the category landing page. */
+  tagline?: string;
+  /** Selling points rendered as a strip on the category landing page. */
+  highlights?: string[];
   image?: string;
   sortOrder: number;
 }
