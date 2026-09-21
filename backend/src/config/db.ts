@@ -9,6 +9,10 @@ export const connectDB = async (): Promise<typeof mongoose | undefined> => {
     return mongoose;
   }
 
+  if (mongoose.connection.readyState === 0) {
+    cachedPromise = null;
+  }
+
   if (cachedPromise) {
     return cachedPromise;
   }

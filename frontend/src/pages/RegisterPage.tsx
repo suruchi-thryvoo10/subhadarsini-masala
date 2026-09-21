@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { AlertCircle } from 'lucide-react';
+import { getApiUrl } from '../config/api';
 
 export const RegisterPage: React.FC = () => {
   const [name, setName] = useState('');
@@ -20,7 +21,7 @@ export const RegisterPage: React.FC = () => {
     setErrorMsg('');
 
     try {
-      const res = await fetch('/api/v1/auth/register', {
+      const res = await fetch(getApiUrl('/api/v1/auth/register'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password, phone })

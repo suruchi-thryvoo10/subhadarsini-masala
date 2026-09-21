@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { ProductCard } from '../components/product/ProductCard';
 import { Product, Category } from '../types';
 import { Search, SlidersHorizontal, ArrowUpDown } from 'lucide-react';
+import { getApiUrl } from '../config/api';
 
 export const ProductsPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -27,7 +28,7 @@ export const ProductsPage: React.FC = () => {
 
   const fetchCategories = async () => {
     try {
-      const res = await fetch('/api/v1/categories');
+      const res = await fetch(getApiUrl('/api/v1/categories'));
       const data = await res.json();
       if (data.success) setCategories(data.data);
     } catch (err) {
@@ -46,7 +47,7 @@ export const ProductsPage: React.FC = () => {
         limit: '24'
       }).toString();
 
-      const res = await fetch(`/api/v1/products?${query}`);
+      const res = await fetch(getApiUrl(`/api/v1/products?${query}`));
       const data = await res.json();
       if (data.success) {
         setProducts(data.data);

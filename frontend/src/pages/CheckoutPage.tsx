@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { ShieldCheck, CheckCircle2, CreditCard, Truck, User } from 'lucide-react';
+import { getApiUrl } from '../config/api';
 
 export const CheckoutPage: React.FC = () => {
   const { cart, cartTotal, clearCart } = useCart();
@@ -45,7 +46,7 @@ export const CheckoutPage: React.FC = () => {
         guestEmail: email
       };
 
-      const res = await fetch('/api/v1/orders/create', {
+      const res = await fetch(getApiUrl('/api/v1/orders/create'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(orderPayload)

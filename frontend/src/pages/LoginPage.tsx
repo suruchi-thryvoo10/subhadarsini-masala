@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Lock, Mail, User, AlertCircle } from 'lucide-react';
+import { getApiUrl } from '../config/api';
 
 export const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('admin@subhadarshini.com');
@@ -18,7 +19,7 @@ export const LoginPage: React.FC = () => {
     setErrorMsg('');
 
     try {
-      const res = await fetch('/api/v1/auth/login', {
+      const res = await fetch(getApiUrl('/api/v1/auth/login'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })

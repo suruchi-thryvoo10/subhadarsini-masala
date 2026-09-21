@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Building2, CheckCircle2, Send, ShieldCheck, PhoneCall } from 'lucide-react';
+import { getApiUrl } from '../config/api';
 
 export const WholesalePage: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
@@ -20,7 +21,7 @@ export const WholesalePage: React.FC = () => {
     e.preventDefault();
     setSubmitting(true);
     try {
-      const res = await fetch('/api/v1/enquiries', {
+      const res = await fetch(getApiUrl('/api/v1/enquiries'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, type: 'WHOLESALE' })

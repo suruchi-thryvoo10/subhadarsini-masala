@@ -10,6 +10,11 @@ import { Review } from '../models/Review.js';
 
 export const autoSeedIfEmpty = async () => {
   try {
+    const productCount = await Product.countDocuments();
+    if (productCount > 0) {
+      return;
+    }
+
     const adminPassword = await bcrypt.hash('admin123', 10);
 
     // Always ensure admin@subhadarshini.com has valid demo password (admin123)

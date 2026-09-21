@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Package, Truck, CheckCircle2, Clock, MapPin } from 'lucide-react';
+import { getApiUrl } from '../config/api';
 
 export const OrderTrackPage: React.FC = () => {
   const { orderNumber } = useParams<{ orderNumber: string }>();
@@ -10,7 +11,7 @@ export const OrderTrackPage: React.FC = () => {
   useEffect(() => {
     const fetchOrderTrack = async () => {
       try {
-        const res = await fetch(`/api/v1/orders/track/${orderNumber}`);
+        const res = await fetch(getApiUrl(`/api/v1/orders/track/${orderNumber}`));
         const data = await res.json();
         if (data.success) setOrder(data.data);
       } catch (err) {

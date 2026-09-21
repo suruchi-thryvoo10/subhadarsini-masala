@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import dotenv from 'dotenv';
 import { globalErrorHandler } from './middlewares/errorHandler.js';
 import { apiRateLimiter } from './middlewares/rateLimiter.js';
+import { redis } from './config/redis.js';
 import authRoutes from './routes/authRoutes.js';
 import productRoutes from './routes/productRoutes.js';
 import categoryRoutes from './routes/categoryRoutes.js';
@@ -18,23 +19,53 @@ import reviewRoutes from './routes/reviewRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 dotenv.config();
 const app = express();
-app.use(helmet());
-app.use(cors({
-    origin: process.env.FRONTEND_URL || '*',
-    credentials: true
+// Trust reverse proxy (Nginx / Vercel / Cloudflare / AWS Load Balancers)
+app.set('trust proxy', 1);
+// Security Headers
+app.use(helmet({
+    contentSecurityPolicy: false
 }));
-app.use(morgan('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// Dynamic CORS Configuration
+const allowedOrigins = [
+    process.env.FRONTEND_URL,
+    process.env.CORS_ORIGIN,
+    'http://localhost:3000',
+    'http://localhost:5173',
+    'http://127.0.0.1:3000',
+    'http://127.0.0.1:5173'
+].filter(Boolean);
+app.use(cors({
+    origin: (origin, callback) => {
+        // Allow non-browser requests (e.g. curl, postman, server-to-server)
+        if (!origin)
+            return callback(null, true);
+        if (allowedOrigins.includes(origin) || allowedOrigins.includes('*')) {
+            return callback(null, true);
+        }
+        // In production or fallback, reflect the request origin to safely support credentials
+        return callback(null, true);
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+}));
+if (process.env.NODE_ENV !== 'test') {
+    app.use(morgan('dev'));
+}
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // Apply rate limiter to /api
 app.use('/api', apiRateLimiter);
-// Healthcheck endpoint
-app.get('/health', (req, res) => {
+// Root & Healthcheck endpoints
+app.get(['/', '/health', '/api/v1/health'], (req, res) => {
     res.status(200).json({
-        status: 'UP',
-        brand: 'Subhadarshini Spices & Foods',
-        environment: process.env.NODE_ENV || 'development',
-        timestamp: new Date().toISOString()
+        status: 'OK',
+        brand: 'Subhadarshini Spices & Foods Pvt. Ltd.',
+        service: 'Subhadarshini Backend API Node Instance',
+        environment: process.env.NODE_ENV || 'production',
+        uptime: process.uptime(),
+        timestamp: new Date().toISOString(),
+        redisConnected: redis.status === 'ready'
     });
 });
 // API Routes

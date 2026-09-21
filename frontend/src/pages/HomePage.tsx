@@ -6,6 +6,7 @@ import { ManufacturingStoryTimeline } from '../components/home/ManufacturingStor
 import { ProductCard } from '../components/product/ProductCard';
 import { Product, Recipe } from '../types';
 import { ArrowRight, Star, Clock, ChefHat, ShieldCheck, Quote } from 'lucide-react';
+import { getApiUrl } from '../config/api';
 
 export const HomePage: React.FC = () => {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
@@ -16,8 +17,8 @@ export const HomePage: React.FC = () => {
     const fetchData = async () => {
       try {
         const [prodRes, recRes] = await Promise.all([
-          fetch('/api/v1/products?sort=featured&limit=4'),
-          fetch('/api/v1/recipes')
+          fetch(getApiUrl('/api/v1/products?sort=featured&limit=4')),
+          fetch(getApiUrl('/api/v1/recipes'))
         ]);
         const prodData = await prodRes.json();
         const recData = await recRes.json();

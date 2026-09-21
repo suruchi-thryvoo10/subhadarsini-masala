@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ShieldCheck, Search, Award, CheckCircle2, FileCheck, Sprout, Building2, AlertCircle } from 'lucide-react';
 import { BatchVerification } from '../types';
+import { getApiUrl } from '../config/api';
 
 export const QualityPage: React.FC = () => {
   const [batchInput, setBatchInput] = useState('SD2026-SP01');
@@ -17,7 +18,7 @@ export const QualityPage: React.FC = () => {
     setBatchResult(null);
 
     try {
-      const res = await fetch(`/api/v1/quality/verify/${encodeURIComponent(batchInput.trim())}`);
+      const res = await fetch(getApiUrl(`/api/v1/quality/verify/${encodeURIComponent(batchInput.trim())}`));
       const data = await res.json();
       if (data.success) {
         setBatchResult(data.data);

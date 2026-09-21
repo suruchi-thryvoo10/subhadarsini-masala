@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Briefcase, MapPin, CheckCircle2, Clock } from 'lucide-react';
+import { getApiUrl } from '../config/api';
 
 export const CareersPage: React.FC = () => {
   const [careers, setCareers] = useState<any[]>([]);
@@ -7,7 +8,7 @@ export const CareersPage: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
-    fetch('/api/v1/careers')
+    fetch(getApiUrl('/api/v1/careers'))
       .then((res) => res.json())
       .then((data) => {
         if (data.success) setCareers(data.data);
@@ -26,7 +27,7 @@ export const CareersPage: React.FC = () => {
       coverLetter: formData.get('coverLetter')
     };
 
-    const res = await fetch('/api/v1/careers/apply', {
+    const res = await fetch(getApiUrl('/api/v1/careers/apply'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)

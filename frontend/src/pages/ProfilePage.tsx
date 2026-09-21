@@ -4,6 +4,7 @@ import { useWishlist } from '../context/WishlistContext';
 import { ProductCard } from '../components/product/ProductCard';
 import { Link } from 'react-router-dom';
 import { User, Package, Heart, LogOut } from 'lucide-react';
+import { getApiUrl } from '../config/api';
 
 export const ProfilePage: React.FC = () => {
   const { user, token, logout } = useAuth();
@@ -13,7 +14,7 @@ export const ProfilePage: React.FC = () => {
 
   useEffect(() => {
     if (token) {
-      fetch('/api/v1/orders/my-orders', {
+      fetch(getApiUrl('/api/v1/orders/my-orders'), {
         headers: { Authorization: `Bearer ${token}` }
       })
         .then((res) => res.json())

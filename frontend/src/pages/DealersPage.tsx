@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { MapPin, Phone, Clock, Search, Navigation } from 'lucide-react';
+import { getApiUrl } from '../config/api';
 
 export const DealersPage: React.FC = () => {
   const [dealers, setDealers] = useState<any[]>([]);
@@ -14,7 +15,7 @@ export const DealersPage: React.FC = () => {
   const fetchDealers = async () => {
     try {
       const query = new URLSearchParams({ state: stateFilter, search: searchVal }).toString();
-      const res = await fetch(`/api/v1/dealers?${query}`);
+      const res = await fetch(getApiUrl(`/api/v1/dealers?${query}`));
       const data = await res.json();
       if (data.success) setDealers(data.data);
     } catch (err) {

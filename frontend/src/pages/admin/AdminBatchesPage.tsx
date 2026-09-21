@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { ShieldCheck, Plus } from 'lucide-react';
+import { getApiUrl } from '../../config/api';
 
 export const AdminBatchesPage: React.FC = () => {
   const { token } = useAuth();
@@ -8,7 +9,7 @@ export const AdminBatchesPage: React.FC = () => {
 
   useEffect(() => {
     if (token) {
-      fetch('/api/v1/admin/batches', {
+      fetch(getApiUrl('/api/v1/admin/batches'), {
         headers: { Authorization: `Bearer ${token}` }
       })
         .then((res) => res.json())

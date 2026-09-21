@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { OrderStatus } from '../../types';
+import { getApiUrl } from '../../config/api';
 
 export const AdminOrdersPage: React.FC = () => {
   const { token } = useAuth();
@@ -9,7 +10,7 @@ export const AdminOrdersPage: React.FC = () => {
 
   useEffect(() => {
     if (token) {
-      fetch('/api/v1/admin/orders', {
+      fetch(getApiUrl('/api/v1/admin/orders'), {
         headers: { Authorization: `Bearer ${token}` }
       })
         .then((res) => res.json())
@@ -22,7 +23,7 @@ export const AdminOrdersPage: React.FC = () => {
 
   const handleUpdateStatus = async (orderId: string, newStatus: string) => {
     try {
-      const res = await fetch(`/api/v1/admin/orders/${orderId}/status`, {
+      const res = await fetch(getApiUrl(`/api/v1/admin/orders/${orderId}/status`), {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

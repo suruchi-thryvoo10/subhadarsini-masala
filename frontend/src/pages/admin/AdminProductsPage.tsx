@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { Package, Plus, Edit2, Trash2 } from 'lucide-react';
+import { getApiUrl } from '../../config/api';
 
 export const AdminProductsPage: React.FC = () => {
   const { token } = useAuth();
@@ -9,7 +10,7 @@ export const AdminProductsPage: React.FC = () => {
 
   useEffect(() => {
     if (token) {
-      fetch('/api/v1/admin/products', {
+      fetch(getApiUrl('/api/v1/admin/products'), {
         headers: { Authorization: `Bearer ${token}` }
       })
         .then((res) => res.json())

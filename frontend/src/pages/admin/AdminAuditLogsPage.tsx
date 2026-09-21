@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { ShieldCheck } from 'lucide-react';
+import { getApiUrl } from '../../config/api';
 
 export const AdminAuditLogsPage: React.FC = () => {
   const { token } = useAuth();
@@ -8,7 +9,7 @@ export const AdminAuditLogsPage: React.FC = () => {
 
   useEffect(() => {
     if (token) {
-      fetch('/api/v1/admin/audit-logs', {
+      fetch(getApiUrl('/api/v1/admin/audit-logs'), {
         headers: { Authorization: `Bearer ${token}` }
       })
         .then((res) => res.json())

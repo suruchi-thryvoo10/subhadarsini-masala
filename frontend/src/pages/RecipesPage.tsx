@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Recipe } from '../types';
 import { ChefHat, Sparkles, Clock, ShoppingBag, Search, X } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import { getApiUrl } from '../config/api';
 
 export const RecipesPage: React.FC = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
@@ -21,7 +22,7 @@ export const RecipesPage: React.FC = () => {
 
   const fetchRecipes = async () => {
     try {
-      const res = await fetch('/api/v1/recipes');
+      const res = await fetch(getApiUrl('/api/v1/recipes'));
       const data = await res.json();
       if (data.success) setRecipes(data.data);
     } catch (err) {
@@ -37,7 +38,7 @@ export const RecipesPage: React.FC = () => {
 
     setAiLoading(true);
     try {
-      const res = await fetch('/api/v1/recipes/ai-assistant', {
+      const res = await fetch(getApiUrl('/api/v1/recipes/ai-assistant'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ingredients: ingredientsInput })

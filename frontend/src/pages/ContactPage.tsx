@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { MapPin, Phone, Mail, MessageSquare, CheckCircle2, Send } from 'lucide-react';
+import { getApiUrl } from '../config/api';
 
 export const ContactPage: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
@@ -19,7 +20,7 @@ export const ContactPage: React.FC = () => {
     setErrorMsg('');
 
     try {
-      const res = await fetch('/api/v1/enquiries', {
+      const res = await fetch(getApiUrl('/api/v1/enquiries'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

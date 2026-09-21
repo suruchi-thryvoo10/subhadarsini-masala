@@ -5,6 +5,7 @@ import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import { Star, ShieldCheck, Heart, ShoppingBag, Truck, Check, RefreshCw } from 'lucide-react';
 import { ProductCard } from '../components/product/ProductCard';
+import { getApiUrl } from '../config/api';
 
 export const ProductDetailPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -21,7 +22,7 @@ export const ProductDetailPage: React.FC = () => {
     const fetchProduct = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`/api/v1/products/${slug}`);
+        const res = await fetch(getApiUrl(`/api/v1/products/${slug}`));
         const data = await res.json();
         if (data.success) {
           setProduct(data.data.product);

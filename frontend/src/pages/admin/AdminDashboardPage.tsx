@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { LayoutDashboard, ShoppingBag, Users, IndianRupee, AlertTriangle, Package, ShieldCheck, FileText } from 'lucide-react';
+import { getApiUrl } from '../../config/api';
 
 export const AdminDashboardPage: React.FC = () => {
   const { token } = useAuth();
@@ -10,7 +11,7 @@ export const AdminDashboardPage: React.FC = () => {
 
   useEffect(() => {
     if (token) {
-      fetch('/api/v1/admin/dashboard-stats', {
+      fetch(getApiUrl('/api/v1/admin/dashboard-stats'), {
         headers: { Authorization: `Bearer ${token}` }
       })
         .then((res) => res.json())
