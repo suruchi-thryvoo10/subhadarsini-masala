@@ -13,8 +13,11 @@ let isSeeded = false;
  * "buffering timed out" error that hides the real cause.
  */
 export default async function handler(req: any, res: any) {
-  // Diagnostics must stay reachable even when the database is down.
-  if (req.url && req.url.split('?')[0] === '/api/v1/health/db') {
+  // Liveness and diagnostics must stay reachable even when the database is down.
+  const path = (req.url || '/').split('?')[0];
+  if (path === '/' || path === '/health' || path === '/api/v1/health' || path === '/api/v1/health/db') {
+    // Kick the connection off without blocking the response.
+    connectDB().catch(() => undefined);
     return app(req, res);
   }
 
