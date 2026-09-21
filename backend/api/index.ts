@@ -25,6 +25,14 @@ export default async function handler(req: any, res: any) {
     await connectDB();
   } catch (err: any) {
     console.error('[Vercel Serverless] DB connection error:', err.message);
+
+    // This response never reaches the Express CORS middleware, so the headers
+    // have to be set here — otherwise the browser blocks it and the real cause
+    // is reported to the user as an opaque "Failed to fetch".
+    res.setHeader('Access-Control-Allow-Origin', req.headers?.origin || '*');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.setHeader('Vary', 'Origin');
+
     return res.status(503).json({
       success: false,
       message: err.message,

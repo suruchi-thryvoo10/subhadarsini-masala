@@ -49,8 +49,10 @@ export const connectDB = async () => {
             // Surface connection failures immediately instead of queueing operations
             // for 10s and failing with an unrelated "buffering timed out" error.
             bufferCommands: false,
-            serverSelectionTimeoutMS: 8000,
-            connectTimeoutMS: 10000,
+            // Kept comfortably under Vercel's function timeout so a failure returns a
+            // real error response instead of the function being killed mid-request.
+            serverSelectionTimeoutMS: 5000,
+            connectTimeoutMS: 7000,
             socketTimeoutMS: 20000,
             maxPoolSize: 5,
             minPoolSize: 0
