@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { Trash2, ShoppingBag, ArrowRight, ShieldCheck } from 'lucide-react';
+import { productImageUrl, handleImageError } from '../config/images';
 
 export const CartPage: React.FC = () => {
   const { cart, removeFromCart, updateQuantity, clearCart, cartTotal } = useCart();
@@ -49,9 +50,11 @@ export const CartPage: React.FC = () => {
                 className="bg-white rounded-2xl p-4 sm:p-6 border border-spice-brown/10 shadow-sm flex items-center gap-4 justify-between"
               >
                 <img
-                  src={item.product.images[0] || 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=400&q=80'}
+                  src={productImageUrl(item.product)}
+                  onError={handleImageError}
                   alt={item.product.name}
-                  className="w-20 h-20 rounded-xl object-cover bg-spice-beige/40 shrink-0"
+                  loading="lazy"
+                  className="w-20 h-20 rounded-xl object-contain bg-spice-beige/40 shrink-0 p-1"
                 />
 
                 <div className="flex-1">

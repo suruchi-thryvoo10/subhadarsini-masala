@@ -6,6 +6,7 @@ import { Batch } from '../models/Batch.js';
 import { Recipe } from '../models/Recipe.js';
 import { Dealer } from '../models/Dealer.js';
 import { Career } from '../models/Career.js';
+import { PRODUCT_IMAGES, CATEGORY_IMAGES, FALLBACK_IMAGES, resolveProductImage } from '../data/productImages.js';
 export const autoSeedIfEmpty = async () => {
     try {
         const adminPassword = await bcrypt.hash('admin123', 10);
@@ -27,39 +28,49 @@ export const autoSeedIfEmpty = async () => {
                 await existingAdmin.save();
             }
         }
-        const productCount = await Product.countDocuments();
-        if (productCount > 0) {
-            return;
-        }
         // 2. Ensure Categories exist
         const categoryDefs = [
             {
                 name: 'Ground Spices',
                 slug: 'ground-spices',
                 description: '100% Pure, cold-milled single-origin Indian spices with natural essential oils preserved.',
-                image: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&q=80&w=800',
+                image: CATEGORY_IMAGES['ground-spices'],
                 sortOrder: 1
             },
             {
                 name: 'Blended Spices',
                 slug: 'blended-spices',
                 description: 'Authentic royal recipes ground to perfection for curries, gravies, and biryanis.',
-                image: 'https://images.unsplash.com/photo-1532336414038-cf19250c5757?auto=format&fit=crop&q=80&w=800',
+                image: CATEGORY_IMAGES['blended-spices'],
                 sortOrder: 2
             },
             {
                 name: 'Whole Spices',
                 slug: 'whole-spices',
                 description: 'Handpicked premium whole spice seeds, pods, and barks from Kerala and Western Ghats.',
-                image: 'https://images.unsplash.com/photo-1509358211425-24d4554b4168?auto=format&fit=crop&q=80&w=800',
+                image: CATEGORY_IMAGES['whole-spices'],
                 sortOrder: 3
             },
             {
                 name: 'Gourmet Seasonings',
                 slug: 'gourmet-seasonings',
                 description: 'Handcrafted artisan spice rubs, roasted powders, and traditional Odia spice blends.',
-                image: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&q=80&w=800',
+                image: CATEGORY_IMAGES['gourmet-seasonings'],
                 sortOrder: 4
+            },
+            {
+                name: 'Premium Food Items',
+                slug: 'premium-food-items',
+                description: 'Everyday kitchen staples — soya chunks, daliya, corn flour, black salt and more.',
+                image: CATEGORY_IMAGES['premium-food-items'],
+                sortOrder: 5
+            },
+            {
+                name: 'Upcoming Products',
+                slug: 'upcoming-products',
+                description: 'New Subhadarshini products launching soon.',
+                image: CATEGORY_IMAGES['upcoming-products'],
+                sortOrder: 6
             }
         ];
         const categoryMap = {};
@@ -68,12 +79,18 @@ export const autoSeedIfEmpty = async () => {
             if (!cat) {
                 cat = await Category.create(catDef);
             }
+            else if (cat.image !== catDef.image) {
+                cat.image = catDef.image;
+                await cat.save();
+            }
             categoryMap[catDef.slug] = cat._id;
         }
         const groundCat = categoryMap['ground-spices'];
         const blendedCat = categoryMap['blended-spices'];
         const wholeCat = categoryMap['whole-spices'];
         const gourmetCat = categoryMap['gourmet-seasonings'];
+        const premiumCat = categoryMap['premium-food-items'];
+        const upcomingCat = categoryMap['upcoming-products'];
         // 3. Define Full Subhadarshini Spice & Masala Catalog
         const productCatalog = [
             // Ground Spices
@@ -90,7 +107,7 @@ export const autoSeedIfEmpty = async () => {
                     { size: '250g', unit: 'g', price: 150, discountPrice: 130, sku: 'SD-TURM-250', stock: 180 },
                     { size: '500g', unit: 'g', price: 280, discountPrice: 245, sku: 'SD-TURM-500', stock: 120 }
                 ],
-                images: ['https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&q=80&w=1000'],
+                images: [],
                 isFeatured: true,
                 ratingAvg: 4.9,
                 ratingCount: 142
@@ -107,7 +124,7 @@ export const autoSeedIfEmpty = async () => {
                     { size: '100g', unit: 'g', price: 75, discountPrice: 65, sku: 'SD-CHILLI-100', stock: 200 },
                     { size: '250g', unit: 'g', price: 170, discountPrice: 150, sku: 'SD-CHILLI-250', stock: 140 }
                 ],
-                images: ['https://images.unsplash.com/photo-1588880331179-bc9b93a8cb5e?auto=format&fit=crop&q=80&w=1000'],
+                images: [],
                 isFeatured: true,
                 ratingAvg: 4.8,
                 ratingCount: 96
@@ -124,7 +141,7 @@ export const autoSeedIfEmpty = async () => {
                     { size: '100g', unit: 'g', price: 55, discountPrice: 48, sku: 'SD-DHAN-100', stock: 220 },
                     { size: '250g', unit: 'g', price: 130, discountPrice: 115, sku: 'SD-DHAN-250', stock: 160 }
                 ],
-                images: ['https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&q=80&w=1000'],
+                images: [],
                 isFeatured: false,
                 ratingAvg: 4.75,
                 ratingCount: 82
@@ -141,7 +158,7 @@ export const autoSeedIfEmpty = async () => {
                     { size: '100g', unit: 'g', price: 80, discountPrice: 70, sku: 'SD-JEERAP-100', stock: 190 },
                     { size: '250g', unit: 'g', price: 185, discountPrice: 165, sku: 'SD-JEERAP-250', stock: 130 }
                 ],
-                images: ['https://images.unsplash.com/photo-1509358211425-24d4554b4168?auto=format&fit=crop&q=80&w=1000'],
+                images: [],
                 isFeatured: false,
                 ratingAvg: 4.85,
                 ratingCount: 74
@@ -158,7 +175,7 @@ export const autoSeedIfEmpty = async () => {
                     { size: '100g', unit: 'g', price: 95, discountPrice: 85, sku: 'SD-KASH-100', stock: 170 },
                     { size: '250g', unit: 'g', price: 220, discountPrice: 195, sku: 'SD-KASH-250', stock: 110 }
                 ],
-                images: ['https://images.unsplash.com/photo-1588880331179-bc9b93a8cb5e?auto=format&fit=crop&q=80&w=1000'],
+                images: [],
                 isFeatured: true,
                 ratingAvg: 4.92,
                 ratingCount: 118
@@ -175,7 +192,7 @@ export const autoSeedIfEmpty = async () => {
                     { size: '50g', unit: 'g', price: 65, discountPrice: 58, sku: 'SD-PEP-50', stock: 210 },
                     { size: '100g', unit: 'g', price: 120, discountPrice: 105, sku: 'SD-PEP-100', stock: 150 }
                 ],
-                images: ['https://images.unsplash.com/photo-1509358211425-24d4554b4168?auto=format&fit=crop&q=80&w=1000'],
+                images: [],
                 isFeatured: false,
                 ratingAvg: 4.88,
                 ratingCount: 65
@@ -192,7 +209,7 @@ export const autoSeedIfEmpty = async () => {
                     { size: '100g', unit: 'g', price: 75, discountPrice: 65, sku: 'SD-AMCH-100', stock: 180 },
                     { size: '250g', unit: 'g', price: 175, discountPrice: 150, sku: 'SD-AMCH-250', stock: 120 }
                 ],
-                images: ['https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&q=80&w=1000'],
+                images: [],
                 isFeatured: false,
                 ratingAvg: 4.86,
                 ratingCount: 88
@@ -210,7 +227,7 @@ export const autoSeedIfEmpty = async () => {
                     { size: '100g', unit: 'g', price: 110, discountPrice: 95, sku: 'SD-GARAM-100', stock: 160 },
                     { size: '250g', unit: 'g', price: 260, discountPrice: 225, sku: 'SD-GARAM-250', stock: 95 }
                 ],
-                images: ['https://images.unsplash.com/photo-1532336414038-cf19250c5757?auto=format&fit=crop&q=80&w=1000'],
+                images: [],
                 isFeatured: true,
                 ratingAvg: 4.95,
                 ratingCount: 188
@@ -227,7 +244,7 @@ export const autoSeedIfEmpty = async () => {
                     { size: '100g', unit: 'g', price: 90, discountPrice: 79, sku: 'SD-CHK-100', stock: 175 },
                     { size: '250g', unit: 'g', price: 210, discountPrice: 185, sku: 'SD-CHK-250', stock: 110 }
                 ],
-                images: ['https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&fit=crop&q=80&w=1000'],
+                images: [],
                 isFeatured: true,
                 ratingAvg: 4.9,
                 ratingCount: 215
@@ -244,7 +261,7 @@ export const autoSeedIfEmpty = async () => {
                     { size: '100g', unit: 'g', price: 105, discountPrice: 92, sku: 'SD-MEAT-100', stock: 150 },
                     { size: '250g', unit: 'g', price: 245, discountPrice: 215, sku: 'SD-MEAT-250', stock: 90 }
                 ],
-                images: ['https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&fit=crop&q=80&w=1000'],
+                images: [],
                 isFeatured: true,
                 ratingAvg: 4.93,
                 ratingCount: 164
@@ -261,7 +278,7 @@ export const autoSeedIfEmpty = async () => {
                     { size: '100g', unit: 'g', price: 125, discountPrice: 105, sku: 'SD-BIRY-100', stock: 180 },
                     { size: '250g', unit: 'g', price: 290, discountPrice: 250, sku: 'SD-BIRY-250', stock: 110 }
                 ],
-                images: ['https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&q=80&w=1000'],
+                images: [],
                 isFeatured: true,
                 ratingAvg: 4.96,
                 ratingCount: 172
@@ -278,7 +295,7 @@ export const autoSeedIfEmpty = async () => {
                     { size: '100g', unit: 'g', price: 85, discountPrice: 75, sku: 'SD-KKING-100', stock: 220 },
                     { size: '250g', unit: 'g', price: 195, discountPrice: 175, sku: 'SD-KKING-250', stock: 150 }
                 ],
-                images: ['https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&q=80&w=1000'],
+                images: [],
                 isFeatured: true,
                 ratingAvg: 4.92,
                 ratingCount: 195
@@ -295,7 +312,7 @@ export const autoSeedIfEmpty = async () => {
                     { size: '100g', unit: 'g', price: 115, discountPrice: 98, sku: 'SD-PANEER-100', stock: 160 },
                     { size: '250g', unit: 'g', price: 270, discountPrice: 235, sku: 'SD-PANEER-250', stock: 105 }
                 ],
-                images: ['https://images.unsplash.com/photo-1631452180519-c014fe946bc7?auto=format&fit=crop&q=80&w=1000'],
+                images: [],
                 isFeatured: true,
                 ratingAvg: 4.94,
                 ratingCount: 168
@@ -312,7 +329,7 @@ export const autoSeedIfEmpty = async () => {
                     { size: '100g', unit: 'g', price: 80, discountPrice: 70, sku: 'SD-PAV-100', stock: 190 },
                     { size: '250g', unit: 'g', price: 185, discountPrice: 165, sku: 'SD-PAV-250', stock: 125 }
                 ],
-                images: ['https://images.unsplash.com/photo-1606491956689-2ea866880c84?auto=format&fit=crop&q=80&w=1000'],
+                images: [],
                 isFeatured: false,
                 ratingAvg: 4.88,
                 ratingCount: 112
@@ -329,7 +346,7 @@ export const autoSeedIfEmpty = async () => {
                     { size: '100g', unit: 'g', price: 85, discountPrice: 75, sku: 'SD-RAJMA-100', stock: 170 },
                     { size: '250g', unit: 'g', price: 195, discountPrice: 170, sku: 'SD-RAJMA-250', stock: 115 }
                 ],
-                images: ['https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&q=80&w=1000'],
+                images: [],
                 isFeatured: false,
                 ratingAvg: 4.89,
                 ratingCount: 98
@@ -346,7 +363,7 @@ export const autoSeedIfEmpty = async () => {
                     { size: '100g', unit: 'g', price: 75, discountPrice: 65, sku: 'SD-DALT-100', stock: 210 },
                     { size: '250g', unit: 'g', price: 175, discountPrice: 150, sku: 'SD-DALT-250', stock: 140 }
                 ],
-                images: ['https://images.unsplash.com/photo-1546833998-877b37c2e5c6?auto=format&fit=crop&q=80&w=1000'],
+                images: [],
                 isFeatured: false,
                 ratingAvg: 4.87,
                 ratingCount: 104
@@ -363,7 +380,7 @@ export const autoSeedIfEmpty = async () => {
                     { size: '100g', unit: 'g', price: 95, discountPrice: 82, sku: 'SD-FFRY-100', stock: 175 },
                     { size: '250g', unit: 'g', price: 220, discountPrice: 190, sku: 'SD-FFRY-250', stock: 115 }
                 ],
-                images: ['https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&q=80&w=1000'],
+                images: [],
                 isFeatured: true,
                 ratingAvg: 4.91,
                 ratingCount: 145
@@ -380,7 +397,7 @@ export const autoSeedIfEmpty = async () => {
                     { size: '100g', unit: 'g', price: 85, discountPrice: 75, sku: 'SD-FISH-100', stock: 180 },
                     { size: '250g', unit: 'g', price: 195, discountPrice: 175, sku: 'SD-FISH-250', stock: 105 }
                 ],
-                images: ['https://images.unsplash.com/photo-1532336414038-cf19250c5757?auto=format&fit=crop&q=80&w=1000'],
+                images: [],
                 isFeatured: false,
                 ratingAvg: 4.87,
                 ratingCount: 92
@@ -397,7 +414,7 @@ export const autoSeedIfEmpty = async () => {
                     { size: '100g', unit: 'g', price: 75, discountPrice: 65, sku: 'SD-SAMB-100', stock: 160 },
                     { size: '250g', unit: 'g', price: 175, discountPrice: 155, sku: 'SD-SAMB-250', stock: 95 }
                 ],
-                images: ['https://images.unsplash.com/photo-1532336414038-cf19250c5757?auto=format&fit=crop&q=80&w=1000'],
+                images: [],
                 isFeatured: false,
                 ratingAvg: 4.82,
                 ratingCount: 78
@@ -414,7 +431,7 @@ export const autoSeedIfEmpty = async () => {
                     { size: '100g', unit: 'g', price: 65, discountPrice: 58, sku: 'SD-SABJ-100', stock: 210 },
                     { size: '250g', unit: 'g', price: 150, discountPrice: 135, sku: 'SD-SABJ-250', stock: 140 }
                 ],
-                images: ['https://images.unsplash.com/photo-1532336414038-cf19250c5757?auto=format&fit=crop&q=80&w=1000'],
+                images: [],
                 isFeatured: false,
                 ratingAvg: 4.8,
                 ratingCount: 88
@@ -431,7 +448,7 @@ export const autoSeedIfEmpty = async () => {
                     { size: '100g', unit: 'g', price: 80, discountPrice: 70, sku: 'SD-CHAN-100', stock: 170 },
                     { size: '250g', unit: 'g', price: 185, discountPrice: 165, sku: 'SD-CHAN-250', stock: 110 }
                 ],
-                images: ['https://images.unsplash.com/photo-1532336414038-cf19250c5757?auto=format&fit=crop&q=80&w=1000'],
+                images: [],
                 isFeatured: false,
                 ratingAvg: 4.86,
                 ratingCount: 94
@@ -448,7 +465,7 @@ export const autoSeedIfEmpty = async () => {
                     { size: '100g', unit: 'g', price: 75, discountPrice: 65, sku: 'SD-EGG-100', stock: 165 },
                     { size: '250g', unit: 'g', price: 175, discountPrice: 155, sku: 'SD-EGG-250', stock: 100 }
                 ],
-                images: ['https://images.unsplash.com/photo-1532336414038-cf19250c5757?auto=format&fit=crop&q=80&w=1000'],
+                images: [],
                 isFeatured: false,
                 ratingAvg: 4.84,
                 ratingCount: 71
@@ -465,7 +482,7 @@ export const autoSeedIfEmpty = async () => {
                     { size: '100g', unit: 'g', price: 160, discountPrice: 135, sku: 'SD-SHAHI-100', stock: 140 },
                     { size: '250g', unit: 'g', price: 380, discountPrice: 325, sku: 'SD-SHAHI-250', stock: 85 }
                 ],
-                images: ['https://images.unsplash.com/photo-1532336414038-cf19250c5757?auto=format&fit=crop&q=80&w=1000'],
+                images: [],
                 isFeatured: true,
                 ratingAvg: 4.99,
                 ratingCount: 310
@@ -483,7 +500,7 @@ export const autoSeedIfEmpty = async () => {
                     { size: '100g', unit: 'g', price: 85, discountPrice: 75, sku: 'SD-JEERA-100', stock: 190 },
                     { size: '250g', unit: 'g', price: 195, discountPrice: 175, sku: 'SD-JEERA-250', stock: 130 }
                 ],
-                images: ['https://images.unsplash.com/photo-1509358211425-24d4554b4168?auto=format&fit=crop&q=80&w=1000'],
+                images: [],
                 isFeatured: false,
                 ratingAvg: 4.85,
                 ratingCount: 64
@@ -500,7 +517,7 @@ export const autoSeedIfEmpty = async () => {
                     { size: '100g', unit: 'g', price: 45, discountPrice: 38, sku: 'SD-RAI-100', stock: 240 },
                     { size: '250g', unit: 'g', price: 100, discountPrice: 88, sku: 'SD-RAI-250', stock: 170 }
                 ],
-                images: ['https://images.unsplash.com/photo-1509358211425-24d4554b4168?auto=format&fit=crop&q=80&w=1000'],
+                images: [],
                 isFeatured: false,
                 ratingAvg: 4.82,
                 ratingCount: 52
@@ -517,7 +534,7 @@ export const autoSeedIfEmpty = async () => {
                     { size: '100g', unit: 'g', price: 135, discountPrice: 118, sku: 'SD-WPEP-100', stock: 160 },
                     { size: '250g', unit: 'g', price: 310, discountPrice: 275, sku: 'SD-WPEP-250', stock: 110 }
                 ],
-                images: ['https://images.unsplash.com/photo-1509358211425-24d4554b4168?auto=format&fit=crop&q=80&w=1000'],
+                images: [],
                 isFeatured: false,
                 ratingAvg: 4.91,
                 ratingCount: 84
@@ -534,7 +551,7 @@ export const autoSeedIfEmpty = async () => {
                     { size: '50g', unit: 'g', price: 190, discountPrice: 168, sku: 'SD-CARD-50', stock: 140 },
                     { size: '100g', unit: 'g', price: 360, discountPrice: 320, sku: 'SD-CARD-100', stock: 90 }
                 ],
-                images: ['https://images.unsplash.com/photo-1509358211425-24d4554b4168?auto=format&fit=crop&q=80&w=1000'],
+                images: [],
                 isFeatured: true,
                 ratingAvg: 4.96,
                 ratingCount: 135
@@ -551,7 +568,7 @@ export const autoSeedIfEmpty = async () => {
                     { size: '50g', unit: 'g', price: 110, discountPrice: 95, sku: 'SD-CLOVE-50', stock: 150 },
                     { size: '100g', unit: 'g', price: 210, discountPrice: 185, sku: 'SD-CLOVE-100', stock: 100 }
                 ],
-                images: ['https://images.unsplash.com/photo-1509358211425-24d4554b4168?auto=format&fit=crop&q=80&w=1000'],
+                images: [],
                 isFeatured: false,
                 ratingAvg: 4.89,
                 ratingCount: 68
@@ -569,7 +586,7 @@ export const autoSeedIfEmpty = async () => {
                     { size: '100g', unit: 'g', price: 180, discountPrice: 160, sku: 'SD-POSTO-100', stock: 130 },
                     { size: '250g', unit: 'g', price: 420, discountPrice: 380, sku: 'SD-POSTO-250', stock: 80 }
                 ],
-                images: ['https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&q=80&w=1000'],
+                images: [],
                 isFeatured: true,
                 ratingAvg: 4.94,
                 ratingCount: 156
@@ -586,7 +603,7 @@ export const autoSeedIfEmpty = async () => {
                     { size: '100g', unit: 'g', price: 90, discountPrice: 80, sku: 'SD-BHAJA-100', stock: 200 },
                     { size: '250g', unit: 'g', price: 210, discountPrice: 188, sku: 'SD-BHAJA-250', stock: 140 }
                 ],
-                images: ['https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&q=80&w=1000'],
+                images: [],
                 isFeatured: true,
                 ratingAvg: 4.98,
                 ratingCount: 240
@@ -603,7 +620,7 @@ export const autoSeedIfEmpty = async () => {
                     { size: '100g', unit: 'g', price: 95, discountPrice: 85, sku: 'SD-DALMA-100', stock: 230 },
                     { size: '250g', unit: 'g', price: 225, discountPrice: 198, sku: 'SD-DALMA-250', stock: 160 }
                 ],
-                images: ['https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&q=80&w=1000'],
+                images: [],
                 isFeatured: true,
                 ratingAvg: 4.99,
                 ratingCount: 285
@@ -620,7 +637,7 @@ export const autoSeedIfEmpty = async () => {
                     { size: '100g', unit: 'g', price: 70, discountPrice: 60, sku: 'SD-CHAAT-100', stock: 200 },
                     { size: '250g', unit: 'g', price: 160, discountPrice: 140, sku: 'SD-CHAAT-250', stock: 130 }
                 ],
-                images: ['https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&q=80&w=1000'],
+                images: [],
                 isFeatured: false,
                 ratingAvg: 4.93,
                 ratingCount: 154
@@ -637,33 +654,241 @@ export const autoSeedIfEmpty = async () => {
                     { size: '50g', unit: 'g', price: 55, discountPrice: 48, sku: 'SD-METHI-50', stock: 220 },
                     { size: '100g', unit: 'g', price: 100, discountPrice: 88, sku: 'SD-METHI-100', stock: 150 }
                 ],
-                images: ['https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&q=80&w=1000'],
+                images: [],
                 isFeatured: false,
                 ratingAvg: 4.95,
                 ratingCount: 160
+            },
+            // Whole Spices — remaining SKUs from the official catalogue
+            {
+                name: 'Subhadarshini Tej Patta (Bay Leaf)',
+                slug: 'subhadarshini-tej-patta',
+                category: wholeCat,
+                shortDescription: 'Hand-sorted aromatic bay leaves with a warm, clove-like fragrance.',
+                fullDescription: 'Subhadarshini Tej Patta is sun-dried and hand-sorted to retain its glossy green colour and warm aroma. An essential tempering leaf for biryani, pulao, dal and slow-cooked curries.',
+                ingredients: ['100% Natural Bay Leaves'],
+                nutritionalInfo: { energy: '313 kcal', protein: '7.6g', carbs: '75g', fat: '8.4g', sodium: '23mg' },
+                variants: [
+                    { size: '25g', unit: 'g', price: 35, discountPrice: 30, sku: 'SD-TEJP-25', stock: 260 },
+                    { size: '50g', unit: 'g', price: 60, discountPrice: 52, sku: 'SD-TEJP-50', stock: 180 }
+                ],
+                images: [],
+                isFeatured: false,
+                ratingAvg: 4.8,
+                ratingCount: 64
+            },
+            {
+                name: 'Subhadarshini Panch Phoran (Five Spice Blend)',
+                slug: 'subhadarshini-panch-phoran',
+                category: wholeCat,
+                shortDescription: 'Classic eastern-Indian five-seed tempering mix in equal measure.',
+                fullDescription: 'Subhadarshini Panch Phoran combines cumin, fennel, fenugreek, nigella and mustard seeds in the traditional Odia-Bengali proportion. Bloom it in hot oil to open up the full aroma before adding vegetables or dal.',
+                ingredients: ['Cumin Seeds', 'Fennel Seeds', 'Fenugreek Seeds', 'Nigella Seeds', 'Mustard Seeds'],
+                nutritionalInfo: { energy: '380 kcal', protein: '17g', carbs: '44g', fat: '16g', sodium: '30mg' },
+                variants: [
+                    { size: '100g', unit: 'g', price: 70, discountPrice: 60, sku: 'SD-PNCH-100', stock: 240 },
+                    { size: '200g', unit: 'g', price: 130, discountPrice: 112, sku: 'SD-PNCH-200', stock: 160 }
+                ],
+                images: [],
+                isFeatured: true,
+                ratingAvg: 4.9,
+                ratingCount: 108
+            },
+            {
+                name: 'Subhadarshini Whole Red Chilli (Sukhua Lanka)',
+                slug: 'subhadarshini-whole-red-chilli',
+                category: wholeCat,
+                shortDescription: 'Sun-dried whole red chillies with deep colour and balanced heat.',
+                fullDescription: 'Subhadarshini Whole Red Chilli is sun-dried on raised platforms to keep the skin bright and free of moisture. Ideal for tempering, chutneys and home-ground chilli powder.',
+                ingredients: ['100% Sun-Dried Red Chillies'],
+                nutritionalInfo: { energy: '282 kcal', protein: '13g', carbs: '50g', fat: '14g', sodium: '30mg' },
+                variants: [
+                    { size: '100g', unit: 'g', price: 85, discountPrice: 74, sku: 'SD-WRCH-100', stock: 200 },
+                    { size: '250g', unit: 'g', price: 195, discountPrice: 170, sku: 'SD-WRCH-250', stock: 130 }
+                ],
+                images: [],
+                isFeatured: false,
+                ratingAvg: 4.85,
+                ratingCount: 76
+            },
+            {
+                name: 'Subhadarshini Coriander Seeds (Dhania Sabut)',
+                slug: 'subhadarshini-coriander-seeds',
+                category: wholeCat,
+                shortDescription: 'Plump, aromatic coriander seeds graded for uniform size.',
+                fullDescription: 'Subhadarshini Coriander Seeds are cleaned, de-stoned and size-graded so every spoon roasts evenly. Dry-roast and grind fresh for the brightest citrus-woody aroma.',
+                ingredients: ['100% Whole Coriander Seeds'],
+                nutritionalInfo: { energy: '298 kcal', protein: '12g', carbs: '55g', fat: '17g', sodium: '35mg' },
+                variants: [
+                    { size: '100g', unit: 'g', price: 55, discountPrice: 48, sku: 'SD-CORS-100', stock: 280 },
+                    { size: '500g', unit: 'g', price: 240, discountPrice: 210, sku: 'SD-CORS-500', stock: 140 }
+                ],
+                images: [],
+                isFeatured: false,
+                ratingAvg: 4.8,
+                ratingCount: 91
+            },
+            // Premium Food Items
+            {
+                name: 'Subhadarshini Soya Chunks (High Protein)',
+                slug: 'subhadarshini-soya-chunks',
+                category: premiumCat,
+                shortDescription: '100% vegetarian defatted soya nuggets rich in protein, iron and zinc.',
+                fullDescription: 'Subhadarshini Soya Chunks are made from defatted soya flour and deliver a high-protein, cholesterol-free base for curries, pulao and kebabs. Soak in hot water, squeeze and cook.',
+                ingredients: ['Defatted Soya Flour'],
+                nutritionalInfo: { energy: '345 kcal', protein: '52g', carbs: '33g', fat: '0.5g', sodium: '5mg' },
+                variants: [
+                    { size: '200g', unit: 'g', price: 55, discountPrice: 48, sku: 'SD-SOYA-200', stock: 300 },
+                    { size: '500g', unit: 'g', price: 120, discountPrice: 105, sku: 'SD-SOYA-500', stock: 200 }
+                ],
+                images: [],
+                isFeatured: true,
+                ratingAvg: 4.85,
+                ratingCount: 210
+            },
+            {
+                name: 'Subhadarshini Hing (Compounded Asafoetida)',
+                slug: 'subhadarshini-hing-asafoetida',
+                category: premiumCat,
+                shortDescription: 'Strong, aromatic compounded asafoetida in an airtight food-grade jar.',
+                fullDescription: 'Subhadarshini Hing carries the pungent, savoury aroma that lifts dal, sambar and vegetable tempering. Packed in an airtight jar so the volatile aroma stays locked in.',
+                ingredients: ['Asafoetida', 'Edible Starch', 'Edible Gum'],
+                nutritionalInfo: { energy: '297 kcal', protein: '4g', carbs: '68g', fat: '1.1g', sodium: '50mg' },
+                variants: [
+                    { size: '25g', unit: 'g', price: 60, discountPrice: 52, sku: 'SD-HING-25', stock: 260 },
+                    { size: '50g', unit: 'g', price: 110, discountPrice: 95, sku: 'SD-HING-50', stock: 170 }
+                ],
+                images: [],
+                isFeatured: false,
+                ratingAvg: 4.9,
+                ratingCount: 132
+            },
+            {
+                name: 'Subhadarshini Crushed Wheat Daliya',
+                slug: 'subhadarshini-crushed-wheat-daliya',
+                category: premiumCat,
+                shortDescription: 'Coarsely milled whole wheat for wholesome porridge and upma.',
+                fullDescription: 'Subhadarshini Daliya is milled from cleaned whole wheat so the bran and germ stay intact. High in fibre and quick to cook — ideal for savoury upma or sweet milk porridge.',
+                ingredients: ['100% Whole Wheat'],
+                nutritionalInfo: { energy: '342 kcal', protein: '12g', carbs: '76g', fat: '1.5g', sodium: '2mg' },
+                variants: [
+                    { size: '500g', unit: 'g', price: 65, discountPrice: 56, sku: 'SD-DALI-500', stock: 240 },
+                    { size: '1kg', unit: 'kg', price: 120, discountPrice: 105, sku: 'SD-DALI-1000', stock: 150 }
+                ],
+                images: [],
+                isFeatured: false,
+                ratingAvg: 4.75,
+                ratingCount: 88
+            },
+            {
+                name: 'Subhadarshini Black Salt (Kala Namak)',
+                slug: 'subhadarshini-black-salt',
+                category: premiumCat,
+                shortDescription: 'Kiln-fired rock salt with the classic sulphurous tang.',
+                fullDescription: 'Subhadarshini Black Salt is kiln-fired Himalayan rock salt, finely ground for chaat, raita, salads and summer drinks. Adds the unmistakable tangy, savoury note no other salt gives.',
+                ingredients: ['Kiln-Fired Rock Salt'],
+                nutritionalInfo: { energy: '0 kcal', protein: '0g', carbs: '0g', fat: '0g', sodium: '38000mg' },
+                variants: [
+                    { size: '100g', unit: 'g', price: 30, discountPrice: 26, sku: 'SD-BSLT-100', stock: 320 },
+                    { size: '200g', unit: 'g', price: 55, discountPrice: 48, sku: 'SD-BSLT-200', stock: 210 }
+                ],
+                images: [],
+                isFeatured: false,
+                ratingAvg: 4.8,
+                ratingCount: 117
+            },
+            {
+                name: 'Subhadarshini Edible Soda (Food Grade)',
+                slug: 'subhadarshini-edible-soda',
+                category: premiumCat,
+                shortDescription: 'Food-grade sodium bicarbonate for softer idli, dhokla and fried snacks.',
+                fullDescription: 'Subhadarshini Edible Soda is food-grade sodium bicarbonate, sieved fine so it disperses evenly through batters. Use sparingly for lighter idli, dhokla, pakoda and baked goods.',
+                ingredients: ['Food Grade Sodium Bicarbonate'],
+                nutritionalInfo: { energy: '0 kcal', protein: '0g', carbs: '0g', fat: '0g', sodium: '27000mg' },
+                variants: [
+                    { size: '100g', unit: 'g', price: 25, discountPrice: 22, sku: 'SD-SODA-100', stock: 300 },
+                    { size: '200g', unit: 'g', price: 45, discountPrice: 39, sku: 'SD-SODA-200', stock: 190 }
+                ],
+                images: [],
+                isFeatured: false,
+                ratingAvg: 4.7,
+                ratingCount: 54
+            },
+            {
+                name: 'Subhadarshini Corn Flour (Maize Starch)',
+                slug: 'subhadarshini-corn-flour',
+                category: premiumCat,
+                shortDescription: 'Silky maize starch for glossy gravies, soups and crisp coatings.',
+                fullDescription: 'Subhadarshini Corn Flour is refined maize starch, double-sieved for a lump-free slurry. Thickens soups and Indo-Chinese gravies and gives fried coatings their crisp finish.',
+                ingredients: ['100% Maize Starch'],
+                nutritionalInfo: { energy: '381 kcal', protein: '0.3g', carbs: '91g', fat: '0.1g', sodium: '9mg' },
+                variants: [
+                    { size: '500g', unit: 'g', price: 60, discountPrice: 52, sku: 'SD-CORN-500', stock: 260 },
+                    { size: '1kg', unit: 'kg', price: 110, discountPrice: 96, sku: 'SD-CORN-1000', stock: 160 }
+                ],
+                images: [],
+                isFeatured: false,
+                ratingAvg: 4.75,
+                ratingCount: 72
+            },
+            // Upcoming Products
+            {
+                name: 'Subhadarshini Sattu Powder (Coming Soon)',
+                slug: 'subhadarshini-sattu-powder',
+                category: upcomingCat,
+                shortDescription: 'Roasted gram flour drink mix — launching soon.',
+                fullDescription: 'Subhadarshini Sattu Powder is stone-ground from slow-roasted Bengal gram. A cooling, high-protein summer drink base and a filling stuffing for litti and paratha. Launching soon.',
+                ingredients: ['Roasted Bengal Gram'],
+                nutritionalInfo: { energy: '406 kcal', protein: '20g', carbs: '58g', fat: '6g', sodium: '35mg' },
+                variants: [
+                    { size: '500g', unit: 'g', price: 130, sku: 'SD-SATT-500', stock: 0 }
+                ],
+                images: [],
+                isFeatured: false,
+                isUpcoming: true,
+                ratingAvg: 5,
+                ratingCount: 0
             }
         ];
-        // Smart Upsert: Create any products that don't exist yet
-        let addedCount = 0;
-        const insertedProducts = [];
-        for (const p of productCatalog) {
-            let existing = await Product.findOne({ slug: p.slug });
-            if (!existing) {
-                existing = await Product.create(p);
-                addedCount++;
+        // Every product image is resolved from the single canonical catalogue so the
+        // seed data and the shipped assets can never drift apart.
+        for (const product of productCatalog) {
+            product.images = [resolveProductImage(product.slug, FALLBACK_IMAGES.ground)];
+        }
+        // Smart Bulk Upsert: Create any products that don't exist yet
+        const existingProducts = await Product.find({});
+        const existingSlugs = new Set(existingProducts.map((p) => p.slug));
+        const toInsert = productCatalog.filter((p) => !existingSlugs.has(p.slug));
+        if (toInsert.length > 0) {
+            await Product.insertMany(toInsert);
+            console.log(`🌶️ [AutoSeed] Successfully seeded ${toInsert.length} new masala products into catalog.`);
+        }
+        // Repair products seeded before the image catalogue existed (they all shared a
+        // single hot-linked placeholder). Only documents whose image actually differs
+        // are written, so this is a no-op once the catalogue is in sync.
+        const imageFixes = existingProducts
+            .filter((p) => {
+            const expected = resolveProductImage(p.slug, '');
+            return expected && p.images?.[0] !== expected;
+        })
+            .map((p) => ({
+            updateOne: {
+                filter: { _id: p._id },
+                update: { $set: { images: [resolveProductImage(p.slug)] } }
             }
-            insertedProducts.push(existing);
+        }));
+        if (imageFixes.length > 0) {
+            await Product.bulkWrite(imageFixes);
+            console.log(`🖼️ [AutoSeed] Updated product images for ${imageFixes.length} products.`);
         }
-        if (addedCount > 0) {
-            console.log(`🌶️ [AutoSeed] Successfully seeded ${addedCount} new masala products into catalog (Total: ${insertedProducts.length}).`);
-        }
+        const allProducts = await Product.find({});
         // 4. Seed Quality Traceability Batches if empty
-        if ((await Batch.countDocuments()) === 0 && insertedProducts.length > 0) {
+        if ((await Batch.countDocuments()) === 0 && allProducts.length > 0) {
             await Batch.create([
                 {
                     batchNumber: 'SD2026-SP01',
-                    product: insertedProducts[0]._id,
-                    productName: insertedProducts[0].name,
+                    product: allProducts[0]._id,
+                    productName: allProducts[0].name,
                     mfgDate: new Date('2026-08-15'),
                     expiryDate: new Date('2027-08-14'),
                     qualityReport: {
@@ -679,8 +904,8 @@ export const autoSeedIfEmpty = async () => {
                 },
                 {
                     batchNumber: 'SD2026-GM04',
-                    product: insertedProducts[6]._id,
-                    productName: insertedProducts[6].name,
+                    product: allProducts[Math.min(6, allProducts.length - 1)]._id,
+                    productName: allProducts[Math.min(6, allProducts.length - 1)].name,
                     mfgDate: new Date('2026-09-01'),
                     expiryDate: new Date('2027-08-31'),
                     qualityReport: {
@@ -697,7 +922,7 @@ export const autoSeedIfEmpty = async () => {
             ]);
         }
         // 5. Seed Recipes if empty
-        if ((await Recipe.countDocuments()) === 0 && insertedProducts.length > 2) {
+        if ((await Recipe.countDocuments()) === 0 && allProducts.length > 2) {
             await Recipe.create([
                 {
                     title: 'Traditional Odia Mamsa Kasa (Spiced Mutton Curry)',
@@ -707,7 +932,7 @@ export const autoSeedIfEmpty = async () => {
                     cookTimeMinutes: 45,
                     difficulty: 'MEDIUM',
                     servings: 4,
-                    image: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&fit=crop&q=80&w=1000',
+                    image: PRODUCT_IMAGES['subhadarshini-mutton-meat-masala'],
                     description: 'Rich, slow-cooked mutton curry in caramelised onion and stone-ground spices.',
                     ingredients: [
                         { name: 'Tender Mutton', quantity: '500g' },
@@ -725,7 +950,7 @@ export const autoSeedIfEmpty = async () => {
                         'Stir in Subhadarshini Royal Garam Masala, add marinated mutton and slow cook on medium heat for 40 mins.',
                         'Garnish with fresh cilantro and serve with hot boiled rice or paratha.'
                     ],
-                    requiredProducts: [insertedProducts[0]._id, insertedProducts[1]._id, insertedProducts[2]._id],
+                    requiredProducts: [allProducts[0]._id, allProducts[1]._id, allProducts[2]._id],
                     isFeatured: true
                 }
             ]);

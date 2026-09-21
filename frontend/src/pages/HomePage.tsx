@@ -4,29 +4,34 @@ import { HeroSection } from '../components/home/HeroSection';
 import { TrustStrip } from '../components/home/TrustStrip';
 import { ManufacturingStoryTimeline } from '../components/home/ManufacturingStoryTimeline';
 import { ProductCard } from '../components/product/ProductCard';
-import { Product, Recipe } from '../types';
+import { Product, Recipe, Category } from '../types';
 import { ArrowRight, Star, Clock, ChefHat, ShieldCheck, Quote } from 'lucide-react';
-import { getApiUrl } from '../config/api';
+import { fetchApi } from '../config/api';
+import { resolveImageUrl, handleImageError } from '../config/images';
 
 export const HomePage: React.FC = () => {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [prodRes, recRes] = await Promise.all([
-          fetch(getApiUrl('/api/v1/products?sort=featured&limit=4')),
-          fetch(getApiUrl('/api/v1/recipes'))
+        const [prodData, catData, recData] = await Promise.all([
+          fetchApi('/api/v1/products?sort=featured&limit=4'),
+          fetchApi('/api/v1/categories'),
+          fetchApi('/api/v1/recipes').catch(() => ({ data: [] }))
         ]);
-        const prodData = await prodRes.json();
-        const recData = await recRes.json();
 
-        if (prodData.success) setFeaturedProducts(prodData.data);
-        if (recData.success) setRecipes(recData.data);
-      } catch (err) {
+        setFeaturedProducts(prodData.data || []);
+        setCategories(catData.data || []);
+        setRecipes(recData.data || []);
+        setError(null);
+      } catch (err: any) {
         console.error('Error fetching homepage data:', err);
+        setError(err?.message || 'Unable to load the catalogue right now.');
       } finally {
         setLoading(false);
       }
@@ -63,55 +68,35 @@ export const HomePage: React.FC = () => {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              {
-                title: 'Blended Ground Spices',
-                desc: 'Special chicken, garams & curry masalas.',
-                slug: 'blended-spices',
-                img: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=600&q=80'
-              },
-              {
-                title: 'Basic Ground Spices',
-                slug: 'basic-spices',
-                desc: 'Pure high-curcumin turmeric & red chilli.',
-                img: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=600&q=80'
-              },
-              {
-                title: 'Whole Spices',
-                slug: 'whole-spices',
-                desc: 'Farm fresh unground whole cardamoms & cloves.',
-                img: 'https://images.unsplash.com/photo-1509358271058-acd22cc93898?auto=format&fit=crop&w=600&q=80'
-              },
-              {
-                title: 'Premium Food Items',
-                slug: 'premium-food',
-                desc: 'Traditional papads, pickles & specialty foods.',
-                img: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=600&q=80'
-              }
-            ].map((cat, idx) => (
-              <Link
-                key={idx}
-                to={`/products?category=${cat.slug}`}
-                className="group relative rounded-2xl overflow-hidden shadow-md aspect-[4/5] flex flex-col justify-end p-6 border border-spice-brown/10 hover:shadow-xl transition-all"
-              >
-                <img
-                  src={cat.img}
-                  alt={cat.title}
-                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-spice-dark/90 via-spice-dark/40 to-transparent" />
-                <div className="relative z-10 text-white">
-                  <h3 className="font-serif font-bold text-xl text-spice-cream group-hover:text-spice-turmeric transition-colors">
-                    {cat.title}
-                  </h3>
-                  <p className="text-xs text-spice-beige/80 mt-1 line-clamp-1">{cat.desc}</p>
-                  <span className="inline-flex items-center gap-1 text-xs font-bold text-spice-saffron mt-3">
-                    Explore Category <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                </div>
-              </Link>
-            ))}
+          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 sm:gap-6">
+            {(loading ? Array.from({ length: 6 }) : categories).map((cat: any, idx: number) =>
+              loading ? (
+                <div key={idx} className="aspect-[4/5] rounded-2xl bg-white/60 animate-pulse" />
+              ) : (
+                <Link
+                  key={cat._id}
+                  to={`/products?category=${cat.slug}`}
+                  className="group relative rounded-2xl overflow-hidden shadow-md aspect-[4/5] flex flex-col justify-end p-4 sm:p-5 border border-spice-brown/10 hover:shadow-xl transition-all bg-spice-beige/40"
+                >
+                  <img
+                    src={resolveImageUrl(cat.image)}
+                    onError={handleImageError}
+                    alt={cat.name}
+                    loading="lazy"
+                    className="absolute inset-0 w-full h-full object-contain p-5 pb-16 group-hover:scale-105 transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-spice-dark/90 via-spice-dark/20 to-transparent" />
+                  <div className="relative z-10 text-white">
+                    <h3 className="font-serif font-bold text-base sm:text-lg text-spice-cream group-hover:text-spice-turmeric transition-colors leading-tight">
+                      {cat.name}
+                    </h3>
+                    <span className="inline-flex items-center gap-1 text-[11px] font-bold text-spice-saffron mt-2">
+                      Explore <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                    </span>
+                  </div>
+                </Link>
+              )
+            )}
           </div>
         </div>
       </section>
@@ -133,6 +118,19 @@ export const HomePage: React.FC = () => {
               {[1, 2, 3, 4].map((n) => (
                 <div key={n} className="h-80 bg-white/60 animate-pulse rounded-2xl" />
               ))}
+            </div>
+          ) : error ? (
+            <div className="text-center bg-white rounded-2xl border border-spice-red/20 p-8">
+              <h3 className="font-serif font-bold text-lg text-spice-brown mb-2">
+                We couldn't load the catalogue
+              </h3>
+              <p className="text-xs text-spice-brown/70 mb-4">{error}</p>
+              <button
+                onClick={() => window.location.reload()}
+                className="px-6 py-2.5 bg-spice-red text-white font-bold text-xs rounded-full"
+              >
+                Try Again
+              </button>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { ProductCard } from '../components/product/ProductCard';
 import { Product, Category } from '../types';
 import { Search, SlidersHorizontal, ArrowUpDown } from 'lucide-react';
-import { getApiUrl } from '../config/api';
+import { fetchApi } from '../config/api';
 
 export const ProductsPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -12,6 +12,7 @@ export const ProductsPage: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [total, setTotal] = useState(0);
+  const [error, setError] = useState<string | null>(null);
 
   const currentCategory = searchParams.get('category') || '';
   const currentSearch = searchParams.get('search') || '';
@@ -28,11 +29,10 @@ export const ProductsPage: React.FC = () => {
 
   const fetchCategories = async () => {
     try {
-      const res = await fetch(getApiUrl('/api/v1/categories'));
-      const data = await res.json();
-      if (data.success) setCategories(data.data);
+      const data = await fetchApi('/api/v1/categories');
+      setCategories(data.data || []);
     } catch (err) {
-      console.error(err);
+      console.error('Fetch categories error:', err);
     }
   };
 
@@ -44,24 +44,18 @@ export const ProductsPage: React.FC = () => {
         search: currentSearch,
         sort: currentSort,
         page: String(currentPage),
-        limit: '24'
+        limit: '48'
       }).toString();
 
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 8000);
-
-      const res = await fetch(getApiUrl(`/api/v1/products?${query}`), {
-        signal: controller.signal
-      });
-      clearTimeout(timeoutId);
-
-      const data = await res.json();
-      if (data.success) {
-        setProducts(data.data);
-        setTotal(data.meta?.total || data.data.length);
-      }
-    } catch (err) {
+      const data = await fetchApi(`/api/v1/products?${query}`);
+      setProducts(data.data || []);
+      setTotal(data.meta?.total ?? (data.data || []).length);
+      setError(null);
+    } catch (err: any) {
       console.error('Fetch products error:', err);
+      setProducts([]);
+      setTotal(0);
+      setError(err?.message || 'Unable to reach the catalogue service.');
     } finally {
       setLoading(false);
     }
@@ -105,6 +99,9 @@ export const ProductsPage: React.FC = () => {
           </h1>
           <p className="text-sm text-spice-brown/70 mt-1">
             Browse our range of pure stone-ground spices, traditional blends, and specialty foods.
+            {!loading && !error && total > 0 && (
+              <span className="font-semibold text-spice-brown"> {total} products available.</span>
+            )}
           </p>
         </div>
 
@@ -174,6 +171,19 @@ export const ProductsPage: React.FC = () => {
             {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
               <div key={n} className="h-80 bg-white/60 animate-pulse rounded-2xl" />
             ))}
+          </div>
+        ) : error ? (
+          <div className="text-center py-16 bg-white rounded-2xl border border-spice-red/20 p-8">
+            <h3 className="font-serif font-bold text-xl text-spice-brown mb-2">
+              We couldn't load the catalogue
+            </h3>
+            <p className="text-xs text-spice-brown/70 mb-4 max-w-md mx-auto">{error}</p>
+            <button
+              onClick={fetchProducts}
+              className="px-6 py-2.5 bg-spice-red text-white font-bold text-xs rounded-full"
+            >
+              Retry
+            </button>
           </div>
         ) : products.length === 0 ? (
           <div className="text-center py-20 bg-white rounded-2xl border border-spice-brown/10 p-8">

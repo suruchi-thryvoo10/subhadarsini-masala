@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { Package, Plus, Edit2, Trash2 } from 'lucide-react';
 import { getApiUrl } from '../../config/api';
+import { productImageUrl, handleImageError } from '../../config/images';
 
 export const AdminProductsPage: React.FC = () => {
   const { token } = useAuth();
@@ -45,7 +46,7 @@ export const AdminProductsPage: React.FC = () => {
             {products.map((p) => (
               <tr key={p._id}>
                 <td className="p-3 font-bold text-spice-brown flex items-center gap-3">
-                  <img src={p.images[0]} alt="" className="w-10 h-10 rounded-xl object-cover" />
+                  <img src={productImageUrl(p)} onError={handleImageError} alt="" loading="lazy" className="w-10 h-10 rounded-xl object-contain bg-spice-beige/40 p-0.5" />
                   <span>{p.name}</span>
                 </td>
                 <td className="p-3">{p.category?.name || 'Spice Blend'}</td>

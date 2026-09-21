@@ -11,7 +11,7 @@ export const Footer: React.FC = () => {
           <div className="lg:col-span-2 space-y-4">
             <Link to="/" className="flex items-center shrink-0">
               <img
-                src="https://www.subhadarshini.com/assets/images/logo/logo.png"
+                src="/images/brand/logo.webp"
                 alt="Subhadarshini Spices & Foods"
                 className="h-12 w-auto object-contain"
               />

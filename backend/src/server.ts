@@ -12,7 +12,8 @@ const startServer = async () => {
       console.log(`🚀 Subhadarshini API Server running on port ${PORT} [${process.env.NODE_ENV || 'production'}]`);
     });
   } catch (error: any) {
-    console.error(`❌ Failed to start server:`, error.message);
+    console.error(`❌ Failed to start server: ${error.message}`);
+    process.exit(1);
   }
 };
 

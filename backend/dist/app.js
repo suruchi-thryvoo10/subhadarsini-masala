@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 import { globalErrorHandler } from './middlewares/errorHandler.js';
 import { apiRateLimiter } from './middlewares/rateLimiter.js';
 import { redis } from './config/redis.js';
+import { getDbStatus } from './config/db.js';
 import authRoutes from './routes/authRoutes.js';
 import productRoutes from './routes/productRoutes.js';
 import categoryRoutes from './routes/categoryRoutes.js';
@@ -66,7 +67,19 @@ app.get(['/', '/health', '/api/v1/health'], (req, res) => {
         environment: process.env.NODE_ENV || 'production',
         uptime: process.uptime(),
         timestamp: new Date().toISOString(),
-        redisConnected: redis.status === 'ready'
+        redisConnected: redis.status === 'ready',
+        database: getDbStatus()
+    });
+});
+// Database diagnostics — reports configuration state without exposing credentials.
+app.get('/api/v1/health/db', (req, res) => {
+    const db = getDbStatus();
+    res.status(db.readyState === 1 ? 200 : 503).json({
+        success: db.readyState === 1,
+        database: db,
+        hint: db.hasMongoUri
+            ? 'MONGODB_URI is configured. If the state is not "connected", check the MongoDB Atlas Network Access IP allowlist (0.0.0.0/0 is required for Vercel) and the database user credentials.'
+            : 'MONGODB_URI is missing on this deployment. Add it under Vercel → Project Settings → Environment Variables, then redeploy.'
     });
 });
 // API Routes

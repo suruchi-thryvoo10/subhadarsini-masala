@@ -100,7 +100,7 @@ export const Navbar: React.FC = () => {
           {/* Brand Logo */}
           <Link to="/" className="flex items-center shrink-0 group pr-4 sm:pr-6 border-r border-spice-brown/15">
             <img
-              src="https://www.subhadarshini.com/assets/images/logo/logo.png"
+              src="/images/brand/logo.webp"
               alt="Subhadarshini Spices & Foods"
               className="h-10 sm:h-12 md:h-13 w-auto object-contain group-hover:scale-105 transition-transform"
             />

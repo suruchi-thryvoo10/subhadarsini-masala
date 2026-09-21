@@ -20,6 +20,7 @@ const InventoryTransactionSchema = new Schema<IInventoryTransaction>(
     quantity: { type: Number, required: true },
     reason: { type: String, required: true },
     performedBy: { type: Schema.Types.ObjectId, ref: 'User' }
+    
   },
   { timestamps: true }
 );

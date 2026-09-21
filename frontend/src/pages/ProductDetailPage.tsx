@@ -6,6 +6,7 @@ import { useWishlist } from '../context/WishlistContext';
 import { Star, ShieldCheck, Heart, ShoppingBag, Truck, Check, RefreshCw } from 'lucide-react';
 import { ProductCard } from '../components/product/ProductCard';
 import { getApiUrl } from '../config/api';
+import { productImageUrl, handleImageError } from '../config/images';
 
 export const ProductDetailPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -76,12 +77,13 @@ export const ProductDetailPage: React.FC = () => {
           <div className="space-y-4">
             <div className="aspect-square rounded-2xl overflow-hidden bg-white p-6 border border-spice-brown/10 flex items-center justify-center">
               <img
-                src={product.images[0] || 'https://www.subhadarshini.com/admin/assets/upload/1852132731_sambarmasala.png'}
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = 'https://www.subhadarshini.com/admin/assets/upload/1852132731_sambarmasala.png';
-                }}
-                alt={product.name}
-                className="max-h-full max-w-full object-contain drop-shadow-md"
+                src={productImageUrl(product)}
+                onError={handleImageError}
+                alt={`${product.name} packaging`}
+                width={900}
+                height={900}
+                decoding="async"
+                className="w-full h-full object-contain drop-shadow-md"
               />
             </div>
           </div>
@@ -177,9 +179,11 @@ export const ProductDetailPage: React.FC = () => {
 
                 <button
                   onClick={() => addToCart(product, selectedVariant.size, quantity)}
-                  className="flex-1 py-3.5 px-6 rounded-xl bg-spice-brown hover:bg-spice-red text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg transition-all"
+                  disabled={product.isUpcoming || selectedVariant.stock === 0}
+                  className="flex-1 py-3.5 px-6 rounded-xl bg-spice-brown hover:bg-spice-red disabled:bg-spice-brown/30 disabled:cursor-not-allowed text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg transition-all"
                 >
-                  <ShoppingBag className="w-4 h-4" /> Add to Cart
+                  <ShoppingBag className="w-4 h-4" />
+                  {product.isUpcoming ? 'Coming Soon' : selectedVariant.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
                 </button>
               </div>
 

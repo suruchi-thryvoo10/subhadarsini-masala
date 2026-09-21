@@ -1,48 +1,134 @@
 import mongoose from 'mongoose';
-import { MongoMemoryServer } from 'mongodb-memory-server';
 
-let cachedPromise: Promise<typeof mongoose> | null = null;
-let mongoMemoryServer: MongoMemoryServer | null = null;
+/**
+ * Serverless-safe MongoDB connection.
+ *
+ * On Vercel every invocation may reuse a warm Node process, so the connection
+ * promise is cached on `globalThis` (module scope alone is not enough once the
+ * bundler duplicates modules). A failed attempt clears the cache so the next
+ * invocation retries instead of inheriting a half-open connection.
+ */
 
-export const connectDB = async (): Promise<typeof mongoose | undefined> => {
-  if (mongoose.connection.readyState >= 1) {
-    return mongoose;
+type MongooseCache = {
+  promise: Promise<typeof mongoose> | null;
+  conn: typeof mongoose | null;
+};
+
+const globalWithMongoose = globalThis as typeof globalThis & {
+  __subhadarshiniMongoose?: MongooseCache;
+};
+
+const cache: MongooseCache =
+  globalWithMongoose.__subhadarshiniMongoose ||
+  (globalWithMongoose.__subhadarshiniMongoose = { promise: null, conn: null });
+
+const isServerless = Boolean(process.env.VERCEL) || process.env.NODE_ENV === 'production';
+
+export class DatabaseConfigError extends Error {
+  code = 'MONGODB_URI_MISSING';
+}
+
+export const getMongoUri = (): string => {
+  const uri = (process.env.MONGODB_URI || '').trim();
+  if (uri) return uri;
+
+  if (isServerless) {
+    // Never silently fall back to localhost in a serverless/production runtime:
+    // it produces opaque "buffering timed out" errors instead of a real diagnosis.
+    throw new DatabaseConfigError(
+      'MONGODB_URI is not set on this deployment. Add it in the Vercel project settings (Settings → Environment Variables) and redeploy.'
+    );
   }
 
-  if (mongoose.connection.readyState === 0) {
-    cachedPromise = null;
+  return 'mongodb://127.0.0.1:27017/subhadarshini_db';
+};
+
+/** Masked host for diagnostics — never exposes credentials. */
+export const describeMongoTarget = (): string => {
+  const uri = (process.env.MONGODB_URI || '').trim();
+  if (!uri) return 'unset';
+  return uri.replace(/\/\/[^@]*@/, '//***:***@').replace(/\?.*$/, '');
+};
+
+const connectInMemoryFallback = async (): Promise<typeof mongoose | null> => {
+  try {
+    // Optional dev dependency — resolved lazily so production installs don't need it.
+    const { MongoMemoryServer } = await import('mongodb-memory-server');
+    const server = await MongoMemoryServer.create();
+    const conn = await mongoose.connect(server.getUri(), { bufferCommands: false });
+    console.log('[Database] Using in-memory MongoDB (development fallback).');
+    return conn;
+  } catch (fallbackError: any) {
+    console.error(`[Database] In-memory fallback unavailable: ${fallbackError.message}`);
+    return null;
+  }
+};
+
+export const connectDB = async (): Promise<typeof mongoose> => {
+  if (cache.conn && mongoose.connection.readyState === 1) {
+    return cache.conn;
   }
 
-  if (cachedPromise) {
-    return cachedPromise;
+  if (!cache.promise) {
+    const uri = getMongoUri();
+
+    cache.promise = mongoose
+      .connect(uri, {
+        // Surface connection failures immediately instead of queueing operations
+        // for 10s and failing with an unrelated "buffering timed out" error.
+        bufferCommands: false,
+        serverSelectionTimeoutMS: 8000,
+        connectTimeoutMS: 10000,
+        socketTimeoutMS: 20000,
+        maxPoolSize: 5,
+        minPoolSize: 0
+      })
+      .then((m) => {
+        cache.conn = m;
+        console.log(`[Database] MongoDB connected: ${m.connection.host}/${m.connection.name}`);
+        return m;
+      })
+      .catch(async (error: any) => {
+        cache.promise = null;
+        cache.conn = null;
+        console.error(`[Database] MongoDB connection failed: ${error.message}`);
+
+        // Local development convenience only: spin up an in-memory MongoDB when no
+        // real server is reachable. Never attempted on Vercel/production.
+        if (!isServerless) {
+          const memoryConn = await connectInMemoryFallback();
+          if (memoryConn) {
+            cache.conn = memoryConn;
+            return memoryConn;
+          }
+        }
+
+        throw error;
+      });
   }
 
-  const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/subhadarshini_db';
-
-  cachedPromise = mongoose.connect(uri, {
-    serverSelectionTimeoutMS: 5000,
-    connectTimeoutMS: 10000
-  }).then((m) => {
-    console.log(`[Database] MongoDB Connected: ${m.connection.host}/${m.connection.name}`);
-    return m;
-  }).catch(async (error: any) => {
-    cachedPromise = null;
-    console.warn(`[Database] Direct MongoDB connection failed: ${error.message}`);
-    
-    // Only attempt MongoMemoryServer in local dev environment, not in serverless/production
-    if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
-      try {
-        mongoMemoryServer = await MongoMemoryServer.create();
-        const memoryUri = mongoMemoryServer.getUri();
-        const fallbackConn = await mongoose.connect(memoryUri);
-        console.log(`[Database] MongoMemoryServer connected at ${memoryUri}`);
-        return fallbackConn;
-      } catch (fallbackError) {
-        console.error(`[Database] In-memory database fallback error:`, fallbackError);
-      }
-    }
+  try {
+    return await cache.promise;
+  } catch (error) {
+    cache.promise = null;
+    cache.conn = null;
     throw error;
-  });
+  }
+};
 
-  return cachedPromise;
+export const getDbStatus = () => {
+  const states: Record<number, string> = {
+    0: 'disconnected',
+    1: 'connected',
+    2: 'connecting',
+    3: 'disconnecting',
+    99: 'uninitialized'
+  };
+  return {
+    readyState: mongoose.connection.readyState,
+    state: states[mongoose.connection.readyState] ?? 'unknown',
+    hasMongoUri: Boolean((process.env.MONGODB_URI || '').trim()),
+    target: describeMongoTarget(),
+    dbName: mongoose.connection.name || null
+  };
 };

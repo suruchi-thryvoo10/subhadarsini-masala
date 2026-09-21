@@ -22,3 +22,14 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #8B261D;
 }
+
+/* Horizontally scrollable strips (category chips) keep the gesture, drop the bar */
+@layer utilities {
+  .scrollbar-none {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+}

@@ -4,6 +4,7 @@ import { Heart, ShoppingBag, Star, Check } from 'lucide-react';
 import { Product } from '../../types';
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
+import { productImageUrl, handleImageError } from '../../config/images';
 
 interface ProductCardProps {
   product: Product;
@@ -16,14 +17,17 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
   const [justAdded, setJustAdded] = useState(false);
 
-  const selectedVariant = product.variants[selectedVariantIndex] || product.variants[0];
+  const variants = product.variants || [];
+  const selectedVariant = variants[selectedVariantIndex] || variants[0];
 
   const inWishlist = isInWishlist(product._id);
-  const discountPercent = selectedVariant.discountPrice
+  const discountPercent = selectedVariant?.discountPrice
     ? Math.round(((selectedVariant.price - selectedVariant.discountPrice) / selectedVariant.price) * 100)
     : 0;
+  const isOutOfStock = product.isUpcoming || !selectedVariant || selectedVariant.stock === 0;
 
   const handleAddToCart = () => {
+    if (!selectedVariant) return;
     addToCart(product, selectedVariant.size);
     setJustAdded(true);
     setTimeout(() => setJustAdded(false), 1500);
@@ -32,18 +36,25 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
     <div className="group bg-white rounded-2xl border border-spice-brown/10 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between overflow-hidden">
       {/* Product Image Box */}
-      <div className="relative aspect-square overflow-hidden bg-white p-3 flex items-center justify-center border-b border-spice-brown/5">
+      <div className="relative aspect-[5/4] sm:aspect-square overflow-hidden bg-gradient-to-b from-white to-spice-cream/40 p-4 flex items-center justify-center border-b border-spice-brown/5">
         <img
-          src={product.images[0] || 'https://www.subhadarshini.com/admin/assets/upload/1852132731_sambarmasala.png'}
-          onError={(e) => {
-            (e.target as HTMLImageElement).src = 'https://www.subhadarshini.com/admin/assets/upload/1852132731_sambarmasala.png';
-          }}
-          alt={product.name}
-          className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-500 drop-shadow-sm"
+          src={productImageUrl(product)}
+          onError={handleImageError}
+          alt={`${product.name} packaging`}
+          loading="lazy"
+          decoding="async"
+          width={900}
+          height={900}
+          className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 drop-shadow-sm"
         />
 
         {/* Badges */}
         <div className="absolute top-3 left-3 flex flex-col gap-1 z-10">
+          {product.isUpcoming && (
+            <span className="bg-spice-brown text-white font-bold text-[10px] px-2 py-0.5 rounded-full tracking-wider uppercase shadow">
+              Coming Soon
+            </span>
+          )}
           {discountPercent > 0 && (
             <span className="bg-spice-red text-white font-bold text-[10px] px-2 py-0.5 rounded-full tracking-wider uppercase shadow">
               {discountPercent}% OFF
@@ -97,8 +108,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           {/* Variant Selector */}
           <div className="flex items-center justify-between mb-3">
             <span className="text-xs font-semibold text-spice-brown/70">Pack Size:</span>
-            <div className="flex items-center gap-1.5">
-              {product.variants.map((v, idx) => (
+            <div className="flex flex-wrap items-center justify-end gap-1.5">
+              {variants.map((v, idx) => (
                 <button
                   key={v.sku || idx}
                   onClick={() => setSelectedVariantIndex(idx)}
@@ -119,9 +130,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             <div>
               <div className="flex items-baseline gap-1.5">
                 <span className="text-lg font-bold text-spice-brown font-serif">
-                  ₹{selectedVariant.discountPrice || selectedVariant.price}
+                  ₹{selectedVariant?.discountPrice || selectedVariant?.price || '—'}
                 </span>
-                {selectedVariant.discountPrice && (
+                {selectedVariant?.discountPrice && (
                   <span className="text-xs text-spice-brown/40 line-through font-medium">
                     ₹{selectedVariant.price}
                   </span>
@@ -131,11 +142,18 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
             <button
               onClick={handleAddToCart}
+              disabled={isOutOfStock}
               className={`px-3.5 py-2 rounded-xl text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm ${
-                justAdded ? 'bg-green-600' : 'bg-spice-brown hover:bg-spice-red'
+                isOutOfStock
+                  ? 'bg-spice-brown/30 cursor-not-allowed'
+                  : justAdded
+                  ? 'bg-green-600'
+                  : 'bg-spice-brown hover:bg-spice-red'
               }`}
             >
-              {justAdded ? (
+              {isOutOfStock ? (
+                <>{product.isUpcoming ? 'Coming Soon' : 'Out of Stock'}</>
+              ) : justAdded ? (
                 <>
                   <Check className="w-3.5 h-3.5" /> Added
                 </>
