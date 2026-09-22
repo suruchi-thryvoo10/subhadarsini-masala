@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { Trash2, ShoppingBag, ArrowRight, ShieldCheck } from 'lucide-react';
 import { productImageUrl, handleImageError } from '../config/images';
+import { displayProductName } from '../utils/format';
 
 export const CartPage: React.FC = () => {
   const { cart, removeFromCart, updateQuantity, clearCart, cartTotal } = useCart();
@@ -59,7 +60,7 @@ export const CartPage: React.FC = () => {
 
                 <div className="flex-1">
                   <Link to={`/products/${item.product.slug}`} className="font-serif font-bold text-base text-spice-brown hover:text-spice-red transition-colors block">
-                    {item.product.name}
+                    {displayProductName(item.product.name)}
                   </Link>
                   <span className="text-xs font-semibold text-spice-saffron block mt-0.5">
                     Pack Size: {item.variantSize}

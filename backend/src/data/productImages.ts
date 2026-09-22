@@ -33,7 +33,7 @@ export const PRODUCT_IMAGES: Record<string, string | string[]> = {
   'subhadarshini-coriander-powder': img('coriander-powder'),
   'subhadarshini-cumin-powder': img('cumin-powder'),
   'subhadarshini-kashmiri-chilli-powder': img('kashmiri-chilli-powder'),
-  'subhadarshini-black-pepper-powder': FALLBACK_IMAGES.whole,
+  'subhadarshini-black-pepper-powder': img('black-pepper-powder'),
   'subhadarshini-pure-amchur-powder': FALLBACK_IMAGES.ground,
 
   // --- Blended Spices ---
@@ -57,9 +57,9 @@ export const PRODUCT_IMAGES: Record<string, string | string[]> = {
   // --- Whole Spices ---
   'subhadarshini-premium-cumin-seeds': img('cumin-seeds'),
   'subhadarshini-mustard-seeds': img('mustard-seeds'),
-  'subhadarshini-whole-black-pepper': FALLBACK_IMAGES.whole,
-  'subhadarshini-green-cardamom': FALLBACK_IMAGES.whole,
-  'subhadarshini-whole-cloves': FALLBACK_IMAGES.whole,
+  'subhadarshini-whole-black-pepper': img('black-peppercorns'),
+  'subhadarshini-green-cardamom': img('green-cardamom'),
+  'subhadarshini-whole-cloves': img('whole-cloves'),
   'subhadarshini-tej-patta': img('tej-patta'),
   'subhadarshini-panch-phoran': img('panch-phoran'),
   'subhadarshini-whole-red-chilli': img('red-chilli-whole'),
@@ -68,7 +68,7 @@ export const PRODUCT_IMAGES: Record<string, string | string[]> = {
   // --- Gourmet Seasonings ---
   'subhadarshini-posto-poppy-seed': FALLBACK_IMAGES.ground,
   'subhadarshini-roasted-bhaja-jeera-lanka': FALLBACK_IMAGES.ground,
-  'subhadarshini-heritage-odia-dalma-masala': FALLBACK_IMAGES.blend,
+  'subhadarshini-heritage-odia-dalma-masala': img('dalma-masala'),
   'subhadarshini-tangy-special-chaat-masala': img('chaat-masala'),
   'subhadarshini-kasuri-methi': img('kasuri-methi'),
 
@@ -82,6 +82,12 @@ export const PRODUCT_IMAGES: Record<string, string | string[]> = {
 
   // --- Upcoming Products ---
   'subhadarshini-sattu-powder': img('sattu-powder')
+};
+
+export const RECIPE_IMAGES: Record<string, string> = {
+  'traditional-odia-mamsa-kasa': '/images/recipes/mamsa-kasa.webp',
+  'heritage-odia-dalma': '/images/recipes/odia-dalma.webp',
+  'machha-besara-odia-fish-curry': '/images/recipes/machha-besara.webp'
 };
 
 export const CATEGORY_IMAGES: Record<string, string> = {

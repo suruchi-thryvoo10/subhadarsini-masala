@@ -19,6 +19,7 @@ import enquiryRoutes from './routes/enquiryRoutes.js';
 import careerRoutes from './routes/careerRoutes.js';
 import reviewRoutes from './routes/reviewRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
+import statsRoutes from './routes/statsRoutes.js';
 
 dotenv.config();
 
@@ -118,6 +119,7 @@ app.use('/api/v1/enquiries', enquiryRoutes);
 app.use('/api/v1/careers', careerRoutes);
 app.use('/api/v1/reviews', reviewRoutes);
 app.use('/api/v1/admin', adminRoutes);
+app.use('/api/v1/stats', statsRoutes);
 
 // Global Error Handler
 app.use(globalErrorHandler);

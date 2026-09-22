@@ -6,6 +6,7 @@ import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
 import { productImageUrl, handleImageError } from '../../config/images';
 import { useQuickView } from '../../context/QuickViewContext';
+import { displayProductName, formatRating } from '../../utils/format';
 
 interface ProductCardProps {
   product: Product;
@@ -78,11 +79,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <Heart className={`w-4 h-4 ${inWishlist ? 'fill-spice-red text-spice-red' : ''}`} />
         </button>
 
-        {/* Quick View — keyboard reachable, and always visible on touch devices
-            where there is no hover state to reveal it. */}
+        {/* Quick View is a pointer affordance: desktop hover only, and still
+            reachable by keyboard. Touch devices tap straight through to the
+            product page instead. */}
         <button
           onClick={() => openQuickView(product)}
-          className="absolute inset-x-3 bottom-3 z-10 py-2 rounded-xl bg-spice-brown/90 backdrop-blur-sm text-white text-[11px] font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 shadow-lg opacity-100 translate-y-0 sm:opacity-0 sm:translate-y-2 sm:group-hover:opacity-100 sm:group-hover:translate-y-0 focus-visible:opacity-100 focus-visible:translate-y-0 transition-all duration-300 hover:bg-spice-red"
+          className="absolute inset-x-3 bottom-3 z-10 py-2 rounded-xl bg-spice-brown/90 backdrop-blur-sm text-white text-[11px] font-bold uppercase tracking-wider hidden lg:flex items-center justify-center gap-1.5 shadow-lg opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 focus-visible:opacity-100 focus-visible:translate-y-0 transition-all duration-300 hover:bg-spice-red"
         >
           <Eye className="w-3.5 h-3.5" /> Quick View
         </button>
@@ -93,20 +95,24 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <div>
           {/* Category Tag & Rating */}
           <div className="flex items-center justify-between text-xs text-spice-saffron font-medium mb-1">
-            <span className="uppercase tracking-wider text-[11px] font-bold">
+            <span className="uppercase tracking-wider text-[11px] font-bold truncate min-w-0">
               {typeof product.category === 'object' ? product.category.name : 'Pure Spice'}
             </span>
-            <div className="flex items-center gap-1 text-spice-brown/80 font-bold">
-              <Star className="w-3.5 h-3.5 fill-spice-turmeric text-spice-turmeric" />
-              <span>{product.ratingAvg || 4.9}</span>
-              <span className="text-ink-500 text-[10px]">({product.ratingCount || 45})</span>
-            </div>
+            {formatRating(product.ratingAvg) && (
+              <div className="flex items-center gap-1 text-spice-brown/80 font-bold shrink-0">
+                <Star className="w-3.5 h-3.5 fill-spice-turmeric text-spice-turmeric" />
+                <span>{formatRating(product.ratingAvg)}</span>
+                {product.ratingCount > 0 && (
+                  <span className="text-ink-500 text-[10px]">({product.ratingCount})</span>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Product Name */}
           <Link to={`/products/${product.slug}`} className="block">
-            <h3 className="font-serif font-bold text-base text-spice-brown group-hover:text-spice-red transition-colors line-clamp-1">
-              {product.name}
+            <h3 className="font-serif font-bold text-base text-spice-brown group-hover:text-spice-red transition-colors line-clamp-2 min-h-[2.75rem]">
+              {displayProductName(product.name)}
             </h3>
           </Link>
 
@@ -117,9 +123,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
         <div className="mt-4 pt-3 border-t border-spice-brown/10">
           {/* Variant Selector */}
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-semibold text-spice-brown/70">Pack Size:</span>
-            <div className="flex flex-wrap items-center justify-end gap-1.5">
+          <div className="flex items-center justify-between gap-2 mb-3">
+            <span className="hidden sm:inline text-xs font-semibold text-spice-brown/70">Pack Size:</span>
+            <div className="flex flex-wrap items-center gap-1.5 sm:justify-end">
               {variants.map((v, idx) => (
                 <button
                   key={v.sku || idx}
@@ -137,7 +143,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           </div>
 
           {/* Price & Add to Cart */}
-          <div className="flex items-center justify-between gap-2">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
             <div>
               <div className="flex items-baseline gap-1.5">
                 <span className="text-lg font-bold text-spice-brown font-serif">
@@ -154,7 +160,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             <button
               onClick={handleAddToCart}
               disabled={isOutOfStock}
-              className={`px-3.5 py-2 rounded-xl text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm ${
+              className={`w-full sm:w-auto px-3.5 py-2 rounded-xl text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all shadow-sm ${
                 isOutOfStock
                   ? 'bg-surface-300 text-ink-600 cursor-not-allowed'
                   : justAdded

@@ -18,16 +18,16 @@ export const getDashboardStats = async (req, res, next) => {
             { $match: { 'paymentInfo.status': 'PAID' } },
             { $group: { _id: null, totalRevenue: { $sum: '$pricing.totalAmount' } } }
         ]);
-        const totalRevenue = revenueAggregation[0]?.totalRevenue || 148500; // default for initial seed
+        const totalRevenue = revenueAggregation[0]?.totalRevenue || 0;
         const recentOrders = await Order.find().sort({ createdAt: -1 }).limit(5);
         const lowStockProducts = await Product.find({ 'variants.stock': { $lt: 30 } }).select('name variants images');
         res.status(200).json({
             success: true,
             data: {
                 totalProducts,
-                totalOrders: totalOrders || 42,
-                totalUsers: totalUsers || 128,
-                totalEnquiries: totalEnquiries || 14,
+                totalOrders,
+                totalUsers,
+                totalEnquiries,
                 totalRevenue,
                 recentOrders,
                 lowStockProducts

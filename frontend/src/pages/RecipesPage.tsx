@@ -3,6 +3,7 @@ import { Recipe } from '../types';
 import { ChefHat, Sparkles, Clock, ShoppingBag, Search, X } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { getApiUrl } from '../config/api';
+import { resolveImageUrl, handleImageError } from '../config/images';
 
 export const RecipesPage: React.FC = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
@@ -92,7 +93,13 @@ export const RecipesPage: React.FC = () => {
             {recipes.map((recipe) => (
               <div key={recipe._id} className="bg-white rounded-3xl overflow-hidden border border-spice-brown/10 shadow-sm flex flex-col justify-between">
                 <div className="relative aspect-video">
-                  <img src={recipe.image} alt={recipe.title} className="w-full h-full object-cover" />
+                  <img
+                    src={resolveImageUrl(recipe.image)}
+                    onError={handleImageError}
+                    alt={recipe.title}
+                    loading="lazy"
+                    className="w-full h-full object-cover"
+                  />
                   <span className="absolute top-3 left-3 bg-spice-red text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase">
                     {recipe.category}
                   </span>

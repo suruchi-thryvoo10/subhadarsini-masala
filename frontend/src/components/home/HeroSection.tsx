@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Sparkles, ArrowRight, ShieldCheck, Award } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { fetchApi } from '../../config/api';
 
 export const HeroSection: React.FC = () => {
+  const [productCount, setProductCount] = useState<number | null>(null);
+
+  useEffect(() => {
+    fetchApi('/api/v1/stats')
+      .then((res) => setProductCount(res.data?.products ?? null))
+      .catch(() => setProductCount(null));
+  }, []);
+
   return (
     <section className="relative overflow-hidden bg-spice-cream py-16 md:py-24">
       {/* Background Subtle Shapes */}
@@ -28,7 +37,7 @@ export const HeroSection: React.FC = () => {
             </h1>
 
             <p className="text-spice-brown/80 text-base sm:text-lg leading-relaxed max-w-xl">
-              Experience handpicked farm-fresh spices, slow-ground using traditional stone mills to retain natural essential oils, vibrant color, and rich aromatic heritage.
+              Experience handpicked farm-fresh spices, slow-ground using traditional stone mills to retain natural essential oils, vibrant colour, and rich aromatic heritage.
             </p>
 
             <div className="flex flex-wrap items-center gap-4 pt-2">
@@ -40,7 +49,7 @@ export const HeroSection: React.FC = () => {
               </Link>
               <Link
                 to="/recipes"
-                className="px-7 py-3.5 rounded-full bg-white border border-spice-brown/20 text-spice-brown font-bold text-sm hover:bg-spice-beige transition-colors"
+                className="px-7 py-3.5 rounded-full bg-white border border-spice-brown/20 text-spice-brown font-bold text-sm hover:bg-spice-beige transition-colours"
               >
                 Discover Recipes
               </Link>
@@ -57,8 +66,10 @@ export const HeroSection: React.FC = () => {
                 <span className="text-xs text-spice-brown/70 font-medium">Artificial Dyes</span>
               </div>
               <div>
-                <span className="font-serif text-2xl font-bold text-spice-brown block">42+</span>
-                <span className="text-xs text-spice-brown/70 font-medium">Lab Quality Checks</span>
+                <span className="font-serif text-2xl font-bold text-spice-brown block">
+                  {productCount !== null ? productCount : '—'}
+                </span>
+                <span className="text-xs text-spice-brown/70 font-medium">Products In Range</span>
               </div>
             </div>
           </motion.div>

@@ -8,6 +8,7 @@ import { ProductCard } from '../components/product/ProductCard';
 import { getApiUrl } from '../config/api';
 import { ProductGallery } from '../components/product/ProductGallery';
 import { Reveal, StaggerGroup, StaggerItem } from '../components/ui/Reveal';
+import { displayProductName, formatRating } from '../utils/format';
 
 export const ProductDetailPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -73,7 +74,7 @@ export const ProductDetailPage: React.FC = () => {
         <nav className="text-xs text-ink-500 mb-6 flex items-center gap-2">
           <Link to="/" className="hover:underline">Home</Link> / 
           <Link to="/products" className="hover:underline">Products</Link> / 
-          <span className="text-spice-brown font-bold">{product.name}</span>
+          <span className="text-spice-brown font-bold">{displayProductName(product.name)}</span>
         </nav>
 
         {/* Product Grid Layout */}
@@ -111,19 +112,32 @@ export const ProductDetailPage: React.FC = () => {
               </div>
 
               <h1 className="font-serif text-3xl sm:text-4xl font-bold text-spice-brown mt-3">
-                {product.name}
+                {displayProductName(product.name)}
               </h1>
 
-              {/* Rating */}
-              <div className="flex items-center gap-2 mt-2">
-                <div className="flex items-center text-spice-turmeric">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-spice-turmeric" />
-                  ))}
+              {/* Rating — stars reflect the actual score rather than always showing five */}
+              {formatRating(product.ratingAvg) && (
+                <div className="flex items-center gap-2 mt-2">
+                  <div className="flex items-center text-spice-turmeric">
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className={`w-4 h-4 ${
+                          i < Math.round(product.ratingAvg)
+                            ? 'fill-spice-turmeric'
+                            : 'fill-none text-ink-300'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                  <span className="text-xs font-bold text-spice-brown">
+                    {formatRating(product.ratingAvg)}
+                  </span>
+                  {product.ratingCount > 0 && (
+                    <span className="text-xs text-ink-500">({product.ratingCount} ratings)</span>
+                  )}
                 </div>
-                <span className="text-xs font-bold text-spice-brown">{product.ratingAvg || 4.8}</span>
-                <span className="text-xs text-ink-500">({product.ratingCount || 24} Verified Reviews)</span>
-              </div>
+              )}
 
               {/* Price */}
               <div className="mt-6 flex items-baseline gap-3">

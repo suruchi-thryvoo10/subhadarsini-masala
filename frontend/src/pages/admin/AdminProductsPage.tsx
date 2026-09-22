@@ -3,6 +3,7 @@ import { useAuth } from '../../context/AuthContext';
 import { Package, Plus, Edit2, Trash2 } from 'lucide-react';
 import { getApiUrl } from '../../config/api';
 import { productImageUrl, handleImageError } from '../../config/images';
+import { formatRating } from '../../utils/format';
 
 export const AdminProductsPage: React.FC = () => {
   const { token } = useAuth();
@@ -52,7 +53,7 @@ export const AdminProductsPage: React.FC = () => {
                 <td className="p-3">{p.category?.name || 'Spice Blend'}</td>
                 <td className="p-3">{p.variants?.map((v: any) => v.size).join(', ')}</td>
                 <td className="p-3 font-serif font-bold">₹{p.variants[0]?.price} - ₹{p.variants[p.variants.length - 1]?.price}</td>
-                <td className="p-3 font-bold text-spice-saffron">★ {p.ratingAvg} ({p.ratingCount})</td>
+                <td className="p-3 font-bold text-spice-saffron">★ {formatRating(p.ratingAvg)} ({p.ratingCount})</td>
               </tr>
             ))}
           </tbody>

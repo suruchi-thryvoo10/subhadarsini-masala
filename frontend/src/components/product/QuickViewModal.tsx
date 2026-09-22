@@ -6,6 +6,7 @@ import { Product } from '../../types';
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
 import { ProductGallery } from './ProductGallery';
+import { displayProductName, formatRating } from '../../utils/format';
 
 interface QuickViewModalProps {
   product: Product | null;
@@ -101,14 +102,18 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({ product, onClose
                 </span>
 
                 <h2 className="font-serif font-bold text-2xl text-spice-brown mt-1 leading-tight">
-                  {product.name}
+                  {displayProductName(product.name)}
                 </h2>
 
-                <div className="flex items-center gap-1.5 mt-2">
-                  <Star className="w-3.5 h-3.5 fill-spice-turmeric text-spice-turmeric" />
-                  <span className="text-xs font-bold text-spice-brown">{product.ratingAvg || 4.8}</span>
-                  <span className="text-[11px] text-ink-500">({product.ratingCount || 24})</span>
-                </div>
+                {formatRating(product.ratingAvg) && (
+                  <div className="flex items-center gap-1.5 mt-2">
+                    <Star className="w-3.5 h-3.5 fill-spice-turmeric text-spice-turmeric" />
+                    <span className="text-xs font-bold text-spice-brown">{formatRating(product.ratingAvg)}</span>
+                    {product.ratingCount > 0 && (
+                      <span className="text-[11px] text-ink-500">({product.ratingCount})</span>
+                    )}
+                  </div>
+                )}
 
                 <p className="text-xs text-spice-brown/75 mt-3 leading-relaxed line-clamp-4">
                   {product.shortDescription}

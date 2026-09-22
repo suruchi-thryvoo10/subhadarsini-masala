@@ -7,7 +7,7 @@ import { Recipe } from '../models/Recipe.js';
 import { Dealer } from '../models/Dealer.js';
 import { Career } from '../models/Career.js';
 import { Review } from '../models/Review.js';
-import { PRODUCT_IMAGES, CATEGORY_IMAGES, FALLBACK_IMAGES, resolveProductImage, resolveProductImages } from '../data/productImages.js';
+import { PRODUCT_IMAGES, CATEGORY_IMAGES, RECIPE_IMAGES, FALLBACK_IMAGES, resolveProductImage, resolveProductImages } from '../data/productImages.js';
 
 export const autoSeedIfEmpty = async () => {
   try {
@@ -120,8 +120,8 @@ export const autoSeedIfEmpty = async () => {
         name: 'Subhadarshini Pure Turmeric Powder (Haldi)',
         slug: 'subhadarshini-pure-turmeric-powder',
         category: groundCat,
-        shortDescription: 'High-curcumin (5.2%) golden turmeric ground at low temperatures for rich aroma and color.',
-        fullDescription: 'Subhadarshini Pure Turmeric Powder is sourced directly from selected high-grade turmeric roots of Odisha. Processed using ultra-cool cryogenic milling technology to preserve volatile aromatic oils, natural color, and therapeutic 5.2% active Curcumin content.',
+        shortDescription: 'High-curcumin (5.2%) golden turmeric ground at low temperatures for rich aroma and colour.',
+        fullDescription: 'Subhadarshini Pure Turmeric Powder is sourced directly from selected high-grade turmeric roots of Odisha. Processed using ultra-cool cryogenic milling technology to preserve volatile aromatic oils, natural colour, and therapeutic 5.2% active Curcumin content.',
         ingredients: ['100% Pure Select Turmeric Roots'],
         nutritionalInfo: { energy: '354 kcal', protein: '7.8g', carbs: '65g', fat: '9.9g', sodium: '38mg' },
         variants: [
@@ -138,8 +138,8 @@ export const autoSeedIfEmpty = async () => {
         name: 'Subhadarshini Red Chilli Powder (Lal Mirch)',
         slug: 'subhadarshini-red-chilli-powder',
         category: groundCat,
-        shortDescription: 'Vibrant red color with balanced fiery heat from sun-dried ripe chillies.',
-        fullDescription: 'Picked at peak ripeness and sun-dried naturally, our Red Chilli Powder brings an appetizing deep crimson hue and fiery flavor profile to your culinary creations.',
+        shortDescription: 'Vibrant red colour with balanced fiery heat from sun-dried ripe chillies.',
+        fullDescription: 'Picked at peak ripeness and sun-dried naturally, our Red Chilli Powder brings an appetizing deep crimson hue and fiery flavour profile to your culinary creations.',
         ingredients: ['100% Pure Sun-Dried Red Chillies'],
         nutritionalInfo: { energy: '320 kcal', protein: '12g', carbs: '56g', fat: '8g', sodium: '30mg' },
         variants: [
@@ -189,8 +189,8 @@ export const autoSeedIfEmpty = async () => {
         name: 'Subhadarshini Kashmiri Red Chilli Powder',
         slug: 'subhadarshini-kashmiri-chilli-powder',
         category: groundCat,
-        shortDescription: 'Intense rich red color with mild gentle heat for vibrant curries and marinades.',
-        fullDescription: 'Sourced from select Kashmiri chillies, famous worldwide for imparting rich ruby red color to dishes without making them uncomfortably spicy.',
+        shortDescription: 'Intense rich red colour with mild gentle heat for vibrant curries and marinades.',
+        fullDescription: 'Sourced from select Kashmiri chillies, famous worldwide for imparting rich ruby red colour to dishes without making them uncomfortably spicy.',
         ingredients: ['100% Pure Kashmiri Red Chillies'],
         nutritionalInfo: { energy: '315 kcal', protein: '11.8g', carbs: '55.4g', fat: '7.9g', sodium: '28mg' },
         variants: [
@@ -207,7 +207,7 @@ export const autoSeedIfEmpty = async () => {
         slug: 'subhadarshini-black-pepper-powder',
         category: groundCat,
         shortDescription: 'Pungent, high-piperine Malabar black pepper powder.',
-        fullDescription: 'Freshly ground from whole Malabar black peppercorns. Rich in piperine for immune boosting warmth and sharp pungent flavor.',
+        fullDescription: 'Freshly ground from whole Malabar black peppercorns. Rich in piperine for immune boosting warmth and sharp pungent flavour.',
         ingredients: ['100% Malabar Black Peppercorns'],
         nutritionalInfo: { energy: '251 kcal', protein: '10.4g', carbs: '64g', fat: '3.3g', sodium: '20mg' },
         variants: [
@@ -223,7 +223,7 @@ export const autoSeedIfEmpty = async () => {
         name: 'Subhadarshini Pure Amchur Powder (Dry Mango)',
         slug: 'subhadarshini-pure-amchur-powder',
         category: groundCat,
-        shortDescription: '100% natural sun-dried unripe green mango powder for tangy sour flavor.',
+        shortDescription: '100% natural sun-dried unripe green mango powder for tangy sour flavour.',
         fullDescription: 'Made from raw green mangoes sliced and sun-dried naturally. Adds a fruity tartness to samosa filling, chole, chutneys, and marinades.',
         ingredients: ['100% Pure Raw Green Mango'],
         nutritionalInfo: { energy: '290 kcal', protein: '3.2g', carbs: '68g', fat: '2.1g', sodium: '25mg' },
@@ -260,7 +260,7 @@ export const autoSeedIfEmpty = async () => {
         slug: 'subhadarshini-special-chicken-curry-masala',
         category: blendedCat,
         shortDescription: 'Authentic spice blend engineered for deep, flavorful meat & chicken curries.',
-        fullDescription: 'Formulated with roasted cumin, coriander, star anise, fennel, and Kashmiri chillies, Subhadarshini Special Chicken Masala yields rich, thick gravy with irresistible tavern-style flavor.',
+        fullDescription: 'Formulated with roasted cumin, coriander, star anise, fennel, and Kashmiri chillies, Subhadarshini Special Chicken Masala yields rich, thick gravy with irresistible tavern-style flavour.',
         ingredients: ['Coriander', 'Cumin', 'Red Chilli', 'Turmeric', 'Garlic Powder', 'Onion Powder', 'Black Pepper', 'Fenugreek', 'Ginger Powder'],
         nutritionalInfo: { energy: '365 kcal', protein: '10.2g', carbs: '58g', fat: '10.5g', sodium: '50mg' },
         variants: [
@@ -277,7 +277,7 @@ export const autoSeedIfEmpty = async () => {
         slug: 'subhadarshini-mutton-meat-masala',
         category: blendedCat,
         shortDescription: 'Deep, rich aromatic spice blend for slow-cooked tender meat gravy.',
-        fullDescription: 'Formulated specifically for mutton kasa, rich rogan josh, and slow-cooked meat stews. Infuses deep color and bold savory spices.',
+        fullDescription: 'Formulated specifically for mutton kasa, rich rogan josh, and slow-cooked meat stews. Infuses deep colour and bold savory spices.',
         ingredients: ['Coriander', 'Red Chilli', 'Cumin', 'Black Pepper', 'Cinnamon', 'Clove', 'Ginger', 'Garlic', 'Cardamom', 'Nutmeg'],
         nutritionalInfo: { energy: '370 kcal', protein: '11g', carbs: '54g', fat: '12g', sodium: '48mg' },
         variants: [
@@ -294,7 +294,7 @@ export const autoSeedIfEmpty = async () => {
         slug: 'subhadarshini-royal-dum-biryani-masala',
         category: blendedCat,
         shortDescription: 'Aromatic royal blend of green cardamom, star anise, mace, and nutmeg for rich restaurant-style dum biryanis.',
-        fullDescription: 'Subhadarshini Royal Dum Biryani Masala is a regal blend of handpicked whole spices, including green and black cardamom, Ceylon cinnamon, star anise, nutmeg, and mace. Designed to yield authentic Awadhi and Hyderabadi flavor with unmatched aroma.',
+        fullDescription: 'Subhadarshini Royal Dum Biryani Masala is a regal blend of handpicked whole spices, including green and black cardamom, Ceylon cinnamon, star anise, nutmeg, and mace. Designed to yield authentic Awadhi and Hyderabadi flavour with unmatched aroma.',
         ingredients: ['Green Cardamom', 'Cumin', 'Coriander', 'Black Peppercorn', 'Star Anise', 'Cinnamon', 'Nutmeg', 'Mace', 'Cloves', 'Bay Leaf'],
         nutritionalInfo: { energy: '385 kcal', protein: '11g', carbs: '51g', fat: '14.5g', sodium: '40mg' },
         variants: [
@@ -311,7 +311,7 @@ export const autoSeedIfEmpty = async () => {
         slug: 'subhadarshini-kitchen-king-masala',
         category: blendedCat,
         shortDescription: 'The supreme multi-purpose curry spice blend for all vegetable stir-fries, gravies, and dals.',
-        fullDescription: 'Subhadarshini Kitchen King Masala is the ultimate all-rounder spice mixture. Perfect for everyday home cooking, enhancing dry sabjis, paneer curries, dal fry, and vegetable gravies with golden color and savory taste.',
+        fullDescription: 'Subhadarshini Kitchen King Masala is the ultimate all-rounder spice mixture. Perfect for everyday home cooking, enhancing dry sabjis, paneer curries, dal fry, and vegetable gravies with golden colour and savory taste.',
         ingredients: ['Coriander', 'Cumin', 'Turmeric', 'Red Chilli', 'Black Pepper', 'Dry Ginger', 'Cassia', 'Fennel', 'Fenugreek', 'Nutmeg', 'Asafoetida'],
         nutritionalInfo: { energy: '360 kcal', protein: '10.8g', carbs: '56g', fat: '9.5g', sodium: '42mg' },
         variants: [
@@ -345,7 +345,7 @@ export const autoSeedIfEmpty = async () => {
         slug: 'subhadarshini-mumbai-pav-bhaji-masala',
         category: blendedCat,
         shortDescription: 'Tangy, spicy street-style aromatic blend for authentic buttery Pav Bhaji.',
-        fullDescription: 'Authentic Chowpatty-style Pav Bhaji spice blend loaded with dry mango, Kashmiri chilli, black pepper, fennel, and cumin. Gives your homemade mashed veg bhaji rich red hue and lip-smacking flavor.',
+        fullDescription: 'Authentic Chowpatty-style Pav Bhaji spice blend loaded with dry mango, Kashmiri chilli, black pepper, fennel, and cumin. Gives your homemade mashed veg bhaji rich red hue and lip-smacking flavour.',
         ingredients: ['Coriander', 'Chilli', 'Dry Mango', 'Cumin', 'Fennel', 'Black Pepper', 'Clove', 'Cassia', 'Star Anise'],
         nutritionalInfo: { energy: '345 kcal', protein: '10.1g', carbs: '57g', fat: '7.8g', sodium: '55mg' },
         variants: [
@@ -379,7 +379,7 @@ export const autoSeedIfEmpty = async () => {
         slug: 'subhadarshini-dal-tadka-masala',
         category: blendedCat,
         shortDescription: 'Smoky roasted cumin, hing, and garlic blend for dhaba-style yellow dal tadka.',
-        fullDescription: 'Crafted for arhar/toor dal, moong dal, and chana dal tadka. Infuses smoky restaurant-style tempering flavor directly into cooked lentils.',
+        fullDescription: 'Crafted for arhar/toor dal, moong dal, and chana dal tadka. Infuses smoky restaurant-style tempering flavour directly into cooked lentils.',
         ingredients: ['Roasted Cumin', 'Asafoetida (Hing)', 'Garlic Powder', 'Coriander', 'Red Chilli', 'Turmeric', 'Dry Mango'],
         nutritionalInfo: { energy: '335 kcal', protein: '12g', carbs: '55g', fat: '6.8g', sodium: '48mg' },
         variants: [
@@ -895,24 +895,37 @@ export const autoSeedIfEmpty = async () => {
       console.log(`🌶️ [AutoSeed] Successfully seeded ${toInsert.length} new masala products into catalog.`);
     }
 
-    // Repair products seeded before the image catalogue existed (they all shared a
-    // single hot-linked placeholder). Only documents whose image actually differs
-    // are written, so this is a no-op once the catalogue is in sync.
+    // Bring already-seeded products back in line with this file: corrected
+    // artwork, and corrected copy. Only documents that actually differ are
+    // written, so this is a no-op once the catalogue is in sync.
+    const catalogBySlug = new Map(productCatalog.map((p) => [p.slug, p]));
+
     const imageFixes = existingProducts
-      .filter((p) => {
-        const expected = resolveProductImages(p.slug, '');
-        return expected.length > 0 && JSON.stringify(p.images) !== JSON.stringify(expected);
-      })
-      .map((p) => ({
-        updateOne: {
-          filter: { _id: p._id },
-          update: { $set: { images: resolveProductImages(p.slug) } }
+      .flatMap((p) => {
+        const def = catalogBySlug.get(p.slug);
+        if (!def) return [];
+
+        const expectedImages = resolveProductImages(p.slug, '');
+        const set: Record<string, unknown> = {};
+
+        if (expectedImages.length > 0 && JSON.stringify(p.images) !== JSON.stringify(expectedImages)) {
+          set.images = expectedImages;
         }
-      }));
+        if (def.name && p.name !== def.name) set.name = def.name;
+        if (def.shortDescription && p.shortDescription !== def.shortDescription) {
+          set.shortDescription = def.shortDescription;
+        }
+        if (def.fullDescription && p.fullDescription !== def.fullDescription) {
+          set.fullDescription = def.fullDescription;
+        }
+
+        if (Object.keys(set).length === 0) return [];
+        return [{ updateOne: { filter: { _id: p._id }, update: { $set: set } } }];
+      });
 
     if (imageFixes.length > 0) {
       await Product.bulkWrite(imageFixes);
-      console.log(`🖼️ [AutoSeed] Updated product images for ${imageFixes.length} products.`);
+      console.log(`🖼️ [AutoSeed] Synced catalogue copy and images for ${imageFixes.length} products.`);
     }
 
     const allProducts = await Product.find({});
@@ -957,9 +970,8 @@ export const autoSeedIfEmpty = async () => {
       ]);
     }
 
-    // 5. Seed Recipes if empty
-    if ((await Recipe.countDocuments()) === 0 && allProducts.length > 2) {
-      await Recipe.create([
+    // 5. Seed Recipes
+    const recipeDefs = [
         {
           title: 'Traditional Odia Mamsa Kasa (Spiced Mutton Curry)',
           slug: 'traditional-odia-mamsa-kasa',
@@ -968,7 +980,7 @@ export const autoSeedIfEmpty = async () => {
           cookTimeMinutes: 45,
           difficulty: 'MEDIUM',
           servings: 4,
-          image: PRODUCT_IMAGES['subhadarshini-mutton-meat-masala'],
+          image: RECIPE_IMAGES['traditional-odia-mamsa-kasa'],
           description: 'Rich, slow-cooked mutton curry in caramelised onion and stone-ground spices.',
           ingredients: [
             { name: 'Tender Mutton', quantity: '500g' },
@@ -984,12 +996,82 @@ export const autoSeedIfEmpty = async () => {
             'Heat mustard oil in a heavy handi, saute onions till deep brown.',
             'Add ginger-garlic paste and cook till raw aroma vanishes.',
             'Stir in Subhadarshini Royal Garam Masala, add marinated mutton and slow cook on medium heat for 40 mins.',
-            'Garnish with fresh cilantro and serve with hot boiled rice or paratha.'
+            'Garnish with fresh coriander leaves and serve with hot boiled rice or paratha.'
           ],
           requiredProducts: [allProducts[0]._id, allProducts[1]._id, allProducts[2]._id],
           isFeatured: true
+        },
+        {
+          title: 'Heritage Odia Dalma (Lentils with Vegetables)',
+          slug: 'heritage-odia-dalma',
+          category: 'Vegetarian',
+          prepTimeMinutes: 15,
+          cookTimeMinutes: 30,
+          difficulty: 'EASY',
+          servings: 4,
+          image: RECIPE_IMAGES['heritage-odia-dalma'],
+          description: 'The everyday Odia one-pot of toor dal simmered with raw banana, pumpkin and roasted spice.',
+          ingredients: [
+            { name: 'Toor Dal (Arhar)', quantity: '1 cup' },
+            { name: 'Subhadarshini Heritage Odia Dalma Masala', quantity: '1.5 tbsp', isSubhadarshiniProduct: true },
+            { name: 'Subhadarshini Panch Phoran', quantity: '1 tsp', isSubhadarshiniProduct: true },
+            { name: 'Subhadarshini Pure Turmeric Powder', quantity: '1/2 tsp', isSubhadarshiniProduct: true },
+            { name: 'Raw Banana, Pumpkin & Brinjal', quantity: '2 cups, cubed' },
+            { name: 'Fresh Ginger', quantity: '1 inch, grated' },
+            { name: 'Ghee', quantity: '1 tbsp' }
+          ],
+          instructions: [
+            'Pressure cook the toor dal with turmeric and the cubed vegetables until just tender.',
+            'Heat ghee in a pan and crackle Subhadarshini Panch Phoran with dried red chilli.',
+            'Add grated ginger and fry for thirty seconds until fragrant.',
+            'Pour the tempering into the dal, stir in Subhadarshini Dalma Masala and simmer for five minutes.',
+            'Finish with a spoon of ghee and serve hot with steamed rice.'
+          ],
+          requiredProducts: [],
+          isFeatured: true
+        },
+        {
+          title: 'Machha Besara (Odia Fish Curry in Mustard)',
+          slug: 'machha-besara-odia-fish-curry',
+          category: 'Seafood',
+          prepTimeMinutes: 15,
+          cookTimeMinutes: 25,
+          difficulty: 'MEDIUM',
+          servings: 4,
+          image: RECIPE_IMAGES['machha-besara-odia-fish-curry'],
+          description: 'Rohu simmered in a sharp ground-mustard gravy, the coastal Odia classic.',
+          ingredients: [
+            { name: 'Rohu or Katla Fish', quantity: '600g, cut into steaks' },
+            { name: 'Subhadarshini Fish Curry Masala', quantity: '2 tbsp', isSubhadarshiniProduct: true },
+            { name: 'Subhadarshini Mustard Seeds', quantity: '2 tbsp, ground to paste', isSubhadarshiniProduct: true },
+            { name: 'Subhadarshini Pure Turmeric Powder', quantity: '1 tsp', isSubhadarshiniProduct: true },
+            { name: 'Mustard Oil', quantity: '4 tbsp' },
+            { name: 'Garlic Cloves', quantity: '6, crushed' },
+            { name: 'Green Chillies', quantity: '3, slit' }
+          ],
+          instructions: [
+            'Rub the fish steaks with turmeric and salt, then rest for ten minutes.',
+            'Shallow fry the fish in hot mustard oil until lightly golden on both sides, then set aside.',
+            'In the same oil, fry crushed garlic and green chillies until aromatic.',
+            'Add the ground mustard paste and Subhadarshini Fish Curry Masala, and cook on low heat so the mustard does not turn bitter.',
+            'Slide the fish back in with a cup of warm water and simmer for eight minutes. Serve with rice.'
+          ],
+          requiredProducts: [],
+          isFeatured: true
         }
-      ]);
+    ];
+
+    // Upsert by slug so recipes added later reach databases that were seeded
+    // before them, and so corrected artwork replaces the old value.
+    for (const def of recipeDefs) {
+      const existing = await Recipe.findOne({ slug: def.slug });
+      if (!existing) {
+        await Recipe.create(def);
+      } else if (existing.image !== def.image || existing.title !== def.title) {
+        existing.image = def.image;
+        existing.title = def.title;
+        await existing.save();
+      }
     }
 
     // 6. Seed Dealers if empty

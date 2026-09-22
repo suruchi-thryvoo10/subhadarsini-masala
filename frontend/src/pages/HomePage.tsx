@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { HeroSection } from '../components/home/HeroSection';
 import { TrustStrip } from '../components/home/TrustStrip';
@@ -40,6 +40,14 @@ export const HomePage: React.FC = () => {
 
     fetchData();
   }, []);
+
+  // The showcase is a three-up grid: render it only when three complete recipes
+  // exist, rather than leaving a ragged row or empty cards.
+  const featuredRecipes = useMemo(
+    () => recipes.filter((r) => r?.title && r?.image && r?.description).slice(0, 3),
+    [recipes]
+  );
+  const showRecipes = featuredRecipes.length === 3;
 
   return (
     <div className="space-y-0">
@@ -89,7 +97,7 @@ export const HomePage: React.FC = () => {
                   {/* Solid caption panel rather than a wash over the whole tile,
                       so the packaging stays visible and the label stays legible. */}
                   <div className="relative z-10 bg-spice-dark px-4 py-3">
-                    <h3 className="font-serif font-bold text-base sm:text-lg text-spice-cream group-hover:text-spice-turmeric transition-colors leading-tight">
+                    <h3 className="font-serif font-bold text-base sm:text-lg text-spice-cream group-hover:text-spice-turmeric transition-colours leading-tight">
                       {cat.name}
                     </h3>
                     <span className="inline-flex items-center gap-1 text-[11px] font-bold text-spice-turmeric mt-1.5">
@@ -173,7 +181,8 @@ export const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* 7. Recipe Showcase */}
+      {/* 7. Recipe Showcase — hidden unless three complete recipes are available */}
+      {showRecipes && (
       <section className="py-20 bg-spice-cream">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-12">
@@ -194,10 +203,16 @@ export const HomePage: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {recipes.map((recipe) => (
+            {featuredRecipes.map((recipe) => (
               <div key={recipe._id} className="bg-white rounded-2xl overflow-hidden border border-spice-brown/10 shadow-sm hover:shadow-lg transition-all flex flex-col justify-between">
                 <div className="relative aspect-video">
-                  <img src={recipe.image} alt={recipe.title} className="w-full h-full object-cover" />
+                  <img
+                    src={resolveImageUrl(recipe.image)}
+                    onError={handleImageError}
+                    alt={recipe.title}
+                    loading="lazy"
+                    className="w-full h-full object-cover"
+                  />
                   <span className="absolute top-3 left-3 bg-spice-brown text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">
                     {recipe.category}
                   </span>
@@ -212,7 +227,7 @@ export const HomePage: React.FC = () => {
                         <ChefHat className="w-3.5 h-3.5 text-spice-saffron" /> {recipe.difficulty}
                       </span>
                     </div>
-                    <h3 className="font-serif font-bold text-xl text-spice-brown mb-2">{recipe.title}</h3>
+                    <h3 className="font-serif font-bold text-xl text-spice-brown mb-2 line-clamp-2">{recipe.title}</h3>
                     <p className="text-xs text-spice-brown/70 line-clamp-2">{recipe.description}</p>
                   </div>
                   <Link
@@ -227,6 +242,7 @@ export const HomePage: React.FC = () => {
           </div>
         </div>
       </section>
+      )}
 
       {/* 8. Testimonials */}
       <section className="py-20 bg-spice-brown text-white">
@@ -249,7 +265,7 @@ export const HomePage: React.FC = () => {
               {
                 name: 'Rajesh Mohanty',
                 role: 'Restaurant Owner, Bhubaneswar',
-                review: 'We use Subhadarshini turmeric and red chilli in bulk. The consistency in natural color and curcumin level is top tier.',
+                review: 'We use Subhadarshini turmeric and red chilli in bulk. The consistency in natural colour and curcumin level is top tier.',
                 rating: 5
               },
               {
