@@ -62,17 +62,17 @@ export const Navbar: React.FC = () => {
   return (
     <header className="sticky top-0 z-50 bg-spice-cream/95 backdrop-blur-md border-b border-spice-saffron/20 shadow-sm transition-all overflow-x-clip">
       {/* Top Bar with Real Contact & Address Information */}
-      <div className="bg-spice-dark text-spice-beige py-1.5 px-4 text-xs font-medium border-b border-spice-saffron/30">
+      <div className="bg-spice-dark text-spice-beige py-1.5 px-4 text-xs font-medium border-b border-spice-turmeric/30">
         <div className="max-w-[1400px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">
           {/* Left: Factory & Corporate Address + Phone */}
           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 sm:gap-4 text-[11px] sm:text-xs">
             <span className="flex items-center gap-1.5 text-spice-cream">
-              <MapPin className="w-3.5 h-3.5 text-spice-saffron shrink-0" />
+              <MapPin className="w-3.5 h-3.5 text-spice-turmeric shrink-0" />
               <span>Choudhury Bazar, Cuttack, Odisha - 753001</span>
             </span>
-            <span className="hidden md:inline text-spice-saffron/40">•</span>
+            <span className="hidden md:inline text-spice-cream/70">•</span>
             <span className="hidden md:flex items-center gap-1.5 text-spice-cream">
-              <Phone className="w-3.5 h-3.5 text-spice-saffron shrink-0" />
+              <Phone className="w-3.5 h-3.5 text-spice-turmeric shrink-0" />
               <span>+91 94370 12345 / 0671 2304958</span>
             </span>
           </div>
@@ -139,7 +139,7 @@ export const Navbar: React.FC = () => {
               }`}
             >
               Recipes
-              <span className="text-[9px] bg-spice-saffron/20 text-spice-saffron font-extrabold px-1.5 py-0.5 rounded-md uppercase">
+              <span className="text-[9px] bg-brand-50 text-spice-red font-extrabold px-1.5 py-0.5 rounded-md uppercase">
                 AI
               </span>
               {isActive('/recipes') && (
@@ -256,7 +256,7 @@ export const Navbar: React.FC = () => {
                 >
                   <UserCheck className="w-4 h-4 text-spice-red" />
                   <span className="hidden sm:inline max-w-[80px] truncate">{user.name.split(' ')[0]}</span>
-                  <ChevronDown className="w-3 h-3 text-spice-brown/60" />
+                  <ChevronDown className="w-3 h-3 text-ink-500" />
                 </button>
 
                 {/* Dropdown Menu */}
@@ -264,8 +264,8 @@ export const Navbar: React.FC = () => {
                   <div className="absolute right-0 mt-2 w-52 bg-white rounded-xl shadow-xl border border-spice-brown/10 py-2 z-50 text-xs animate-in fade-in slide-in-from-top-2 duration-200">
                     <div className="px-4 py-2 border-b border-spice-brown/10">
                       <p className="font-bold text-spice-brown truncate">{user.name}</p>
-                      <p className="text-[11px] text-spice-brown/60 truncate">{user.email}</p>
-                      <span className="inline-block mt-1 px-2 py-0.5 text-[9px] font-extrabold bg-spice-saffron/15 text-spice-saffron rounded-md uppercase">
+                      <p className="text-[11px] text-ink-500 truncate">{user.email}</p>
+                      <span className="inline-block mt-1 px-2 py-0.5 text-[9px] font-extrabold bg-brand-50 text-spice-red rounded-md uppercase">
                         {user.role}
                       </span>
                     </div>
@@ -304,7 +304,7 @@ export const Navbar: React.FC = () => {
                         setUserDropdownOpen(false);
                         logout();
                       }}
-                      className="w-full flex items-center gap-2 px-4 py-2 text-red-600 hover:bg-red-50 transition-colors border-t border-spice-brown/10 mt-1"
+                      className="w-full flex items-center gap-2 px-4 py-2 text-spice-red hover:bg-brand-50 transition-colors border-t border-spice-brown/10 mt-1"
                     >
                       <LogOut className="w-4 h-4" />
                       Sign Out

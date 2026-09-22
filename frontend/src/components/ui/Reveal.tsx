@@ -43,7 +43,7 @@ export const Reveal: React.FC<RevealProps> = ({
       className={className}
       initial={{ opacity: 0, ...offset }}
       whileInView={{ opacity: 1, x: 0, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
+      viewport={{ once: true, amount: 'some' }}
       transition={{ duration: 0.55, delay, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}
@@ -76,7 +76,7 @@ export const StaggerGroup: React.FC<{ children: React.ReactNode; className?: str
     variants={staggerContainer}
     initial="hidden"
     whileInView="visible"
-    viewport={{ once: true, amount: 0.1 }}
+    viewport={{ once: true, amount: 'some' }}
   >
     {children}
   </motion.div>

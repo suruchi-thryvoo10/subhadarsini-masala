@@ -46,15 +46,15 @@ export const LoginPage: React.FC = () => {
     <div className="bg-spice-cream min-h-screen py-16 flex items-center justify-center px-4">
       <div className="bg-white rounded-3xl p-8 md:p-10 max-w-md w-full border border-spice-brown/10 shadow-xl space-y-6">
         <div className="text-center space-y-2">
-          <div className="w-12 h-12 rounded-full bg-spice-red text-spice-turmeric font-serif font-bold text-2xl flex items-center justify-center mx-auto">
+          <div className="w-12 h-12 rounded-full bg-spice-red text-white font-serif font-bold text-2xl flex items-center justify-center mx-auto">
             S
           </div>
           <h1 className="font-serif text-2xl font-bold text-spice-brown">Account Login</h1>
-          <p className="text-xs text-spice-brown/60">Enter your credentials to access your Subhadarshini account.</p>
+          <p className="text-xs text-ink-500">Enter your credentials to access your Subhadarshini account.</p>
         </div>
 
         {errorMsg && (
-          <div className="p-3 bg-red-50 text-red-700 text-xs rounded-xl flex items-center gap-2">
+          <div className="p-3 bg-brand-50 text-spice-red text-xs rounded-xl flex items-center gap-2">
             <AlertCircle className="w-4 h-4 shrink-0" />
             <span>{errorMsg}</span>
           </div>
@@ -71,7 +71,7 @@ export const LoginPage: React.FC = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-spice-brown/20 text-xs bg-spice-cream focus:outline-none focus:border-spice-saffron"
               />
-              <Mail className="w-4 h-4 text-spice-brown/40 absolute left-3 top-3" />
+              <Mail className="w-4 h-4 text-ink-500 absolute left-3 top-3" />
             </div>
           </div>
 
@@ -85,7 +85,7 @@ export const LoginPage: React.FC = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-spice-brown/20 text-xs bg-spice-cream focus:outline-none focus:border-spice-saffron"
               />
-              <Lock className="w-4 h-4 text-spice-brown/40 absolute left-3 top-3" />
+              <Lock className="w-4 h-4 text-ink-500 absolute left-3 top-3" />
             </div>
           </div>
 
@@ -98,7 +98,7 @@ export const LoginPage: React.FC = () => {
           </button>
         </form>
 
-        <div className="text-center text-xs text-spice-brown/60 pt-4 border-t border-spice-brown/10 space-y-2">
+        <div className="text-center text-xs text-ink-500 pt-4 border-t border-spice-brown/10 space-y-2">
           <p>
             Demo Admin Login: <strong className="text-spice-brown">admin@subhadarshini.com</strong> / <strong className="text-spice-brown">admin123</strong>
           </p>

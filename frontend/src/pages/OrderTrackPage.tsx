@@ -71,7 +71,7 @@ export const OrderTrackPage: React.FC = () => {
               </h1>
             </div>
             <div className="bg-spice-beige px-4 py-2 rounded-xl text-right">
-              <span className="text-[11px] text-spice-brown/60 block">Current Status</span>
+              <span className="text-[11px] text-ink-500 block">Current Status</span>
               <span className="font-bold text-xs text-spice-red uppercase tracking-wider">{order.orderStatus}</span>
             </div>
           </div>

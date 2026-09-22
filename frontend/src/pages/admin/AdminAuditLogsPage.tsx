@@ -23,7 +23,7 @@ export const AdminAuditLogsPage: React.FC = () => {
     <div className="bg-spice-cream min-h-screen p-6 md:p-10 space-y-6">
       <div>
         <h1 className="font-serif text-3xl font-bold text-spice-brown">Administrative Audit Trail</h1>
-        <p className="text-xs text-spice-brown/60">Immutable record of sensitive administrative actions and data modifications.</p>
+        <p className="text-xs text-ink-500">Immutable record of sensitive administrative actions and data modifications.</p>
       </div>
 
       <div className="bg-white rounded-3xl p-6 border border-spice-brown/10 shadow-sm overflow-x-auto">
@@ -44,7 +44,7 @@ export const AdminAuditLogsPage: React.FC = () => {
                 <td className="p-3 font-bold">{log.userEmail} ({log.userRole})</td>
                 <td className="p-3"><span className="bg-spice-red/10 text-spice-red font-bold px-2 py-0.5 rounded">{log.action}</span></td>
                 <td className="p-3 font-semibold">{log.entity}</td>
-                <td className="p-3 font-mono text-spice-brown/60">{log.ipAddress || '127.0.0.1'}</td>
+                <td className="p-3 font-mono text-ink-500">{log.ipAddress || '127.0.0.1'}</td>
               </tr>
             ))}
           </tbody>

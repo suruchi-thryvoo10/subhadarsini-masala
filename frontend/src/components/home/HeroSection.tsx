@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 
 export const HeroSection: React.FC = () => {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-spice-cream via-spice-beige/40 to-spice-cream py-16 md:py-24">
+    <section className="relative overflow-hidden bg-spice-cream py-16 md:py-24">
       {/* Background Subtle Shapes */}
       <div className="absolute -top-24 -right-24 w-96 h-96 bg-spice-saffron/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-spice-red/10 rounded-full blur-3xl pointer-events-none" />
@@ -86,7 +86,7 @@ export const HeroSection: React.FC = () => {
                 </div>
                 <div>
                   <span className="font-serif font-bold text-spice-brown text-sm block">NABL Lab Certified</span>
-                  <span className="text-xs text-spice-brown/60">Batch verification enabled</span>
+                  <span className="text-xs text-ink-500">Batch verification enabled</span>
                 </div>
               </div>
 

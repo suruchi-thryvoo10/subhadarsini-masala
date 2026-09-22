@@ -43,7 +43,7 @@ export const WholesalePage: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left Column Text */}
           <div className="space-y-6">
-            <span className="inline-flex items-center gap-2 bg-spice-saffron/15 text-spice-saffron text-xs font-bold px-3.5 py-1.5 rounded-full uppercase tracking-wider">
+            <span className="inline-flex items-center gap-2 bg-brand-50 text-spice-red text-xs font-bold px-3.5 py-1.5 rounded-full uppercase tracking-wider">
               <Building2 className="w-4 h-4" /> Institutional & Bulk Distribution
             </span>
             <h1 className="font-serif text-4xl sm:text-5xl font-bold text-spice-brown leading-tight">
@@ -70,7 +70,7 @@ export const WholesalePage: React.FC = () => {
             <div className="p-4 bg-white rounded-2xl border border-spice-brown/10 flex items-center gap-4">
               <PhoneCall className="w-8 h-8 text-spice-red" />
               <div>
-                <span className="text-xs text-spice-brown/60 block">Direct Wholesale Desk</span>
+                <span className="text-xs text-ink-500 block">Direct Wholesale Desk</span>
                 <span className="font-serif font-bold text-lg text-spice-brown">+91 94370 12345 / wholesale@subhadarshini.com</span>
               </div>
             </div>
@@ -80,7 +80,7 @@ export const WholesalePage: React.FC = () => {
           <div className="bg-white rounded-3xl p-6 md:p-10 border border-spice-brown/10 shadow-xl">
             {submitted ? (
               <div className="text-center py-12 space-y-4">
-                <CheckCircle2 className="w-16 h-16 text-green-600 mx-auto" />
+                <CheckCircle2 className="w-16 h-16 text-spice-red mx-auto" />
                 <h2 className="font-serif text-2xl font-bold text-spice-brown">Enquiry Submitted!</h2>
                 <p className="text-xs text-spice-brown/70">
                   Thank you for your interest. Our institutional sales lead will reach out to you within 24 business hours.

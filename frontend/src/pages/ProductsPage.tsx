@@ -161,7 +161,7 @@ export const ProductsPage: React.FC = () => {
                 <option value="rating">Top Rated</option>
                 <option value="newest">New Arrivals</option>
               </select>
-              <ArrowUpDown className="w-3 h-3 text-spice-brown/60 absolute right-3 top-3 pointer-events-none" />
+              <ArrowUpDown className="w-3 h-3 text-ink-500 absolute right-3 top-3 pointer-events-none" />
             </div>
           </div>
         </div>

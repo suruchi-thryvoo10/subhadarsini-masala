@@ -211,7 +211,7 @@ export const CheckoutPage: React.FC = () => {
                       />
                       <div>
                         <span className="font-bold text-xs text-spice-brown block">{m.label}</span>
-                        <span className="text-[11px] text-spice-brown/60">{m.desc}</span>
+                        <span className="text-[11px] text-ink-500">{m.desc}</span>
                       </div>
                     </div>
                   </label>
@@ -238,7 +238,7 @@ export const CheckoutPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setStep(1)}
-                  className="text-xs text-spice-brown/60 hover:underline font-bold"
+                  className="text-xs text-ink-500 hover:underline font-bold"
                 >
                   ← Back to Address
                 </button>

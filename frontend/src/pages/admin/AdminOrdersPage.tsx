@@ -46,7 +46,7 @@ export const AdminOrdersPage: React.FC = () => {
     <div className="bg-spice-cream min-h-screen p-6 md:p-10 space-y-6">
       <div>
         <h1 className="font-serif text-3xl font-bold text-spice-brown">Order Workflow Management</h1>
-        <p className="text-xs text-spice-brown/60">Update order status pipeline (Confirmed → Processing → Packed → Shipped → Delivered).</p>
+        <p className="text-xs text-ink-500">Update order status pipeline (Confirmed → Processing → Packed → Shipped → Delivered).</p>
       </div>
 
       <div className="bg-white rounded-3xl p-6 border border-spice-brown/10 shadow-sm overflow-x-auto">
@@ -67,7 +67,7 @@ export const AdminOrdersPage: React.FC = () => {
                 <td className="p-3">{ord.shippingAddress?.name} ({ord.shippingAddress?.city})</td>
                 <td className="p-3 font-serif font-bold text-spice-red">₹{ord.pricing?.totalAmount}</td>
                 <td className="p-3">
-                  <span className="bg-spice-saffron/15 text-spice-saffron font-bold px-2.5 py-1 rounded-full uppercase">
+                  <span className="bg-brand-50 text-spice-red font-bold px-2.5 py-1 rounded-full uppercase">
                     {ord.orderStatus}
                   </span>
                 </td>

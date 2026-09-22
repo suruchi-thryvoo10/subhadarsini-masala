@@ -27,7 +27,7 @@ export const AdminProductsPage: React.FC = () => {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="font-serif text-3xl font-bold text-spice-brown">Product Management</h1>
-          <p className="text-xs text-spice-brown/60">Create, edit, and update spice variants and stock levels.</p>
+          <p className="text-xs text-ink-500">Create, edit, and update spice variants and stock levels.</p>
         </div>
       </div>
 

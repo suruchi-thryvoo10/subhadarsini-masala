@@ -13,14 +13,14 @@
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #FAF6EE;
+  background: #F5EBED;
 }
 ::-webkit-scrollbar-thumb {
-  background: #E06D27;
+  background: #BF1D3A;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #8B261D;
+  background: #9D152E;
 }
 
 /* Horizontally scrollable strips (category chips) keep the gesture, drop the bar */

@@ -45,11 +45,11 @@ export const RegisterPage: React.FC = () => {
       <div className="bg-white rounded-3xl p-8 md:p-10 max-w-md w-full border border-spice-brown/10 shadow-xl space-y-6">
         <div className="text-center space-y-2">
           <h1 className="font-serif text-2xl font-bold text-spice-brown">Create Account</h1>
-          <p className="text-xs text-spice-brown/60">Join Subhadarshini Spices for fast order tracking and wishlist.</p>
+          <p className="text-xs text-ink-500">Join Subhadarshini Spices for fast order tracking and wishlist.</p>
         </div>
 
         {errorMsg && (
-          <div className="p-3 bg-red-50 text-red-700 text-xs rounded-xl flex items-center gap-2">
+          <div className="p-3 bg-brand-50 text-spice-red text-xs rounded-xl flex items-center gap-2">
             <AlertCircle className="w-4 h-4 shrink-0" />
             <span>{errorMsg}</span>
           </div>
@@ -108,7 +108,7 @@ export const RegisterPage: React.FC = () => {
           </button>
         </form>
 
-        <div className="text-center text-xs text-spice-brown/60 pt-4 border-t border-spice-brown/10">
+        <div className="text-center text-xs text-ink-500 pt-4 border-t border-spice-brown/10">
           Already have an account? <Link to="/login" className="text-spice-red font-bold hover:underline">Sign In</Link>
         </div>
       </div>

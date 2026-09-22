@@ -23,7 +23,7 @@ export const AdminBatchesPage: React.FC = () => {
     <div className="bg-spice-cream min-h-screen p-6 md:p-10 space-y-6">
       <div>
         <h1 className="font-serif text-3xl font-bold text-spice-brown">Batch Quality Certificate Management</h1>
-        <p className="text-xs text-spice-brown/60">Issue and manage public batch traceability certificates.</p>
+        <p className="text-xs text-ink-500">Issue and manage public batch traceability certificates.</p>
       </div>
 
       <div className="bg-white rounded-3xl p-6 border border-spice-brown/10 shadow-sm overflow-x-auto">
@@ -44,7 +44,7 @@ export const AdminBatchesPage: React.FC = () => {
                 <td className="p-3 font-bold">{b.productName}</td>
                 <td className="p-3">{new Date(b.mfgDate).toLocaleDateString()}</td>
                 <td className="p-3 font-mono">{b.qualityReport?.certificateNumber}</td>
-                <td className="p-3 font-bold text-green-700">{b.qualityReport?.purityScore}</td>
+                <td className="p-3 font-bold text-spice-red">{b.qualityReport?.purityScore}</td>
               </tr>
             ))}
           </tbody>

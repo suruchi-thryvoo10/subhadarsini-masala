@@ -60,7 +60,7 @@ export const CareersPage: React.FC = () => {
               <div key={job._id} className="bg-white rounded-3xl p-6 border border-spice-brown/10 shadow-sm space-y-4">
                 <div className="flex items-start justify-between">
                   <div>
-                    <span className="bg-spice-saffron/15 text-spice-saffron font-bold text-[10px] px-2.5 py-1 rounded-full uppercase">
+                    <span className="bg-brand-50 text-spice-red font-bold text-[10px] px-2.5 py-1 rounded-full uppercase">
                       {job.department}
                     </span>
                     <h3 className="font-serif font-bold text-xl text-spice-brown mt-2">{job.title}</h3>
@@ -73,7 +73,7 @@ export const CareersPage: React.FC = () => {
                   </button>
                 </div>
 
-                <div className="flex items-center gap-4 text-xs text-spice-brown/60">
+                <div className="flex items-center gap-4 text-xs text-ink-500">
                   <span className="flex items-center gap-1"><MapPin className="w-3.5 h-3.5 text-spice-saffron" /> {job.location}</span>
                   <span className="flex items-center gap-1"><Briefcase className="w-3.5 h-3.5 text-spice-saffron" /> {job.type}</span>
                   <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5 text-spice-saffron" /> Exp: {job.experience}</span>
@@ -94,7 +94,7 @@ export const CareersPage: React.FC = () => {
               {selectedJob ? (
                 submitted ? (
                   <div className="text-center py-8 text-xs text-spice-brown space-y-2">
-                    <CheckCircle2 className="w-12 h-12 text-green-600 mx-auto" />
+                    <CheckCircle2 className="w-12 h-12 text-spice-red mx-auto" />
                     <p className="font-bold">Application Received!</p>
                     <p className="text-spice-brown/70">Our HR team will review your application for {selectedJob.title}.</p>
                   </div>
@@ -125,7 +125,7 @@ export const CareersPage: React.FC = () => {
                   </form>
                 )
               ) : (
-                <p className="text-xs text-spice-brown/60 text-center py-8">Select a job position from the left to start your application.</p>
+                <p className="text-xs text-ink-500 text-center py-8">Select a job position from the left to start your application.</p>
               )}
             </div>
           </div>

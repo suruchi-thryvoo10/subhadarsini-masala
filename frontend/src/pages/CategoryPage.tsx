@@ -79,8 +79,8 @@ export const CategoryPage: React.FC = () => {
   return (
     <div className="bg-spice-cream min-h-screen">
       {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-spice-brown via-spice-brown to-spice-dark text-white">
-        <div className="absolute inset-0 opacity-[0.07] bg-[radial-gradient(circle_at_20%_30%,white,transparent_45%),radial-gradient(circle_at_80%_70%,white,transparent_45%)]" />
+      <section className="relative overflow-hidden bg-spice-brown text-white">
+        
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20 grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-10 items-center">
           <Reveal from="right">
@@ -110,7 +110,7 @@ export const CategoryPage: React.FC = () => {
 
             <div className="flex flex-wrap items-center gap-x-5 gap-y-2 mt-6">
               {highlights.map((point) => (
-                <span key={point} className="inline-flex items-center gap-1.5 text-[11px] font-bold text-spice-beige/90">
+                <span key={point} className="inline-flex items-center gap-1.5 text-[11px] font-bold text-spice-cream">
                   <CheckCircle2 className="w-3.5 h-3.5 text-spice-turmeric shrink-0" />
                   {point}
                 </span>

@@ -65,7 +65,7 @@ export const ProductGallery: React.FC<ProductGalleryProps> = ({ images, productN
         onMouseEnter={() => !reduceMotion && setIsZooming(true)}
         onMouseLeave={() => setIsZooming(false)}
         onMouseMove={handlePointerMove}
-        className="group relative aspect-square rounded-2xl overflow-hidden bg-gradient-to-b from-white to-spice-cream/50 border border-spice-brown/10 cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-spice-saffron"
+        className="group relative aspect-square rounded-2xl overflow-hidden bg-spice-cream border border-spice-brown/10 cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-spice-saffron"
       >
         <AnimatePresence mode="wait" initial={false}>
           <motion.img

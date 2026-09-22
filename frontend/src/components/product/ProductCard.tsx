@@ -38,7 +38,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
     <div className="group bg-white rounded-2xl border border-spice-brown/10 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between overflow-hidden">
       {/* Product Image Box */}
-      <div className="relative aspect-[5/4] sm:aspect-square overflow-hidden bg-gradient-to-b from-white to-spice-cream/40 p-4 flex items-center justify-center border-b border-spice-brown/5">
+      <div className="relative aspect-[5/4] sm:aspect-square overflow-hidden bg-spice-cream p-4 flex items-center justify-center border-b border-spice-brown/5">
         <img
           src={productImageUrl(product)}
           onError={handleImageError}
@@ -63,7 +63,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             </span>
           )}
           {product.isFeatured && (
-            <span className="bg-spice-saffron text-white font-bold text-[10px] px-2 py-0.5 rounded-full tracking-wider uppercase shadow">
+            <span className="bg-white text-spice-red border border-spice-red/30 font-bold text-[10px] px-2 py-0.5 rounded-full tracking-wider uppercase shadow">
               Bestseller
             </span>
           )}
@@ -99,7 +99,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             <div className="flex items-center gap-1 text-spice-brown/80 font-bold">
               <Star className="w-3.5 h-3.5 fill-spice-turmeric text-spice-turmeric" />
               <span>{product.ratingAvg || 4.9}</span>
-              <span className="text-spice-brown/40 text-[10px]">({product.ratingCount || 45})</span>
+              <span className="text-ink-500 text-[10px]">({product.ratingCount || 45})</span>
             </div>
           </div>
 
@@ -144,7 +144,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                   ₹{selectedVariant?.discountPrice || selectedVariant?.price || '—'}
                 </span>
                 {selectedVariant?.discountPrice && (
-                  <span className="text-xs text-spice-brown/40 line-through font-medium">
+                  <span className="text-xs text-ink-500 line-through font-medium">
                     ₹{selectedVariant.price}
                   </span>
                 )}
@@ -156,9 +156,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               disabled={isOutOfStock}
               className={`px-3.5 py-2 rounded-xl text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm ${
                 isOutOfStock
-                  ? 'bg-spice-brown/30 cursor-not-allowed'
+                  ? 'bg-surface-300 text-ink-600 cursor-not-allowed'
                   : justAdded
-                  ? 'bg-green-600'
+                  ? 'bg-spice-red'
                   : 'bg-spice-brown hover:bg-spice-red'
               }`}
             >

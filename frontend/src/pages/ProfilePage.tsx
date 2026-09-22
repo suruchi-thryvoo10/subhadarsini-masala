@@ -42,15 +42,15 @@ export const ProfilePage: React.FC = () => {
         {/* User Card */}
         <div className="bg-white rounded-3xl p-6 md:p-8 border border-spice-brown/10 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-full bg-spice-red text-spice-turmeric font-serif text-3xl font-bold flex items-center justify-center">
+            <div className="w-16 h-16 rounded-full bg-spice-red text-white font-serif text-3xl font-bold flex items-center justify-center">
               {user.name[0]}
             </div>
             <div>
-              <span className="bg-spice-saffron/15 text-spice-saffron font-bold text-[10px] px-2.5 py-0.5 rounded-full uppercase">
+              <span className="bg-brand-50 text-spice-red font-bold text-[10px] px-2.5 py-0.5 rounded-full uppercase">
                 {user.role}
               </span>
               <h1 className="font-serif font-bold text-2xl text-spice-brown mt-1">{user.name}</h1>
-              <p className="text-xs text-spice-brown/60">{user.email} • {user.phone || 'No phone registered'}</p>
+              <p className="text-xs text-ink-500">{user.email} • {user.phone || 'No phone registered'}</p>
             </div>
           </div>
           <button
@@ -70,14 +70,14 @@ export const ProfilePage: React.FC = () => {
           {loadingOrders ? (
             <div className="h-32 bg-spice-cream animate-pulse rounded-2xl" />
           ) : orders.length === 0 ? (
-            <p className="text-xs text-spice-brown/60 py-4">No past orders found.</p>
+            <p className="text-xs text-ink-500 py-4">No past orders found.</p>
           ) : (
             <div className="space-y-4">
               {orders.map((ord) => (
                 <div key={ord._id} className="p-4 rounded-2xl border border-spice-brown/10 bg-spice-cream/40 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                   <div>
                     <span className="font-serif font-bold text-sm text-spice-brown block">Order #{ord.orderNumber}</span>
-                    <span className="text-[11px] text-spice-brown/60">
+                    <span className="text-[11px] text-ink-500">
                       Date: {new Date(ord.createdAt).toLocaleDateString()} • Items: {ord.items.length}
                     </span>
                   </div>
@@ -102,7 +102,7 @@ export const ProfilePage: React.FC = () => {
             <Heart className="w-5 h-5 text-spice-red" /> Saved Wishlist ({wishlist.length})
           </h2>
           {wishlist.length === 0 ? (
-            <p className="text-xs text-spice-brown/60 bg-white p-8 rounded-3xl text-center border border-spice-brown/10">
+            <p className="text-xs text-ink-500 bg-white p-8 rounded-3xl text-center border border-spice-brown/10">
               Your wishlist is currently empty. Click the heart icon on any product to save it here.
             </p>
           ) : (

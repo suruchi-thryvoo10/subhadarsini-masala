@@ -90,7 +90,7 @@ export const ContactPage: React.FC = () => {
               href="https://wa.me/919437012345?text=Hello%20Subhadarshini%20Spices%2C%20I%20have%20an%20enquiry."
               target="_blank"
               rel="noreferrer"
-              className="bg-emerald-600 hover:bg-emerald-700 text-white p-6 rounded-3xl shadow-lg flex items-center justify-between transition-all"
+              className="bg-spice-brown hover:bg-spice-red text-white p-6 rounded-3xl shadow-lg flex items-center justify-between transition-all"
             >
               <div className="flex items-center gap-3">
                 <MessageSquare className="w-8 h-8" />
@@ -107,7 +107,7 @@ export const ContactPage: React.FC = () => {
           <div className="bg-white rounded-3xl p-6 md:p-10 border border-spice-brown/10 shadow-sm">
             {submitted ? (
               <div className="text-center py-12 space-y-4">
-                <CheckCircle2 className="w-16 h-16 text-green-600 mx-auto" />
+                <CheckCircle2 className="w-16 h-16 text-spice-red mx-auto" />
                 <h3 className="font-serif font-bold text-2xl text-spice-brown">Message Sent!</h3>
                 <p className="text-xs text-spice-brown/70">We have received your enquiry and our team will get back to you shortly.</p>
                 <button
@@ -124,7 +124,7 @@ export const ContactPage: React.FC = () => {
                 </h3>
 
                 {errorMsg && (
-                  <div className="p-3 bg-red-50 text-red-700 text-xs rounded-xl border border-red-200">
+                  <div className="p-3 bg-brand-50 text-spice-red text-xs rounded-xl border border-brand-200">
                     {errorMsg}
                   </div>
                 )}

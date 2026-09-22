@@ -77,21 +77,22 @@ export const HomePage: React.FC = () => {
                 <StaggerItem key={cat._id}>
                 <Link
                   to={`/category/${cat.slug}`}
-                  className="group relative rounded-2xl overflow-hidden shadow-md aspect-[4/5] flex flex-col justify-end p-4 sm:p-5 border border-spice-brown/10 hover:shadow-xl transition-all bg-spice-beige/40"
+                  className="group relative rounded-2xl overflow-hidden shadow-md aspect-[4/5] flex flex-col justify-end border border-spice-brown/10 hover:shadow-xl transition-all bg-spice-beige"
                 >
                   <img
                     src={resolveImageUrl(cat.image)}
                     onError={handleImageError}
                     alt={cat.name}
                     loading="lazy"
-                    className="absolute inset-0 w-full h-full object-contain p-5 pb-16 group-hover:scale-105 transition-transform duration-700"
+                    className="absolute inset-0 w-full h-full object-contain p-5 pb-24 group-hover:scale-105 transition-transform duration-700"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-spice-dark/90 via-spice-dark/20 to-transparent" />
-                  <div className="relative z-10 text-white">
+                  {/* Solid caption panel rather than a wash over the whole tile,
+                      so the packaging stays visible and the label stays legible. */}
+                  <div className="relative z-10 bg-spice-dark px-4 py-3">
                     <h3 className="font-serif font-bold text-base sm:text-lg text-spice-cream group-hover:text-spice-turmeric transition-colors leading-tight">
                       {cat.name}
                     </h3>
-                    <span className="inline-flex items-center gap-1 text-[11px] font-bold text-spice-saffron mt-2">
+                    <span className="inline-flex items-center gap-1 text-[11px] font-bold text-spice-turmeric mt-1.5">
                       Explore <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                     </span>
                   </div>
@@ -150,7 +151,7 @@ export const HomePage: React.FC = () => {
       <ManufacturingStoryTimeline />
 
       {/* 6. Batch Quality Traceability CTA Banner */}
-      <section className="py-16 bg-gradient-to-r from-spice-red via-spice-saffron to-spice-red text-white">
+      <section className="py-16 bg-spice-red text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-between gap-8">
           <Reveal from="right" className="space-y-3 max-w-2xl">
             <div className="inline-flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full text-xs font-bold">
@@ -159,7 +160,7 @@ export const HomePage: React.FC = () => {
             <h2 className="font-serif text-3xl sm:text-4xl font-bold text-spice-cream">
               Verify Your Spice Package Authenticity & Lab Reports
             </h2>
-            <p className="text-sm text-spice-beige/90 leading-relaxed">
+            <p className="text-sm text-spice-cream leading-relaxed">
               Every Subhadarshini product package carries a unique batch number. Check purity scores, active curcumin levels, and lab test certificates in real-time.
             </p>
           </Reveal>
@@ -203,7 +204,7 @@ export const HomePage: React.FC = () => {
                 </div>
                 <div className="p-6 flex-1 flex flex-col justify-between">
                   <div>
-                    <div className="flex items-center gap-4 text-xs text-spice-brown/60 mb-2">
+                    <div className="flex items-center gap-4 text-xs text-ink-500 mb-2">
                       <span className="flex items-center gap-1 font-semibold">
                         <Clock className="w-3.5 h-3.5 text-spice-saffron" /> {recipe.cookTimeMinutes} mins
                       </span>
@@ -259,7 +260,7 @@ export const HomePage: React.FC = () => {
               }
             ].map((test, idx) => (
               <div key={idx} className="bg-white/5 border border-white/10 p-6 rounded-2xl flex flex-col justify-between">
-                <p className="text-sm text-spice-beige/90 italic leading-relaxed">"{test.review}"</p>
+                <p className="text-sm text-spice-cream italic leading-relaxed">"{test.review}"</p>
                 <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
                   <div>
                     <h4 className="font-serif font-bold text-sm text-spice-cream">{test.name}</h4>

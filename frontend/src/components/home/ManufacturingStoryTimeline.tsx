@@ -46,7 +46,7 @@ export const ManufacturingStoryTimeline: React.FC = () => {
                   <div className="w-10 h-10 rounded-xl bg-spice-saffron/10 text-spice-saffron flex items-center justify-center font-bold group-hover:bg-spice-red group-hover:text-white transition-colors">
                     <Icon className="w-5 h-5" />
                   </div>
-                  <span className="font-serif text-xs font-bold text-spice-brown/30">0{idx + 1}</span>
+                  <span className="font-serif text-xs font-bold text-ink-500">0{idx + 1}</span>
                 </div>
                 <h3 className="font-serif font-bold text-lg text-spice-brown mb-1">{step.title}</h3>
                 <p className="text-xs text-spice-brown/70 leading-relaxed">{step.desc}</p>

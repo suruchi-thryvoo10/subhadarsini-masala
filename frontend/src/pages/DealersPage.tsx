@@ -50,7 +50,7 @@ export const DealersPage: React.FC = () => {
               placeholder="Search by city, pincode, or dealer name..."
               className="w-full pl-10 pr-4 py-3 text-xs font-bold rounded-2xl bg-spice-cream border border-spice-brown/15 focus:outline-none focus:border-spice-saffron"
             />
-            <Search className="w-4 h-4 text-spice-brown/40 absolute left-3.5 top-3.5" />
+            <Search className="w-4 h-4 text-ink-500 absolute left-3.5 top-3.5" />
           </div>
           <button
             onClick={fetchDealers}
@@ -66,10 +66,10 @@ export const DealersPage: React.FC = () => {
             <div key={dealer._id} className="bg-white rounded-3xl p-6 border border-spice-brown/10 shadow-sm flex flex-col justify-between hover:shadow-lg transition-all">
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <span className="bg-spice-saffron/15 text-spice-saffron font-bold text-[10px] px-2.5 py-1 rounded-full uppercase">
+                  <span className="bg-brand-50 text-spice-red font-bold text-[10px] px-2.5 py-1 rounded-full uppercase">
                     {dealer.city}, {dealer.state}
                   </span>
-                  <span className="text-xs font-mono font-bold text-spice-brown/40">PIN: {dealer.pincode}</span>
+                  <span className="text-xs font-mono font-bold text-ink-500">PIN: {dealer.pincode}</span>
                 </div>
 
                 <h3 className="font-serif font-bold text-xl text-spice-brown mb-3">{dealer.name}</h3>

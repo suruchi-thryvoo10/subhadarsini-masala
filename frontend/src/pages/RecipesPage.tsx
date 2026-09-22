@@ -58,7 +58,7 @@ export const RecipesPage: React.FC = () => {
     <div className="bg-spice-cream min-h-screen py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Banner with AI Assistant CTA */}
-        <div className="bg-gradient-to-r from-spice-brown via-spice-dark to-spice-brown text-white rounded-3xl p-8 md:p-12 mb-12 flex flex-col md:flex-row items-center justify-between gap-8 border border-white/10 shadow-xl">
+        <div className="bg-spice-brown text-white rounded-3xl p-8 md:p-12 mb-12 flex flex-col md:flex-row items-center justify-between gap-8 border border-white/10 shadow-xl">
           <div className="space-y-3 max-w-xl">
             <span className="inline-flex items-center gap-2 bg-spice-saffron/20 text-spice-turmeric text-xs font-bold px-3.5 py-1 rounded-full uppercase tracking-wider">
               <Sparkles className="w-4 h-4 animate-pulse" /> AI Recipe Assistant
@@ -100,7 +100,7 @@ export const RecipesPage: React.FC = () => {
 
                 <div className="p-6 flex-1 flex flex-col justify-between">
                   <div>
-                    <div className="flex items-center gap-4 text-xs text-spice-brown/60 mb-2">
+                    <div className="flex items-center gap-4 text-xs text-ink-500 mb-2">
                       <span className="flex items-center gap-1 font-semibold">
                         <Clock className="w-3.5 h-3.5 text-spice-saffron" /> {recipe.cookTimeMinutes} mins
                       </span>
@@ -126,7 +126,7 @@ export const RecipesPage: React.FC = () => {
                   {/* Required Products Link */}
                   {recipe.requiredProducts && recipe.requiredProducts.length > 0 && (
                     <div className="pt-4 border-t border-spice-brown/10">
-                      <span className="text-[11px] font-bold text-spice-brown/60 uppercase block mb-2">Required Spices:</span>
+                      <span className="text-[11px] font-bold text-ink-500 uppercase block mb-2">Required Spices:</span>
                       <div className="flex items-center gap-2">
                         {recipe.requiredProducts.map((p) => (
                           <button
@@ -153,7 +153,7 @@ export const RecipesPage: React.FC = () => {
           <div className="bg-white rounded-3xl max-w-2xl w-full p-6 md:p-8 max-h-[90vh] overflow-y-auto relative shadow-2xl">
             <button
               onClick={() => setAiModalOpen(false)}
-              className="absolute top-6 right-6 p-2 text-spice-brown/40 hover:text-spice-red"
+              className="absolute top-6 right-6 p-2 text-ink-500 hover:text-spice-red"
             >
               <X className="w-5 h-5" />
             </button>

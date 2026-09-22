@@ -16,7 +16,7 @@ export const CartPage: React.FC = () => {
     return (
       <div className="bg-spice-cream min-h-screen py-20">
         <div className="max-w-3xl mx-auto px-4 text-center">
-          <div className="w-20 h-20 rounded-full bg-spice-saffron/15 text-spice-saffron flex items-center justify-center mx-auto mb-6">
+          <div className="w-20 h-20 rounded-full bg-brand-50 text-spice-red flex items-center justify-center mx-auto mb-6">
             <ShoppingBag className="w-10 h-10" />
           </div>
           <h2 className="font-serif text-3xl font-bold text-spice-brown mb-3">Your Shopping Cart is Empty</h2>
@@ -89,7 +89,7 @@ export const CartPage: React.FC = () => {
 
                   <button
                     onClick={() => removeFromCart(item.productId, item.variantSize)}
-                    className="p-2 text-spice-brown/40 hover:text-spice-red transition-colors"
+                    className="p-2 text-ink-500 hover:text-spice-red transition-colors"
                     title="Remove item"
                   >
                     <Trash2 className="w-4 h-4" />
@@ -101,7 +101,7 @@ export const CartPage: React.FC = () => {
             <div className="flex justify-between items-center pt-2">
               <button
                 onClick={clearCart}
-                className="text-xs text-spice-brown/60 hover:text-spice-red font-semibold"
+                className="text-xs text-ink-500 hover:text-spice-red font-semibold"
               >
                 Clear Entire Cart
               </button>
@@ -149,7 +149,7 @@ export const CartPage: React.FC = () => {
                 Proceed to Checkout <ArrowRight className="w-4 h-4" />
               </button>
 
-              <div className="pt-2 text-[11px] text-spice-brown/60 flex items-center justify-center gap-1">
+              <div className="pt-2 text-[11px] text-ink-500 flex items-center justify-center gap-1">
                 <ShieldCheck className="w-3.5 h-3.5 text-spice-saffron" /> Secure 256-Bit Payment Encryption
               </div>
             </div>

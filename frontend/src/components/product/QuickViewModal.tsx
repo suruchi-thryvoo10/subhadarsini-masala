@@ -107,7 +107,7 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({ product, onClose
                 <div className="flex items-center gap-1.5 mt-2">
                   <Star className="w-3.5 h-3.5 fill-spice-turmeric text-spice-turmeric" />
                   <span className="text-xs font-bold text-spice-brown">{product.ratingAvg || 4.8}</span>
-                  <span className="text-[11px] text-spice-brown/40">({product.ratingCount || 24})</span>
+                  <span className="text-[11px] text-ink-500">({product.ratingCount || 24})</span>
                 </div>
 
                 <p className="text-xs text-spice-brown/75 mt-3 leading-relaxed line-clamp-4">
@@ -142,7 +142,7 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({ product, onClose
                     ₹{variant?.discountPrice || variant?.price || '—'}
                   </span>
                   {variant?.discountPrice && (
-                    <span className="text-sm text-spice-brown/40 line-through">₹{variant.price}</span>
+                    <span className="text-sm text-ink-500 line-through">₹{variant.price}</span>
                   )}
                 </div>
 
@@ -152,9 +152,9 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({ product, onClose
                     disabled={isUnavailable}
                     className={`flex-1 py-3 px-4 rounded-xl text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm transition-all ${
                       isUnavailable
-                        ? 'bg-spice-brown/30 cursor-not-allowed'
+                        ? 'bg-surface-300 text-ink-600 cursor-not-allowed'
                         : justAdded
-                        ? 'bg-green-600'
+                        ? 'bg-spice-red'
                         : 'bg-spice-brown hover:bg-spice-red'
                     }`}
                   >

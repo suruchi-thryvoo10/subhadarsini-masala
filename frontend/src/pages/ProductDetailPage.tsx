@@ -70,7 +70,7 @@ export const ProductDetailPage: React.FC = () => {
     <div className="bg-spice-cream min-h-screen py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb */}
-        <nav className="text-xs text-spice-brown/60 mb-6 flex items-center gap-2">
+        <nav className="text-xs text-ink-500 mb-6 flex items-center gap-2">
           <Link to="/" className="hover:underline">Home</Link> / 
           <Link to="/products" className="hover:underline">Products</Link> / 
           <span className="text-spice-brown font-bold">{product.name}</span>
@@ -99,7 +99,7 @@ export const ProductDetailPage: React.FC = () => {
           <div className="flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between">
-                <span className="bg-spice-saffron/15 text-spice-saffron font-bold text-xs px-3 py-1 rounded-full uppercase">
+                <span className="bg-brand-50 text-spice-red font-bold text-xs px-3 py-1 rounded-full uppercase">
                   {typeof product.category === 'object' ? product.category.name : 'Spice Blend'}
                 </span>
                 <button
@@ -122,7 +122,7 @@ export const ProductDetailPage: React.FC = () => {
                   ))}
                 </div>
                 <span className="text-xs font-bold text-spice-brown">{product.ratingAvg || 4.8}</span>
-                <span className="text-xs text-spice-brown/40">({product.ratingCount || 24} Verified Reviews)</span>
+                <span className="text-xs text-ink-500">({product.ratingCount || 24} Verified Reviews)</span>
               </div>
 
               {/* Price */}
@@ -131,7 +131,7 @@ export const ProductDetailPage: React.FC = () => {
                   ₹{selectedVariant.discountPrice || selectedVariant.price}
                 </span>
                 {selectedVariant.discountPrice && (
-                  <span className="text-base text-spice-brown/40 line-through">
+                  <span className="text-base text-ink-500 line-through">
                     ₹{selectedVariant.price}
                   </span>
                 )}
@@ -187,7 +187,7 @@ export const ProductDetailPage: React.FC = () => {
                 <button
                   onClick={() => addToCart(product, selectedVariant.size, quantity)}
                   disabled={isUnavailable}
-                  className="flex-1 py-3.5 px-6 rounded-xl bg-spice-brown hover:bg-spice-red disabled:bg-spice-brown/30 disabled:cursor-not-allowed text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg transition-all"
+                  className="flex-1 py-3.5 px-6 rounded-xl bg-spice-brown hover:bg-spice-red disabled:bg-surface-300 disabled:text-ink-600 disabled:cursor-not-allowed text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg transition-all"
                 >
                   <ShoppingBag className="w-4 h-4" />
                   {product.isUpcoming ? 'Coming Soon' : selectedVariant.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
@@ -284,7 +284,7 @@ export const ProductDetailPage: React.FC = () => {
       <div className="lg:hidden sticky bottom-0 inset-x-0 z-30 bg-white/95 backdrop-blur-sm border-t border-spice-brown/15 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
         <div className="px-4 py-3 flex items-center gap-3">
           <div className="min-w-0 flex-1">
-            <p className="text-[11px] font-bold text-spice-brown/60 truncate">
+            <p className="text-[11px] font-bold text-ink-500 truncate">
               {selectedVariant.size} pack
             </p>
             <div className="flex items-baseline gap-1.5">
@@ -292,7 +292,7 @@ export const ProductDetailPage: React.FC = () => {
                 ₹{selectedVariant.discountPrice || selectedVariant.price}
               </span>
               {selectedVariant.discountPrice && (
-                <span className="text-[11px] text-spice-brown/40 line-through">
+                <span className="text-[11px] text-ink-500 line-through">
                   ₹{selectedVariant.price}
                 </span>
               )}
@@ -310,7 +310,7 @@ export const ProductDetailPage: React.FC = () => {
           <button
             onClick={() => addToCart(product, selectedVariant.size, quantity)}
             disabled={isUnavailable}
-            className="flex-1 max-w-[55%] py-3 px-4 rounded-xl bg-spice-brown disabled:bg-spice-brown/30 disabled:cursor-not-allowed text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm"
+            className="flex-1 max-w-[55%] py-3 px-4 rounded-xl bg-spice-brown disabled:bg-surface-300 disabled:text-ink-600 disabled:cursor-not-allowed text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm"
           >
             <ShoppingBag className="w-4 h-4" />
             {product.isUpcoming ? 'Coming Soon' : selectedVariant.stock === 0 ? 'Sold Out' : 'Add to Cart'}

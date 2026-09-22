@@ -4,7 +4,7 @@ import { ShieldCheck, MapPin, Phone, Mail, Award, Heart } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="bg-spice-dark text-white pt-16 pb-8 border-t-4 border-spice-saffron">
+    <footer className="bg-spice-dark text-white pt-16 pb-8 border-t-4 border-spice-turmeric">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-white/10">
           {/* Brand Info */}
@@ -23,7 +23,7 @@ export const Footer: React.FC = () => {
               <div className="flex items-center gap-1.5 text-xs text-spice-turmeric font-semibold">
                 <ShieldCheck className="w-4 h-4" /> Lab Certified Pure
               </div>
-              <div className="flex items-center gap-1.5 text-xs text-spice-saffron font-semibold">
+              <div className="flex items-center gap-1.5 text-xs text-spice-turmeric font-semibold">
                 <Award className="w-4 h-4" /> FSSAI Licensed
               </div>
             </div>
@@ -35,11 +35,11 @@ export const Footer: React.FC = () => {
               Explore
             </h4>
             <ul className="space-y-2.5 text-xs text-spice-beige/80">
-              <li><Link to="/products" className="hover:text-spice-saffron transition-colors">All Products</Link></li>
-              <li><Link to="/products?category=blended-spices" className="hover:text-spice-saffron transition-colors">Blended Masalas</Link></li>
-              <li><Link to="/products?category=basic-spices" className="hover:text-spice-saffron transition-colors">Basic Ground Spices</Link></li>
-              <li><Link to="/recipes" className="hover:text-spice-saffron transition-colors">Recipes & AI Assistant</Link></li>
-              <li><Link to="/quality" className="hover:text-spice-saffron transition-colors">Batch Quality Lookup</Link></li>
+              <li><Link to="/products" className="hover:text-spice-turmeric transition-colors">All Products</Link></li>
+              <li><Link to="/products?category=blended-spices" className="hover:text-spice-turmeric transition-colors">Blended Masalas</Link></li>
+              <li><Link to="/products?category=basic-spices" className="hover:text-spice-turmeric transition-colors">Basic Ground Spices</Link></li>
+              <li><Link to="/recipes" className="hover:text-spice-turmeric transition-colors">Recipes & AI Assistant</Link></li>
+              <li><Link to="/quality" className="hover:text-spice-turmeric transition-colors">Batch Quality Lookup</Link></li>
             </ul>
           </div>
 
@@ -49,11 +49,11 @@ export const Footer: React.FC = () => {
               Company
             </h4>
             <ul className="space-y-2.5 text-xs text-spice-beige/80">
-              <li><Link to="/about" className="hover:text-spice-saffron transition-colors">Our Story & Manufacturing</Link></li>
-              <li><Link to="/dealers" className="hover:text-spice-saffron transition-colors">Dealer Locator</Link></li>
-              <li><Link to="/wholesale" className="hover:text-spice-saffron transition-colors">B2B & Wholesale Enquiries</Link></li>
-              <li><Link to="/careers" className="hover:text-spice-saffron transition-colors">Careers</Link></li>
-              <li><Link to="/contact" className="hover:text-spice-saffron transition-colors">Contact Us</Link></li>
+              <li><Link to="/about" className="hover:text-spice-turmeric transition-colors">Our Story & Manufacturing</Link></li>
+              <li><Link to="/dealers" className="hover:text-spice-turmeric transition-colors">Dealer Locator</Link></li>
+              <li><Link to="/wholesale" className="hover:text-spice-turmeric transition-colors">B2B & Wholesale Enquiries</Link></li>
+              <li><Link to="/careers" className="hover:text-spice-turmeric transition-colors">Careers</Link></li>
+              <li><Link to="/contact" className="hover:text-spice-turmeric transition-colors">Contact Us</Link></li>
             </ul>
           </div>
 
@@ -64,15 +64,15 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-3 text-xs text-spice-beige/80">
               <li className="flex items-start gap-2">
-                <MapPin className="w-4 h-4 text-spice-saffron shrink-0 mt-0.5" />
+                <MapPin className="w-4 h-4 text-spice-turmeric shrink-0 mt-0.5" />
                 <span>Industrial Estate, Choudhury Bazar, Cuttack, Odisha - 753001, India</span>
               </li>
               <li className="flex items-center gap-2">
-                <Phone className="w-4 h-4 text-spice-saffron shrink-0" />
+                <Phone className="w-4 h-4 text-spice-turmeric shrink-0" />
                 <span>+91 94370 12345 / 0671 2304958</span>
               </li>
               <li className="flex items-center gap-2">
-                <Mail className="w-4 h-4 text-spice-saffron shrink-0" />
+                <Mail className="w-4 h-4 text-spice-turmeric shrink-0" />
                 <span>care@subhadarshini.com</span>
               </li>
             </ul>
