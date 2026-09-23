@@ -33,3 +33,30 @@
     display: none;
   }
 }
+
+/* Continuous product rail.
+   The track renders the set twice and moves exactly -50%, so the second copy
+   lands where the first started: a seamless loop with no jump. Paused on hover
+   and on keyboard focus, and disabled entirely for reduced-motion users. */
+.marquee {
+  overflow: hidden;
+}
+.marquee-track {
+  animation: marquee-scroll 45s linear infinite;
+  will-change: transform;
+}
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee-scroll {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+@media (max-width: 640px) {
+  .marquee-track { animation-duration: 32s; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee { overflow-x: auto; }
+  .marquee-track { animation: none; }
+}

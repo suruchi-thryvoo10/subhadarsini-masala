@@ -18,12 +18,11 @@ import {
   Phone
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
-import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
+import { CONTACT } from '../../config/contact';
 
 export const Navbar: React.FC = () => {
   const { user, logout, isAdmin } = useAuth();
-  const { cartCount, cartTotal } = useCart();
   const { wishlist } = useWishlist();
   const navigate = useNavigate();
   const location = useLocation();
@@ -68,12 +67,12 @@ export const Navbar: React.FC = () => {
           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 sm:gap-4 text-[11px] sm:text-xs">
             <span className="flex items-center gap-1.5 text-spice-cream">
               <MapPin className="w-3.5 h-3.5 text-spice-turmeric shrink-0" />
-              <span>Choudhury Bazar, Cuttack, Odisha - 753001</span>
+              <span>{CONTACT.addressShort}</span>
             </span>
             <span className="hidden md:inline text-spice-cream/70">•</span>
             <span className="hidden md:flex items-center gap-1.5 text-spice-cream">
               <Phone className="w-3.5 h-3.5 text-spice-turmeric shrink-0" />
-              <span>+91 94370 12345 / 0671 2304958</span>
+              <a href={CONTACT.phoneHref} className="hover:text-spice-turmeric transition-colors">{CONTACT.phoneDisplay}</a>
             </span>
           </div>
 
@@ -222,27 +221,6 @@ export const Navbar: React.FC = () => {
               {wishlist.length > 0 && (
                 <span className="absolute -top-1 -right-1 bg-spice-saffron text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
                   {wishlist.length}
-                </span>
-              )}
-            </Link>
-
-            {/* Cart Button */}
-            <Link
-              to="/cart"
-              title="Shopping Cart"
-              className="relative flex items-center gap-1.5 p-2 text-spice-brown hover:text-spice-red transition-colors rounded-full hover:bg-spice-brown/5 group"
-            >
-              <div className="relative flex items-center justify-center">
-                <ShoppingBag className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                {cartCount > 0 && (
-                  <span className="absolute -top-1.5 -right-1.5 bg-spice-red text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-xs">
-                    {cartCount}
-                  </span>
-                )}
-              </div>
-              {cartTotal > 0 && (
-                <span className="hidden xl:inline text-xs font-bold text-spice-brown group-hover:text-spice-red">
-                  ₹{cartTotal}
                 </span>
               )}
             </Link>

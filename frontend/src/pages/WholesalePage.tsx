@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { CONTACT } from '../config/contact';
 import { Building2, CheckCircle2, Send, ShieldCheck, PhoneCall } from 'lucide-react';
 import { getApiUrl } from '../config/api';
 
@@ -71,7 +72,7 @@ export const WholesalePage: React.FC = () => {
               <PhoneCall className="w-8 h-8 text-spice-red" />
               <div>
                 <span className="text-xs text-ink-500 block">Direct Wholesale Desk</span>
-                <span className="font-serif font-bold text-lg text-spice-brown">+91 94370 12345 / wholesale@subhadarshini.com</span>
+                <span className="font-serif font-bold text-lg text-spice-brown">{CONTACT.phoneDisplay} · {CONTACT.email}</span>
               </div>
             </div>
           </div>

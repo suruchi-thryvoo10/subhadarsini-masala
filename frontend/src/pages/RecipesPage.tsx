@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Recipe } from '../types';
-import { ChefHat, Sparkles, Clock, ShoppingBag, Search, X } from 'lucide-react';
-import { useCart } from '../context/CartContext';
+import { ChefHat, Sparkles, Clock, Search, X } from 'lucide-react';
 import { getApiUrl } from '../config/api';
 import { resolveImageUrl, handleImageError } from '../config/images';
+import { displayProductName } from '../utils/format';
 
 export const RecipesPage: React.FC = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
@@ -15,7 +16,6 @@ export const RecipesPage: React.FC = () => {
   const [aiLoading, setAiLoading] = useState(false);
   const [aiSuggestions, setAiSuggestions] = useState<any[]>([]);
 
-  const { addToCart } = useCart();
 
   useEffect(() => {
     fetchRecipes();
@@ -136,13 +136,13 @@ export const RecipesPage: React.FC = () => {
                       <span className="text-[11px] font-bold text-ink-500 uppercase block mb-2">Required Spices:</span>
                       <div className="flex items-center gap-2">
                         {recipe.requiredProducts.map((p) => (
-                          <button
+                          <Link
                             key={p._id}
-                            onClick={() => addToCart(p, p.variants[0]?.size || '100g')}
+                            to={`/products/${p.slug}`}
                             className="px-3 py-1.5 bg-spice-cream hover:bg-spice-saffron/20 border border-spice-brown/15 text-spice-brown text-[11px] font-bold rounded-xl flex items-center gap-1"
                           >
-                            <ShoppingBag className="w-3 h-3 text-spice-red" /> {p.name}
-                          </button>
+                            {displayProductName(p.name)}
+                          </Link>
                         ))}
                       </div>
                     </div>
@@ -208,13 +208,13 @@ export const RecipesPage: React.FC = () => {
                     <h4 className="font-serif font-bold text-xs text-spice-red uppercase">Recommended Spices:</h4>
                     <div className="flex flex-wrap gap-2">
                       {sug.suggestedProducts?.map((sp: any) => (
-                        <button
+                        <Link
                           key={sp._id}
-                          onClick={() => addToCart(sp, sp.variants?.[0]?.size || '100g')}
+                          to={`/products/${sp.slug}`}
                           className="px-3 py-1.5 bg-white border border-spice-brown/20 rounded-xl text-xs font-bold text-spice-brown flex items-center gap-1.5 shadow-sm hover:border-spice-saffron"
                         >
-                          <ShoppingBag className="w-3.5 h-3.5 text-spice-red" /> Shop {sp.name}
-                        </button>
+                          {displayProductName(sp.name)}
+                        </Link>
                       ))}
                     </div>
 

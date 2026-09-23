@@ -9,21 +9,8 @@ import { getApiUrl } from '../config/api';
 export const ProfilePage: React.FC = () => {
   const { user, token, logout } = useAuth();
   const { wishlist } = useWishlist();
-  const [orders, setOrders] = useState<any[]>([]);
-  const [loadingOrders, setLoadingOrders] = useState(true);
 
-  useEffect(() => {
-    if (token) {
-      fetch(getApiUrl('/api/v1/orders/my-orders'), {
-        headers: { Authorization: `Bearer ${token}` }
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.success) setOrders(data.data);
-        })
-        .finally(() => setLoadingOrders(false));
-    }
-  }, [token]);
+  
 
   if (!user) {
     return (
@@ -59,41 +46,6 @@ export const ProfilePage: React.FC = () => {
           >
             <LogOut className="w-4 h-4" /> Sign Out
           </button>
-        </div>
-
-        {/* My Orders */}
-        <div className="bg-white rounded-3xl p-6 md:p-8 border border-spice-brown/10 shadow-sm space-y-6">
-          <h2 className="font-serif font-bold text-xl text-spice-brown flex items-center gap-2 border-b border-spice-brown/10 pb-4">
-            <Package className="w-5 h-5 text-spice-saffron" /> My Order History
-          </h2>
-
-          {loadingOrders ? (
-            <div className="h-32 bg-spice-cream animate-pulse rounded-2xl" />
-          ) : orders.length === 0 ? (
-            <p className="text-xs text-ink-500 py-4">No past orders found.</p>
-          ) : (
-            <div className="space-y-4">
-              {orders.map((ord) => (
-                <div key={ord._id} className="p-4 rounded-2xl border border-spice-brown/10 bg-spice-cream/40 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                  <div>
-                    <span className="font-serif font-bold text-sm text-spice-brown block">Order #{ord.orderNumber}</span>
-                    <span className="text-[11px] text-ink-500">
-                      Date: {new Date(ord.createdAt).toLocaleDateString()} • Items: {ord.items.length}
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <span className="font-serif font-bold text-base text-spice-red">₹{ord.pricing.totalAmount}</span>
-                    <Link
-                      to={`/orders/track/${ord.orderNumber}`}
-                      className="px-4 py-2 bg-spice-brown text-white font-bold text-xs rounded-xl hover:bg-spice-red"
-                    >
-                      Track Order
-                    </Link>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
         </div>
 
         {/* Saved Wishlist */}

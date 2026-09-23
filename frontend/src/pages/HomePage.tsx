@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { HeroSection } from '../components/home/HeroSection';
 import { TrustStrip } from '../components/home/TrustStrip';
 import { ManufacturingStoryTimeline } from '../components/home/ManufacturingStoryTimeline';
-import { ProductCard } from '../components/product/ProductCard';
+import { ProductMarquee } from '../components/home/ProductMarquee';
 import { Product, Recipe, Category } from '../types';
 import { ArrowRight, Star, Clock, ChefHat, ShieldCheck, Quote } from 'lucide-react';
 import { fetchApi } from '../config/api';
@@ -97,7 +97,7 @@ export const HomePage: React.FC = () => {
                   {/* Solid caption panel rather than a wash over the whole tile,
                       so the packaging stays visible and the label stays legible. */}
                   <div className="relative z-10 bg-spice-dark px-4 py-3">
-                    <h3 className="font-serif font-bold text-base sm:text-lg text-spice-cream group-hover:text-spice-turmeric transition-colours leading-tight">
+                    <h3 className="font-serif font-bold text-base sm:text-lg text-spice-cream group-hover:text-spice-turmeric transition-colors leading-tight">
                       {cat.name}
                     </h3>
                     <span className="inline-flex items-center gap-1 text-[11px] font-bold text-spice-turmeric mt-1.5">
@@ -125,9 +125,9 @@ export const HomePage: React.FC = () => {
           </Reveal>
 
           {loading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="flex gap-8 overflow-hidden">
               {[1, 2, 3, 4].map((n) => (
-                <div key={n} className="h-80 bg-white/60 animate-pulse rounded-2xl" />
+                <div key={n} className="w-[260px] sm:w-[320px] lg:w-[360px] h-80 shrink-0 bg-white/60 animate-pulse rounded-2xl" />
               ))}
             </div>
           ) : error ? (
@@ -144,13 +144,7 @@ export const HomePage: React.FC = () => {
               </button>
             </div>
           ) : (
-            <StaggerGroup className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-              {featuredProducts.map((product) => (
-                <StaggerItem key={product._id}>
-                  <ProductCard product={product} />
-                </StaggerItem>
-              ))}
-            </StaggerGroup>
+            <ProductMarquee products={featuredProducts} />
           )}
         </div>
       </section>

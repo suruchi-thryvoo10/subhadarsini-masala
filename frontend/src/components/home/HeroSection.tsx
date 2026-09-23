@@ -49,7 +49,7 @@ export const HeroSection: React.FC = () => {
               </Link>
               <Link
                 to="/recipes"
-                className="px-7 py-3.5 rounded-full bg-white border border-spice-brown/20 text-spice-brown font-bold text-sm hover:bg-spice-beige transition-colours"
+                className="px-7 py-3.5 rounded-full bg-white border border-spice-brown/20 text-spice-brown font-bold text-sm hover:bg-spice-beige transition-colors"
               >
                 Discover Recipes
               </Link>

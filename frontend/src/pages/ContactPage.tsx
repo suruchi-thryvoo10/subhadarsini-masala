@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { MapPin, Phone, Mail, MessageSquare, CheckCircle2, Send } from 'lucide-react';
 import { getApiUrl } from '../config/api';
+import { CONTACT } from '../config/contact';
 
 export const ContactPage: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
@@ -69,25 +70,25 @@ export const ContactPage: React.FC = () => {
                   <MapPin className="w-5 h-5 text-spice-saffron shrink-0 mt-0.5" />
                   <div>
                     <strong className="block text-spice-brown">Subhadarshini Spices & Foods Pvt. Ltd.</strong>
-                    <span>Plot 104, Industrial Estate, Choudhury Bazar, Cuttack, Odisha - 753001, India</span>
+                    <span>{CONTACT.addressFull}</span>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-3">
                   <Phone className="w-5 h-5 text-spice-saffron shrink-0" />
-                  <span>+91 94370 12345 / 0671 2304958</span>
+                  <a href={CONTACT.phoneHref} className="hover:text-spice-red">{CONTACT.phoneDisplay}</a>
                 </div>
 
                 <div className="flex items-center gap-3">
                   <Mail className="w-5 h-5 text-spice-saffron shrink-0" />
-                  <span>care@subhadarshini.com / sales@subhadarshini.com</span>
+                  <a href={CONTACT.emailHref} className="hover:text-spice-red">{CONTACT.email}</a>
                 </div>
               </div>
             </div>
 
             {/* WhatsApp CTA */}
             <a
-              href="https://wa.me/919437012345?text=Hello%20Subhadarshini%20Spices%2C%20I%20have%20an%20enquiry."
+              href={CONTACT.whatsapp}
               target="_blank"
               rel="noreferrer"
               className="bg-spice-brown hover:bg-spice-red text-white p-6 rounded-3xl shadow-lg flex items-center justify-between transition-all"

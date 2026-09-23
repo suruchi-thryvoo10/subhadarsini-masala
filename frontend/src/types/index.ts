@@ -78,13 +78,6 @@ export interface Product {
   manufacturerInfo: string;
 }
 
-export interface CartItem {
-  productId: string;
-  product: Product;
-  variantSize: string;
-  quantity: number;
-  unitPrice: number;
-}
 
 export interface BatchVerification {
   _id: string;

@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Product } from '../types';
-import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
-import { Star, ShieldCheck, Heart, ShoppingBag, Truck, Check, RefreshCw } from 'lucide-react';
+import { Star, ShieldCheck, Heart, Store, Truck, MessageSquare } from 'lucide-react';
 import { ProductCard } from '../components/product/ProductCard';
 import { getApiUrl } from '../config/api';
 import { ProductGallery } from '../components/product/ProductGallery';
@@ -12,13 +11,11 @@ import { displayProductName, formatRating } from '../utils/format';
 
 export const ProductDetailPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
-  const { addToCart } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
 
   const [product, setProduct] = useState<Product | null>(null);
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
-  const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -180,32 +177,20 @@ export const ProductDetailPage: React.FC = () => {
                 </div>
               </div>
 
-              {/* Quantity Selector & Add to Cart */}
-              <div className="mt-8 flex items-center gap-4">
-                <div className="flex items-center border border-spice-brown/20 rounded-xl bg-spice-cream overflow-hidden">
-                  <button
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="px-3 py-2 text-spice-brown font-bold hover:bg-spice-brown/10"
-                  >
-                    -
-                  </button>
-                  <span className="px-4 py-2 font-bold text-xs text-spice-brown">{quantity}</span>
-                  <button
-                    onClick={() => setQuantity(quantity + 1)}
-                    className="px-3 py-2 text-spice-brown font-bold hover:bg-spice-brown/10"
-                  >
-                    +
-                  </button>
-                </div>
-
-                <button
-                  onClick={() => addToCart(product, selectedVariant.size, quantity)}
-                  disabled={isUnavailable}
-                  className="flex-1 py-3.5 px-6 rounded-xl bg-spice-brown hover:bg-spice-red disabled:bg-surface-300 disabled:text-ink-600 disabled:cursor-not-allowed text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg transition-all"
+              {/* Where to buy — Subhadarshini sells through stockists, not online */}
+              <div className="mt-8 flex flex-col sm:flex-row items-stretch gap-3">
+                <Link
+                  to="/dealers"
+                  className="flex-1 py-3.5 px-6 rounded-xl bg-spice-brown hover:bg-spice-red text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg transition-all"
                 >
-                  <ShoppingBag className="w-4 h-4" />
-                  {product.isUpcoming ? 'Coming Soon' : selectedVariant.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
-                </button>
+                  <Store className="w-4 h-4" /> Find a Stockist
+                </Link>
+                <Link
+                  to="/contact"
+                  className="flex-1 py-3.5 px-6 rounded-xl border border-spice-brown/25 bg-white hover:border-spice-red text-spice-brown font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all"
+                >
+                  <MessageSquare className="w-4 h-4" /> Enquire
+                </Link>
               </div>
 
               {/* Trust Badges */}
@@ -321,14 +306,12 @@ export const ProductDetailPage: React.FC = () => {
             <Heart className={`w-4 h-4 ${inWishlist ? 'fill-spice-red text-spice-red' : ''}`} />
           </button>
 
-          <button
-            onClick={() => addToCart(product, selectedVariant.size, quantity)}
-            disabled={isUnavailable}
-            className="flex-1 max-w-[55%] py-3 px-4 rounded-xl bg-spice-brown disabled:bg-surface-300 disabled:text-ink-600 disabled:cursor-not-allowed text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm"
+          <Link
+            to="/dealers"
+            className="flex-1 max-w-[55%] py-3 px-4 rounded-xl bg-spice-brown text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm"
           >
-            <ShoppingBag className="w-4 h-4" />
-            {product.isUpcoming ? 'Coming Soon' : selectedVariant.stock === 0 ? 'Sold Out' : 'Add to Cart'}
-          </button>
+            <Store className="w-4 h-4" /> Find a Stockist
+          </Link>
         </div>
       </div>
     </div>

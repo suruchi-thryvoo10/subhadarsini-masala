@@ -947,7 +947,7 @@ export const autoSeedIfEmpty = async () => {
             testedAt: new Date('2026-08-16'),
             certificateNumber: 'NABL-SD-2026-001'
           },
-          facilityLocation: 'Subhadarshini Food Processing Plant, Unit 2, Industrial Estate, Cuttack, Odisha',
+          facilityLocation: 'Subhadarshini Agro Pvt Ltd, Bhubaneswar, Odisha',
           isVerified: true
         },
         {

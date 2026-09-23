@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ShieldCheck, MapPin, Phone, Mail, Award, Heart } from 'lucide-react';
+import { ShieldCheck, MapPin, Phone, Mail, Award, Heart, Instagram, Facebook, Globe } from 'lucide-react';
+import { CONTACT } from '../../config/contact';
 
 export const Footer: React.FC = () => {
   return (
@@ -65,17 +66,52 @@ export const Footer: React.FC = () => {
             <ul className="space-y-3 text-xs text-spice-beige/80">
               <li className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 text-spice-turmeric shrink-0 mt-0.5" />
-                <span>Industrial Estate, Choudhury Bazar, Cuttack, Odisha - 753001, India</span>
+                <span>{CONTACT.addressFull}</span>
               </li>
               <li className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-spice-turmeric shrink-0" />
-                <span>+91 94370 12345 / 0671 2304958</span>
+                <a href={CONTACT.phoneHref} className="hover:text-spice-turmeric transition-colors">{CONTACT.phoneDisplay}</a>
               </li>
               <li className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-spice-turmeric shrink-0" />
-                <span>care@subhadarshini.com</span>
+                <a href={CONTACT.emailHref} className="hover:text-spice-turmeric transition-colors">{CONTACT.email}</a>
+              </li>
+              <li className="flex items-center gap-2">
+                <Globe className="w-4 h-4 text-spice-turmeric shrink-0" />
+                <a
+                  href={CONTACT.websiteHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-spice-turmeric transition-colors"
+                >
+                  {CONTACT.website}
+                </a>
               </li>
             </ul>
+
+            <h4 className="font-serif font-bold text-spice-turmeric text-sm tracking-wider uppercase mt-8 mb-4">
+              Connect On
+            </h4>
+            <div className="flex items-center gap-3">
+              <a
+                href={CONTACT.social.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Subhadarshini on Instagram"
+                className="w-10 h-10 rounded-full border border-spice-cream/20 flex items-center justify-center text-spice-cream hover:bg-spice-red hover:border-spice-red transition-colors"
+              >
+                <Instagram className="w-4 h-4" />
+              </a>
+              <a
+                href={CONTACT.social.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Subhadarshini on Facebook"
+                className="w-10 h-10 rounded-full border border-spice-cream/20 flex items-center justify-center text-spice-cream hover:bg-spice-red hover:border-spice-red transition-colors"
+              >
+                <Facebook className="w-4 h-4" />
+              </a>
+            </div>
           </div>
         </div>
 

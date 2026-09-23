@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, ShoppingBag, Star, Check, Eye } from 'lucide-react';
+import { Heart, Star, Eye, ArrowRight } from 'lucide-react';
 import { Product } from '../../types';
-import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
 import { productImageUrl, handleImageError } from '../../config/images';
-import { useQuickView } from '../../context/QuickViewContext';
 import { displayProductName, formatRating } from '../../utils/format';
 
 interface ProductCardProps {
@@ -13,12 +11,9 @@ interface ProductCardProps {
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const { addToCart } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
-  const { openQuickView } = useQuickView();
 
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
-  const [justAdded, setJustAdded] = useState(false);
 
   const variants = product.variants || [];
   const selectedVariant = variants[selectedVariantIndex] || variants[0];
@@ -27,14 +22,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const discountPercent = selectedVariant?.discountPrice
     ? Math.round(((selectedVariant.price - selectedVariant.discountPrice) / selectedVariant.price) * 100)
     : 0;
-  const isOutOfStock = product.isUpcoming || !selectedVariant || selectedVariant.stock === 0;
-
-  const handleAddToCart = () => {
-    if (!selectedVariant) return;
-    addToCart(product, selectedVariant.size);
-    setJustAdded(true);
-    setTimeout(() => setJustAdded(false), 1500);
-  };
 
   return (
     <div className="group bg-white rounded-2xl border border-spice-brown/10 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between overflow-hidden">
@@ -82,12 +69,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         {/* Quick View is a pointer affordance: desktop hover only, and still
             reachable by keyboard. Touch devices tap straight through to the
             product page instead. */}
-        <button
-          onClick={() => openQuickView(product)}
+        <Link
+          to={`/products/${product.slug}`}
           className="absolute inset-x-3 bottom-3 z-10 py-2 rounded-xl bg-spice-brown/90 backdrop-blur-sm text-white text-[11px] font-bold uppercase tracking-wider hidden lg:flex items-center justify-center gap-1.5 shadow-lg opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 focus-visible:opacity-100 focus-visible:translate-y-0 transition-all duration-300 hover:bg-spice-red"
         >
           <Eye className="w-3.5 h-3.5" /> Quick View
-        </button>
+        </Link>
       </div>
 
       {/* Content */}
@@ -142,7 +129,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             </div>
           </div>
 
-          {/* Price & Add to Cart */}
+          {/* Price & action */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
             <div>
               <div className="flex items-baseline gap-1.5">
@@ -157,29 +144,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               </div>
             </div>
 
-            <button
-              onClick={handleAddToCart}
-              disabled={isOutOfStock}
-              className={`w-full sm:w-auto px-3.5 py-2 rounded-xl text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all shadow-sm ${
-                isOutOfStock
-                  ? 'bg-surface-300 text-ink-600 cursor-not-allowed'
-                  : justAdded
-                  ? 'bg-spice-red'
-                  : 'bg-spice-brown hover:bg-spice-red'
-              }`}
+            <Link
+              to={`/products/${product.slug}`}
+              className="w-full sm:w-auto px-3.5 py-2 rounded-xl bg-spice-brown hover:bg-spice-red text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all shadow-sm"
             >
-              {isOutOfStock ? (
-                <>{product.isUpcoming ? 'Coming Soon' : 'Out of Stock'}</>
-              ) : justAdded ? (
-                <>
-                  <Check className="w-3.5 h-3.5" /> Added
-                </>
-              ) : (
-                <>
-                  <ShoppingBag className="w-3.5 h-3.5" /> Add to Cart
-                </>
-              )}
-            </button>
+              {product.isUpcoming ? 'Coming Soon' : 'View Details'}
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
           </div>
         </div>
       </div>

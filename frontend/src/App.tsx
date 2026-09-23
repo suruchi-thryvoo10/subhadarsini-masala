@@ -2,15 +2,11 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
-import { QuickViewModal } from './components/product/QuickViewModal';
-import { useQuickView } from './context/QuickViewContext';
+import { WhatsAppButton } from './components/layout/WhatsAppButton';
 
 import { HomePage } from './pages/HomePage';
 import { ProductsPage } from './pages/ProductsPage';
 import { ProductDetailPage } from './pages/ProductDetailPage';
-import { CartPage } from './pages/CartPage';
-import { CheckoutPage } from './pages/CheckoutPage';
-import { OrderTrackPage } from './pages/OrderTrackPage';
 import { QualityPage } from './pages/QualityPage';
 import { RecipesPage } from './pages/RecipesPage';
 import { DealersPage } from './pages/DealersPage';
@@ -30,8 +26,6 @@ import { AdminBatchesPage } from './pages/admin/AdminBatchesPage';
 import { AdminAuditLogsPage } from './pages/admin/AdminAuditLogsPage';
 
 export const App: React.FC = () => {
-  const { product, closeQuickView } = useQuickView();
-
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
@@ -41,9 +35,6 @@ export const App: React.FC = () => {
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/products/:slug" element={<ProductDetailPage />} />
           <Route path="/category/:slug" element={<CategoryPage />} />
-          <Route path="/cart" element={<CartPage />} />
-          <Route path="/checkout" element={<CheckoutPage />} />
-          <Route path="/orders/track/:orderNumber" element={<OrderTrackPage />} />
           <Route path="/quality" element={<QualityPage />} />
           <Route path="/recipes" element={<RecipesPage />} />
           <Route path="/dealers" element={<DealersPage />} />
@@ -64,7 +55,7 @@ export const App: React.FC = () => {
         </Routes>
       </main>
       <Footer />
-      <QuickViewModal product={product} onClose={closeQuickView} />
+      <WhatsAppButton />
     </div>
   );
 };

@@ -39,7 +39,7 @@ const BatchSchema = new Schema<IBatch>(
       certificateNumber: { type: String, required: true },
       notes: { type: String }
     },
-    facilityLocation: { type: String, default: 'Subhadarshini Central Processing Plant, Industrial Estate, Odisha' },
+    facilityLocation: { type: String, default: 'Subhadarshini Agro Pvt Ltd, Bhubaneswar, Odisha' },
     isVerified: { type: Boolean, default: true }
   },
   { timestamps: true }
