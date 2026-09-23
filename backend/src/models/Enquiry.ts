@@ -7,7 +7,7 @@ export interface IEnquiryNote {
 }
 
 export interface IEnquiry extends Document {
-  type: 'WHOLESALE' | 'GENERAL';
+  type: 'WHOLESALE' | 'GENERAL' | 'DEALER';
   name: string;
   businessName?: string;
   email: string;
@@ -15,6 +15,9 @@ export interface IEnquiry extends Document {
   city: string;
   state: string;
   expectedVolume?: string;
+  address?: string;
+  pincode?: string;
+  businessType?: string;
   message: string;
   status: 'NEW' | 'CONTACTED' | 'NEGOTIATING' | 'CONVERTED' | 'CLOSED';
   notes: IEnquiryNote[];
@@ -30,7 +33,7 @@ const EnquiryNoteSchema = new Schema<IEnquiryNote>({
 
 const EnquirySchema = new Schema<IEnquiry>(
   {
-    type: { type: String, enum: ['WHOLESALE', 'GENERAL'], default: 'WHOLESALE', index: true },
+    type: { type: String, enum: ['WHOLESALE', 'GENERAL', 'DEALER'], default: 'WHOLESALE', index: true },
     name: { type: String, required: true },
     businessName: { type: String },
     email: { type: String, required: true },
@@ -38,6 +41,9 @@ const EnquirySchema = new Schema<IEnquiry>(
     city: { type: String, default: 'Not Specified' },
     state: { type: String, default: 'Not Specified' },
     expectedVolume: { type: String },
+    address: { type: String },
+    pincode: { type: String },
+    businessType: { type: String },
     message: { type: String, required: true },
     status: {
       type: String,

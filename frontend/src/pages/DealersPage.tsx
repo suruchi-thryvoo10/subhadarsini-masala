@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { MapPin, Phone, Clock, Search, Navigation } from 'lucide-react';
 import { getApiUrl } from '../config/api';
+import { BecomeDealerForm } from '../components/forms/BecomeDealerForm';
 
 export const DealersPage: React.FC = () => {
   const [dealers, setDealers] = useState<any[]>([]);
@@ -100,6 +101,11 @@ export const DealersPage: React.FC = () => {
               </a>
             </div>
           ))}
+        </div>
+
+        {/* Become a Dealer */}
+        <div className="mt-16">
+          <BecomeDealerForm />
         </div>
       </div>
     </div>

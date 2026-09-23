@@ -21,9 +21,9 @@ import { CategoryPage } from './pages/CategoryPage';
 
 import { AdminDashboardPage } from './pages/admin/AdminDashboardPage';
 import { AdminProductsPage } from './pages/admin/AdminProductsPage';
-import { AdminOrdersPage } from './pages/admin/AdminOrdersPage';
 import { AdminBatchesPage } from './pages/admin/AdminBatchesPage';
 import { AdminAuditLogsPage } from './pages/admin/AdminAuditLogsPage';
+import { AdminRecipeSubmissionsPage } from './pages/admin/AdminRecipeSubmissionsPage';
 
 export const App: React.FC = () => {
   return (
@@ -49,8 +49,8 @@ export const App: React.FC = () => {
           {/* Admin Portal Routes */}
           <Route path="/admin" element={<AdminDashboardPage />} />
           <Route path="/admin/products" element={<AdminProductsPage />} />
-          <Route path="/admin/orders" element={<AdminOrdersPage />} />
           <Route path="/admin/batches" element={<AdminBatchesPage />} />
+          <Route path="/admin/recipe-submissions" element={<AdminRecipeSubmissionsPage />} />
           <Route path="/admin/audit-logs" element={<AdminAuditLogsPage />} />
         </Routes>
       </main>

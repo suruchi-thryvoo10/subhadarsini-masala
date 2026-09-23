@@ -929,7 +929,7 @@ export const autoSeedIfEmpty = async () => {
                         testedAt: new Date('2026-08-16'),
                         certificateNumber: 'NABL-SD-2026-001'
                     },
-                    facilityLocation: 'Subhadarshini Food Processing Plant, Unit 2, Industrial Estate, Cuttack, Odisha',
+                    facilityLocation: 'Subhadarshini Agro Pvt Ltd, Bhubaneswar, Odisha',
                     isVerified: true
                 },
                 {
@@ -956,6 +956,7 @@ export const autoSeedIfEmpty = async () => {
             {
                 title: 'Traditional Odia Mamsa Kasa (Spiced Mutton Curry)',
                 slug: 'traditional-odia-mamsa-kasa',
+                heroProductSlug: 'subhadarshini-mutton-meat-masala',
                 category: 'Non-Vegetarian',
                 prepTimeMinutes: 20,
                 cookTimeMinutes: 45,
@@ -985,6 +986,7 @@ export const autoSeedIfEmpty = async () => {
             {
                 title: 'Heritage Odia Dalma (Lentils with Vegetables)',
                 slug: 'heritage-odia-dalma',
+                heroProductSlug: 'subhadarshini-heritage-odia-dalma-masala',
                 category: 'Vegetarian',
                 prepTimeMinutes: 15,
                 cookTimeMinutes: 30,
@@ -1014,6 +1016,7 @@ export const autoSeedIfEmpty = async () => {
             {
                 title: 'Machha Besara (Odia Fish Curry in Mustard)',
                 slug: 'machha-besara-odia-fish-curry',
+                heroProductSlug: 'subhadarshini-fish-curry-masala',
                 category: 'Seafood',
                 prepTimeMinutes: 15,
                 cookTimeMinutes: 25,
@@ -1043,15 +1046,28 @@ export const autoSeedIfEmpty = async () => {
         ];
         // Upsert by slug so recipes added later reach databases that were seeded
         // before them, and so corrected artwork replaces the old value.
-        for (const def of recipeDefs) {
+        const productIdBySlug = new Map(allProducts.map((p) => [p.slug, p._id]));
+        for (const rawDef of recipeDefs) {
+            const { heroProductSlug, ...def } = rawDef;
+            const heroProduct = heroProductSlug ? productIdBySlug.get(heroProductSlug) : undefined;
             const existing = await Recipe.findOne({ slug: def.slug });
             if (!existing) {
-                await Recipe.create(def);
+                await Recipe.create({ ...def, heroProduct });
             }
-            else if (existing.image !== def.image || existing.title !== def.title) {
+            else {
+                // Keep house recipes in step with this file, and make sure recipes
+                // seeded before moderation existed are explicitly published.
                 existing.image = def.image;
                 existing.title = def.title;
-                await existing.save();
+                if (!existing.status)
+                    existing.status = 'APPROVED';
+                if (!existing.source)
+                    existing.source = 'HOUSE';
+                if (heroProduct && String(existing.heroProduct || '') !== String(heroProduct)) {
+                    existing.heroProduct = heroProduct;
+                }
+                if (existing.isModified())
+                    await existing.save();
             }
         }
         // 6. Seed Dealers if empty

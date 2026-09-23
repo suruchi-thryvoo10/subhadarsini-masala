@@ -30,7 +30,7 @@ const ProductSchema = new Schema({
     ratingCount: { type: Number, default: 24 },
     shelfLife: { type: String, default: '12 Months from Manufacturing Date' },
     storageInstructions: { type: String, default: 'Store in a cool, dry place away from direct sunlight in an airtight container.' },
-    manufacturerInfo: { type: String, default: 'Subhadarshini Spices & Foods Pvt. Ltd., Industrial Estate, Odisha, India' }
+    manufacturerInfo: { type: String, default: 'Subhadarshini Agro Pvt Ltd, N3/394, IRC Village, Nayapalli, Bhubaneswar - 751015, Odisha, India' }
 }, { timestamps: true });
 ProductSchema.index({ name: 'text', shortDescription: 'text', ingredients: 'text' });
 export const Product = mongoose.model('Product', ProductSchema);

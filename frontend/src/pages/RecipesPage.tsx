@@ -5,6 +5,9 @@ import { ChefHat, Sparkles, Clock, Search, X } from 'lucide-react';
 import { getApiUrl } from '../config/api';
 import { resolveImageUrl, handleImageError } from '../config/images';
 import { displayProductName } from '../utils/format';
+import { RecipeVideo } from '../components/recipe/RecipeVideo';
+import { SubmitRecipeForm } from '../components/forms/SubmitRecipeForm';
+import { productImageUrl } from '../config/images';
 
 export const RecipesPage: React.FC = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
@@ -104,6 +107,36 @@ export const RecipesPage: React.FC = () => {
                     {recipe.category}
                   </span>
                 </div>
+
+                {/* The masala this dish is built around — the point of the recipe */}
+                {recipe.heroProduct && (
+                  <Link
+                    to={`/products/${recipe.heroProduct.slug}`}
+                    className="flex items-center gap-3 px-5 py-3 bg-spice-cream border-y border-spice-brown/10 hover:bg-spice-beige transition-colors"
+                  >
+                    <img
+                      src={productImageUrl(recipe.heroProduct)}
+                      onError={handleImageError}
+                      alt=""
+                      loading="lazy"
+                      className="w-12 h-12 object-contain shrink-0"
+                    />
+                    <span className="min-w-0">
+                      <span className="block text-[10px] font-bold uppercase tracking-wider text-spice-red">
+                        Made with
+                      </span>
+                      <span className="block font-serif font-bold text-sm text-spice-brown truncate">
+                        {displayProductName(recipe.heroProduct.name)}
+                      </span>
+                    </span>
+                  </Link>
+                )}
+
+                {recipe.videoUrl && (
+                  <div className="px-5 pt-5">
+                    <RecipeVideo url={recipe.videoUrl} poster={recipe.videoThumbnail || recipe.image} title={recipe.title} />
+                  </div>
+                )}
 
                 <div className="p-6 flex-1 flex flex-col justify-between">
                   <div>
@@ -231,6 +264,11 @@ export const RecipesPage: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Share Your Recipe */}
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+        <SubmitRecipeForm />
+      </div>
     </div>
   );
 };

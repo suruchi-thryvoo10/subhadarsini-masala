@@ -8,7 +8,10 @@ import {
   updateOrderStatus,
   getAdminBatches,
   createBatch,
-  getAuditLogs
+  getAuditLogs,
+  getRecipeSubmissions,
+  reviewRecipeSubmission,
+  getAdminEnquiries
 } from '../controllers/adminController.js';
 import { authenticateJWT, requireRole } from '../middlewares/auth.js';
 
@@ -29,6 +32,11 @@ router.put('/orders/:id/status', updateOrderStatus);
 
 router.get('/batches', getAdminBatches);
 router.post('/batches', createBatch);
+
+router.get('/recipe-submissions', getRecipeSubmissions);
+router.put('/recipe-submissions/:id/review', reviewRecipeSubmission);
+
+router.get('/enquiries', getAdminEnquiries);
 
 router.get('/audit-logs', getAuditLogs);
 

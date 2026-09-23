@@ -1,3 +1,4 @@
+import { Recipe } from '../models/Recipe.js';
 import { Product } from '../models/Product.js';
 import { Order } from '../models/Order.js';
 import { User } from '../models/User.js';
@@ -209,6 +210,60 @@ export const getAuditLogs = async (req, res, next) => {
             success: true,
             data: logs
         });
+    }
+    catch (error) {
+        next(error);
+    }
+};
+/** Community recipe submissions awaiting (or having had) review. */
+export const getRecipeSubmissions = async (req, res, next) => {
+    try {
+        const { status = 'PENDING' } = req.query;
+        const query = { source: 'COMMUNITY' };
+        if (status !== 'ALL')
+            query.status = String(status);
+        const submissions = await Recipe.find(query)
+            .populate('heroProduct', 'name slug images')
+            .sort({ createdAt: -1 });
+        res.status(200).json({ success: true, data: submissions });
+    }
+    catch (error) {
+        next(error);
+    }
+};
+/**
+ * Approve or reject a submission. Nothing a visitor submitted becomes public
+ * until this runs — the public recipe reads filter on status APPROVED.
+ */
+export const reviewRecipeSubmission = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const { status, reviewNote } = req.body;
+        if (!['APPROVED', 'REJECTED', 'PENDING'].includes(status)) {
+            throw new AppError('Status must be APPROVED, REJECTED or PENDING', 400, 'INVALID_STATUS');
+        }
+        const recipe = await Recipe.findById(id);
+        if (!recipe)
+            throw new AppError('Submission not found', 404, 'RECIPE_NOT_FOUND');
+        recipe.status = status;
+        if (reviewNote !== undefined)
+            recipe.reviewNote = reviewNote;
+        await recipe.save();
+        res.status(200).json({ success: true, message: `Submission ${status.toLowerCase()}.`, data: recipe });
+    }
+    catch (error) {
+        next(error);
+    }
+};
+/** Dealer and wholesale enquiries for the admin desk. */
+export const getAdminEnquiries = async (req, res, next) => {
+    try {
+        const { type } = req.query;
+        const query = {};
+        if (type)
+            query.type = String(type);
+        const enquiries = await Enquiry.find(query).sort({ createdAt: -1 }).limit(200);
+        res.status(200).json({ success: true, data: enquiries });
     }
     catch (error) {
         next(error);

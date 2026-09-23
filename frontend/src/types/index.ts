@@ -116,4 +116,10 @@ export interface Recipe {
   }>;
   instructions: string[];
   requiredProducts?: Product[];
+  /** The Subhadarshini masala this recipe is built around. */
+  heroProduct?: Product;
+  videoUrl?: string;
+  videoThumbnail?: string;
+  source?: 'HOUSE' | 'COMMUNITY';
+  submittedBy?: { name?: string; story?: string };
 }

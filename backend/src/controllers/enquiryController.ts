@@ -4,14 +4,25 @@ import { z } from 'zod';
 import { AppError } from '../middlewares/errorHandler.js';
 
 const enquirySchema = z.object({
-  type: z.enum(['WHOLESALE', 'GENERAL']).default('WHOLESALE'),
+  type: z.enum(['WHOLESALE', 'GENERAL', 'DEALER']).default('WHOLESALE'),
   name: z.string().min(2, 'Name is required'),
   businessName: z.string().optional(),
   email: z.string().email('Valid email is required'),
-  phone: z.string().min(7, 'Valid phone number is required'),
+  phone: z
+    .string()
+    .trim()
+    .regex(/^[+]?[\d\s-]{10,17}$/, 'Enter a valid phone number'),
   city: z.string().optional().default('Not Specified'),
   state: z.string().optional().default('Not Specified'),
   expectedVolume: z.string().optional(),
+  address: z.string().optional(),
+  pincode: z
+    .string()
+    .trim()
+    .regex(/^\d{6}$/, 'Enter a valid 6-digit pincode')
+    .optional()
+    .or(z.literal('')),
+  businessType: z.string().optional(),
   message: z.string().min(5, 'Message is required')
 });
 
