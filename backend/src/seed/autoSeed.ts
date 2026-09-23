@@ -7,7 +7,7 @@ import { Recipe } from '../models/Recipe.js';
 import { Dealer } from '../models/Dealer.js';
 import { Career } from '../models/Career.js';
 import { Review } from '../models/Review.js';
-import { PRODUCT_IMAGES, CATEGORY_IMAGES, RECIPE_IMAGES, FALLBACK_IMAGES, resolveProductImage, resolveProductImages } from '../data/productImages.js';
+import { PRODUCT_IMAGES, CATEGORY_IMAGES, RECIPE_IMAGES, FALLBACK_IMAGES, resolveProductImage, resolveProductImages, isPublishedSlug } from '../data/productImages.js';
 
 export const autoSeedIfEmpty = async () => {
   try {
@@ -324,7 +324,7 @@ export const autoSeedIfEmpty = async () => {
         ratingCount: 195
       },
       {
-        name: 'Subhadarshini Paneer Butter Masala Mix',
+        name: 'Subhadarshini Shahi Paneer Masala',
         slug: 'subhadarshini-paneer-butter-masala',
         category: blendedCat,
         shortDescription: 'Rich cashew-infused aromatic spice mix for creamy, restaurant-style paneer butter masala.',
@@ -375,7 +375,7 @@ export const autoSeedIfEmpty = async () => {
         ratingCount: 98
       },
       {
-        name: 'Subhadarshini Dal Tadka & Fry Masala',
+        name: 'Subhadarshini Punjabi Dal Tadka Mix',
         slug: 'subhadarshini-dal-tadka-masala',
         category: blendedCat,
         shortDescription: 'Smoky roasted cumin, hing, and garlic blend for dhaba-style yellow dal tadka.',
@@ -409,7 +409,7 @@ export const autoSeedIfEmpty = async () => {
         ratingCount: 145
       },
       {
-        name: 'Subhadarshini Fish Curry Masala (Machha Jhola)',
+        name: 'Subhadarshini Fish Masala (Machha Jhola)',
         slug: 'subhadarshini-fish-curry-masala',
         category: blendedCat,
         shortDescription: 'Traditional Odia mustard-fennel blend for authentic mustard fish curries.',
@@ -443,7 +443,7 @@ export const autoSeedIfEmpty = async () => {
         ratingCount: 78
       },
       {
-        name: 'Subhadarshini Sabji / Veg Curry Masala',
+        name: 'Subhadarshini Curry Powder',
         slug: 'subhadarshini-sabji-masala',
         category: blendedCat,
         shortDescription: 'All-purpose flavorful spice blend for daily vegetable stir-fries and gravies.',
@@ -883,6 +883,7 @@ export const autoSeedIfEmpty = async () => {
     // seed data and the shipped assets can never drift apart.
     for (const product of productCatalog) {
       product.images = resolveProductImages(product.slug, FALLBACK_IMAGES.ground);
+      product.isPublished = isPublishedSlug(product.slug);
     }
 
     // Smart Bulk Upsert: Create any products that don't exist yet
@@ -918,6 +919,10 @@ export const autoSeedIfEmpty = async () => {
         if (def.fullDescription && p.fullDescription !== def.fullDescription) {
           set.fullDescription = def.fullDescription;
         }
+
+        // Only genuine, photographed masalas and spices stay on the site.
+        const shouldPublish = isPublishedSlug(p.slug);
+        if (p.isPublished !== shouldPublish) set.isPublished = shouldPublish;
 
         if (Object.keys(set).length === 0) return [];
         return [{ updateOne: { filter: { _id: p._id }, update: { $set: set } } }];
@@ -1005,7 +1010,7 @@ export const autoSeedIfEmpty = async () => {
         {
           title: 'Heritage Odia Dalma (Lentils with Vegetables)',
           slug: 'heritage-odia-dalma',
-          heroProductSlug: 'subhadarshini-heritage-odia-dalma-masala',
+          heroProductSlug: 'subhadarshini-panch-phoran',
           category: 'Vegetarian',
           prepTimeMinutes: 15,
           cookTimeMinutes: 30,

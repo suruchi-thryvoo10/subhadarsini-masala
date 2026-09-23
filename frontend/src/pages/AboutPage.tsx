@@ -85,8 +85,10 @@ export const AboutPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Leadership — facts taken from subhadarshini.com/about.php */}
-      <section className="bg-white border-t border-spice-brown/10 py-16 sm:py-20">
+      {/* Leadership — facts taken from subhadarshini.com/about.php.
+          mt-20 matches the space-y-20 rhythm of the blocks above, so the cream
+          band between the two white panels reads as a section break. */}
+      <section className="bg-white border-t border-spice-brown/10 mt-20 py-16 sm:py-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl mb-12">
             <span className="text-spice-red font-bold text-xs uppercase tracking-widest block mb-2">
@@ -101,9 +103,12 @@ export const AboutPage: React.FC = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+          {/* Stacked rather than side by side: one person per row keeps the
+              portraits, headings and body text on a single baseline grid. */}
+          <div className="space-y-14 lg:space-y-20">
             {[
               {
+                label: 'Founder',
                 name: 'Saini Subhadarshini',
                 role: 'Founder & Managing Director',
                 qualification: 'B.Tech & M.Tech, Computer Science',
@@ -111,6 +116,7 @@ export const AboutPage: React.FC = () => {
                 bio: 'A technology professional turned entrepreneur, driven by a vision to deliver authentic Indian flavours through pure, hygienically processed, farm-sourced spices. She has built a state-of-the-art, fully automatic spice processing unit designed to hold quality at scale. Her vision extends beyond the business — to empower farmers and to uplift sub-urban Odia women within the supply chain.'
               },
               {
+                label: 'Co-Founder',
                 name: 'Amit Kumar Swain',
                 role: 'Director',
                 qualification: 'B.Tech, Electrical Engineering',
@@ -118,23 +124,31 @@ export const AboutPage: React.FC = () => {
                 bio: 'An electrical engineer by qualification, Amit spent the past decade building a career in the construction industry, managing projects and leading teams. That engineering discipline now underpins a modern, fully automated spice manufacturing unit — a move from designing buildings to crafting spice blends, built on the same commitment to quality and authenticity.'
               }
             ].map((person) => (
-              <article key={person.name} className="flex flex-col sm:flex-row gap-6">
-                <img
-                  src={person.photo}
-                  onError={handleImageError}
-                  alt={person.name}
-                  loading="lazy"
-                  width={700}
-                  height={700}
-                  className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl object-cover shrink-0 border border-spice-brown/10"
-                />
-                <div className="min-w-0">
-                  <h3 className="font-serif font-bold text-xl text-spice-brown">{person.name}</h3>
-                  <p className="text-xs font-bold text-spice-red uppercase tracking-wider mt-1">
-                    {person.role}
-                  </p>
-                  <p className="text-[11px] text-ink-500 mt-0.5">{person.qualification}</p>
-                  <p className="text-sm text-spice-brown/80 mt-3 leading-relaxed">{person.bio}</p>
+              <article key={person.name}>
+                <h3 className="font-serif text-2xl sm:text-3xl font-bold text-spice-brown pb-4 mb-8 border-b border-spice-brown/10">
+                  {person.label}
+                </h3>
+
+                <div className="flex flex-col sm:flex-row gap-6 sm:gap-10">
+                  <img
+                    src={person.photo}
+                    onError={handleImageError}
+                    alt={person.name}
+                    loading="lazy"
+                    width={700}
+                    height={700}
+                    className="w-40 h-40 sm:w-48 sm:h-48 rounded-2xl object-cover object-top shrink-0 border border-spice-brown/10"
+                  />
+                  <div className="min-w-0 max-w-2xl">
+                    <h4 className="font-serif font-bold text-xl sm:text-2xl text-spice-brown">
+                      {person.name}
+                    </h4>
+                    <p className="text-xs font-bold text-spice-red uppercase tracking-wider mt-1.5">
+                      {person.role}
+                    </p>
+                    <p className="text-[11px] text-ink-500 mt-1">{person.qualification}</p>
+                    <p className="text-sm text-spice-brown/80 mt-4 leading-relaxed">{person.bio}</p>
+                  </div>
                 </div>
               </article>
             ))}

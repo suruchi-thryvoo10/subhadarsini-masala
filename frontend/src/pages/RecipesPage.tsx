@@ -112,21 +112,21 @@ export const RecipesPage: React.FC = () => {
                 {recipe.heroProduct && (
                   <Link
                     to={`/products/${recipe.heroProduct.slug}`}
-                    className="flex items-center gap-3 px-5 py-3 bg-spice-cream border-y border-spice-brown/10 hover:bg-spice-beige transition-colors"
+                    className="flex items-center gap-4 px-5 py-4 bg-spice-cream border-y-2 border-spice-red/20 hover:bg-spice-beige transition-colors"
                   >
                     <img
                       src={productImageUrl(recipe.heroProduct)}
                       onError={handleImageError}
-                      alt=""
+                      alt={`${displayProductName(recipe.heroProduct.name)} pack`}
                       loading="lazy"
-                      className="w-12 h-12 object-contain shrink-0"
+                      className="w-16 h-16 object-contain shrink-0"
                     />
                     <span className="min-w-0">
-                      <span className="block text-[10px] font-bold uppercase tracking-wider text-spice-red">
-                        Made with
+                      <span className="block text-[10px] font-bold uppercase tracking-widest text-spice-red">
+                        Main Masala
                       </span>
-                      <span className="block font-serif font-bold text-sm text-spice-brown truncate">
-                        {displayProductName(recipe.heroProduct.name)}
+                      <span className="block font-serif font-bold text-base text-spice-brown leading-tight">
+                        Subhadarshini {displayProductName(recipe.heroProduct.name)}
                       </span>
                     </span>
                   </Link>

@@ -102,7 +102,7 @@ export const CATEGORY_IMAGES: Record<string, string> = {
   'blended-spices': img('chicken-masala'),
   'whole-spices': img('cumin-seeds'),
   'gourmet-seasonings': img('chaat-masala'),
-  'premium-food-items': img('soya-chunks'),
+  'premium-food-items': img('hing'),
   'upcoming-products': img('sattu-powder')
 };
 
@@ -116,3 +116,47 @@ export const resolveProductImages = (slug: string, fallback = FALLBACK_IMAGES.gr
 /** Primary (card) image for a product. */
 export const resolveProductImage = (slug: string, fallback = FALLBACK_IMAGES.ground): string =>
   resolveProductImages(slug, fallback)[0] || fallback;
+
+/**
+ * Products withdrawn from the public catalogue.
+ *
+ * Subhadarshini's site is a showcase of its own range, so a product is only
+ * listed when it has genuine Subhadarshini packaging photography and is a
+ * masala or spice. Everything here fails one of those two tests:
+ *
+ *  - not a masala or spice (soya chunks, daliya, corn flour, edible soda, sattu)
+ *  - no authentic pack photograph exists, so the card would show a placeholder
+ *    or an unbranded stock bowl
+ *  - the pack shot belongs to a different product, which would mislabel it
+ *
+ * These are unpublished rather than deleted: the records survive, and a product
+ * returns to the site the moment real packaging photography exists for it.
+ */
+export const UNPUBLISHED_SLUGS = new Set<string>([
+  // Not masalas or spices
+  'subhadarshini-soya-chunks',
+  'subhadarshini-crushed-wheat-daliya',
+  'subhadarshini-corn-flour',
+  'subhadarshini-edible-soda',
+  'subhadarshini-sattu-powder',
+
+  // No authentic pack photograph
+  'subhadarshini-black-pepper-powder',
+  'subhadarshini-whole-black-pepper',
+  'subhadarshini-green-cardamom',
+  'subhadarshini-whole-cloves',
+  'subhadarshini-heritage-odia-dalma-masala',
+  'subhadarshini-pure-amchur-powder',
+  'subhadarshini-royal-garam-masala',
+  'subhadarshini-mumbai-pav-bhaji-masala',
+  'subhadarshini-shahi-reserve-garam-masala',
+  'subhadarshini-posto-poppy-seed',
+  'subhadarshini-roasted-bhaja-jeera-lanka',
+
+  // The pack shot belongs to another product in the range
+  'subhadarshini-kitchen-king-masala',   // pack reads "Curry Powder"
+  'subhadarshini-punjabi-rajma-masala',  // pack reads "Punjabi Dal Tadka"
+  'subhadarshini-coastal-fish-fry-masala' // pack reads "Fish Masala"
+]);
+
+export const isPublishedSlug = (slug: string): boolean => !UNPUBLISHED_SLUGS.has(slug);
