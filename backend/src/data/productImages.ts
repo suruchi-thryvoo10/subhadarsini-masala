@@ -14,6 +14,13 @@ export const PRODUCT_IMAGE_BASE = '/images/products';
 
 const img = (name: string) => `${PRODUCT_IMAGE_BASE}/${name}.webp`;
 
+/**
+ * Shown when no authentic packaging photograph exists for a product yet. A
+ * branded holding card is used in preference to generic stock, so a card never
+ * implies the customer is buying something the photograph does not show.
+ */
+export const PLACEHOLDER_IMAGE = img('photo-coming-soon');
+
 /** Neutral brand imagery used where no packaging shot exists yet. */
 export const FALLBACK_IMAGES = {
   ground: img('ground-spice-generic'),
@@ -33,7 +40,7 @@ export const PRODUCT_IMAGES: Record<string, string | string[]> = {
   'subhadarshini-coriander-powder': img('coriander-powder'),
   'subhadarshini-cumin-powder': img('cumin-powder'),
   'subhadarshini-kashmiri-chilli-powder': img('kashmiri-chilli-powder'),
-  'subhadarshini-black-pepper-powder': img('black-pepper-powder'),
+  'subhadarshini-black-pepper-powder': PLACEHOLDER_IMAGE,
   'subhadarshini-pure-amchur-powder': FALLBACK_IMAGES.ground,
 
   // --- Blended Spices ---
@@ -57,9 +64,9 @@ export const PRODUCT_IMAGES: Record<string, string | string[]> = {
   // --- Whole Spices ---
   'subhadarshini-premium-cumin-seeds': img('cumin-seeds'),
   'subhadarshini-mustard-seeds': img('mustard-seeds'),
-  'subhadarshini-whole-black-pepper': img('black-peppercorns'),
-  'subhadarshini-green-cardamom': img('green-cardamom'),
-  'subhadarshini-whole-cloves': img('whole-cloves'),
+  'subhadarshini-whole-black-pepper': PLACEHOLDER_IMAGE,
+  'subhadarshini-green-cardamom': PLACEHOLDER_IMAGE,
+  'subhadarshini-whole-cloves': PLACEHOLDER_IMAGE,
   'subhadarshini-tej-patta': img('tej-patta'),
   'subhadarshini-panch-phoran': img('panch-phoran'),
   'subhadarshini-whole-red-chilli': img('red-chilli-whole'),
@@ -68,7 +75,7 @@ export const PRODUCT_IMAGES: Record<string, string | string[]> = {
   // --- Gourmet Seasonings ---
   'subhadarshini-posto-poppy-seed': FALLBACK_IMAGES.ground,
   'subhadarshini-roasted-bhaja-jeera-lanka': FALLBACK_IMAGES.ground,
-  'subhadarshini-heritage-odia-dalma-masala': img('dalma-masala'),
+  'subhadarshini-heritage-odia-dalma-masala': PLACEHOLDER_IMAGE,
   'subhadarshini-tangy-special-chaat-masala': img('chaat-masala'),
   'subhadarshini-kasuri-methi': img('kasuri-methi'),
 
