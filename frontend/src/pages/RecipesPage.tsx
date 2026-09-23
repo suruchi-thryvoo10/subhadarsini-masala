@@ -94,14 +94,15 @@ export const RecipesPage: React.FC = () => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {recipes.map((recipe) => (
-              <div key={recipe._id} className="bg-white rounded-3xl overflow-hidden border border-spice-brown/10 shadow-sm flex flex-col justify-between">
-                <div className="relative aspect-video">
+              <div key={recipe._id} className="group bg-white rounded-3xl overflow-hidden border border-spice-brown/10 shadow-sm hover:shadow-lg transition-shadow flex flex-col justify-between">
+                <div className="relative aspect-video overflow-hidden">
                   <img
                     src={resolveImageUrl(recipe.image)}
                     onError={handleImageError}
                     alt={recipe.title}
                     loading="lazy"
-                    className="w-full h-full object-cover"
+                    decoding="async"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
                   <span className="absolute top-3 left-3 bg-spice-red text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase">
                     {recipe.category}
@@ -265,8 +266,8 @@ export const RecipesPage: React.FC = () => {
         </div>
       )}
 
-      {/* Share Your Recipe */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+      {/* Share Your Recipe — its own block, clearly separated from the cards above */}
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 sm:mt-24 pb-20">
         <SubmitRecipeForm />
       </div>
     </div>

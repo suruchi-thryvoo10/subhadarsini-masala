@@ -4,6 +4,7 @@ import { HeroSection } from '../components/home/HeroSection';
 import { TrustStrip } from '../components/home/TrustStrip';
 import { ManufacturingStoryTimeline } from '../components/home/ManufacturingStoryTimeline';
 import { ProductMarquee } from '../components/home/ProductMarquee';
+import { CategoryRail } from '../components/home/CategoryRail';
 import { Product, Recipe, Category } from '../types';
 import { ArrowRight, Star, Clock, ChefHat, ShieldCheck, Quote } from 'lucide-react';
 import { fetchApi } from '../config/api';
@@ -58,7 +59,7 @@ export const HomePage: React.FC = () => {
       <TrustStrip />
 
       {/* 3. Featured Categories */}
-      <section className="py-20 bg-spice-cream">
+      <section className="py-20 bg-spice-cream overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Reveal className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-12">
             <div>
@@ -77,39 +78,9 @@ export const HomePage: React.FC = () => {
             </Link>
           </Reveal>
 
-          <StaggerGroup className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 sm:gap-6">
-            {(loading ? Array.from({ length: 6 }) : categories).map((cat: any, idx: number) =>
-              loading ? (
-                <div key={idx} className="aspect-[4/5] rounded-2xl bg-white/60 animate-pulse" />
-              ) : (
-                <StaggerItem key={cat._id}>
-                <Link
-                  to={`/category/${cat.slug}`}
-                  className="group relative rounded-2xl overflow-hidden shadow-md aspect-[4/5] flex flex-col justify-end border border-spice-brown/10 hover:shadow-xl transition-all bg-spice-beige"
-                >
-                  <img
-                    src={resolveImageUrl(cat.image)}
-                    onError={handleImageError}
-                    alt={cat.name}
-                    loading="lazy"
-                    className="absolute inset-0 w-full h-full object-contain p-5 pb-24 group-hover:scale-105 transition-transform duration-700"
-                  />
-                  {/* Solid caption panel rather than a wash over the whole tile,
-                      so the packaging stays visible and the label stays legible. */}
-                  <div className="relative z-10 bg-spice-dark px-4 py-3">
-                    <h3 className="font-serif font-bold text-base sm:text-lg text-spice-cream group-hover:text-spice-turmeric transition-colors leading-tight">
-                      {cat.name}
-                    </h3>
-                    <span className="inline-flex items-center gap-1 text-[11px] font-bold text-spice-turmeric mt-1.5">
-                      Explore <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                    </span>
-                  </div>
-                </Link>
-                </StaggerItem>
-              )
-            )}
-          </StaggerGroup>
         </div>
+
+        <CategoryRail categories={categories} loading={loading} />
       </section>
 
       {/* 4. Featured Products */}
