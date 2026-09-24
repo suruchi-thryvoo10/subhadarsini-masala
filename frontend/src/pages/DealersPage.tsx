@@ -2,8 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { MapPin, Phone, Clock, Search, Navigation } from 'lucide-react';
 import { getApiUrl } from '../config/api';
 import { BecomeDealerForm } from '../components/forms/BecomeDealerForm';
+import { useSeo } from '../hooks/useSeo';
 
 export const DealersPage: React.FC = () => {
+  useSeo({
+    title: 'Stockists & Become a Dealer',
+    description:
+      'Find a Subhadarshini stockist near you, or apply to stock our masalas and spices in your shop or territory.',
+    path: '/dealers'
+  });
+
   const [dealers, setDealers] = useState<any[]>([]);
   const [stateFilter, setStateFilter] = useState('');
   const [searchVal, setSearchVal] = useState('');

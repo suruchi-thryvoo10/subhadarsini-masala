@@ -2,8 +2,16 @@ import React, { useState } from 'react';
 import { CONTACT } from '../config/contact';
 import { Building2, CheckCircle2, Send, ShieldCheck, PhoneCall } from 'lucide-react';
 import { getApiUrl } from '../config/api';
+import { useSeo } from '../hooks/useSeo';
 
 export const WholesalePage: React.FC = () => {
+  useSeo({
+    title: 'Wholesale & Bulk Supply',
+    description:
+      'Institutional and bulk supply of Subhadarshini stone-ground masalas and spices for retailers, distributors and food businesses.',
+    path: '/wholesale'
+  });
+
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 

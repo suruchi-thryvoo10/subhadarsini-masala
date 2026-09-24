@@ -3,8 +3,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Lock, Mail, User, AlertCircle } from 'lucide-react';
 import { getApiUrl } from '../config/api';
+import { useSeo } from '../hooks/useSeo';
 
 export const LoginPage: React.FC = () => {
+  useSeo({ title: 'Sign In', description: 'Sign in to your Subhadarshini account.', path: '/login', noIndex: true });
+
   const [email, setEmail] = useState('admin@subhadarshini.com');
   const [password, setPassword] = useState('admin123');
   const [errorMsg, setErrorMsg] = useState('');

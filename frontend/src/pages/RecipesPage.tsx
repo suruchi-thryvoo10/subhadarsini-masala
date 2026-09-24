@@ -8,6 +8,7 @@ import { displayProductName } from '../utils/format';
 import { RecipeVideo } from '../components/recipe/RecipeVideo';
 import { SubmitRecipeForm } from '../components/forms/SubmitRecipeForm';
 import { productImageUrl } from '../config/images';
+import { useSeo, SITE_URL } from '../hooks/useSeo';
 
 export const RecipesPage: React.FC = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
@@ -18,6 +19,26 @@ export const RecipesPage: React.FC = () => {
   const [ingredientsInput, setIngredientsInput] = useState('chicken, onion, tomato, garlic');
   const [aiLoading, setAiLoading] = useState(false);
   const [aiSuggestions, setAiSuggestions] = useState<any[]>([]);
+
+  useSeo({
+    title: 'Odia Recipes with Subhadarshini Masalas',
+    description:
+      'Traditional Odia recipes — Mamsa Kasa, Dalma and Machha Besara — cooked with Subhadarshini masalas, with ingredients and step-by-step method.',
+    path: '/recipes',
+    structuredData: recipes.slice(0, 6).map((r) => ({
+      '@context': 'https://schema.org',
+      '@type': 'Recipe',
+      name: r.title,
+      description: r.description,
+      image: r.image ? `${SITE_URL}${r.image}` : undefined,
+      recipeCategory: r.category,
+      totalTime: `PT${(r.prepTimeMinutes || 0) + (r.cookTimeMinutes || 0)}M`,
+      recipeYield: r.servings ? `${r.servings} servings` : undefined,
+      recipeIngredient: r.ingredients?.map((i) => [i.quantity, i.name].filter(Boolean).join(' ')),
+      recipeInstructions: r.instructions?.map((step) => ({ '@type': 'HowToStep', text: step })),
+      author: { '@type': 'Organization', name: 'Subhadarshini Spices' }
+    }))
+  });
 
 
   useEffect(() => {

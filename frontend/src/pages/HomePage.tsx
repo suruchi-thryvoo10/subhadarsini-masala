@@ -10,6 +10,8 @@ import { ArrowRight, Star, Clock, ChefHat, ShieldCheck, Quote } from 'lucide-rea
 import { fetchApi } from '../config/api';
 import { resolveImageUrl, handleImageError } from '../config/images';
 import { Reveal, StaggerGroup, StaggerItem } from '../components/ui/Reveal';
+import { useSeo, organisationSchema, SITE_URL } from '../hooks/useSeo';
+import { CONTACT } from '../config/contact';
 
 export const HomePage: React.FC = () => {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
@@ -49,6 +51,27 @@ export const HomePage: React.FC = () => {
     [recipes]
   );
   const showRecipes = featuredRecipes.length === 3;
+
+  useSeo({
+    title: 'Subhadarshini Spices — Pure Stone-Ground Masalas from Odisha',
+    description:
+      'Subhadarshini Spices makes 100% pure, farm-sourced, stone-ground masalas and whole spices in Bhubaneswar, Odisha. Every batch is lab tested and traceable by batch number.',
+    path: '/',
+    structuredData: [
+      organisationSchema(CONTACT as any),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        name: 'Subhadarshini Spices',
+        url: SITE_URL,
+        potentialAction: {
+          '@type': 'SearchAction',
+          target: `${SITE_URL}/products?search={search_term_string}`,
+          'query-input': 'required name=search_term_string'
+        }
+      }
+    ]
+  });
 
   return (
     <div className="space-y-0">
@@ -98,7 +121,7 @@ export const HomePage: React.FC = () => {
           {loading ? (
             <div className="flex gap-8 overflow-hidden">
               {[1, 2, 3, 4].map((n) => (
-                <div key={n} className="w-[260px] sm:w-[320px] lg:w-[360px] h-80 shrink-0 bg-white/60 animate-pulse rounded-2xl" />
+                <div key={n} className="w-[210px] sm:w-[300px] lg:w-[360px] h-80 shrink-0 bg-white/60 animate-pulse rounded-2xl" />
               ))}
             </div>
           ) : error ? (

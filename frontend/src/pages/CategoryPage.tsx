@@ -6,6 +6,7 @@ import { ProductCard } from '../components/product/ProductCard';
 import { fetchApi } from '../config/api';
 import { resolveImageUrl, handleImageError } from '../config/images';
 import { Reveal, StaggerGroup, StaggerItem } from '../components/ui/Reveal';
+import { useSeo, breadcrumbSchema } from '../hooks/useSeo';
 
 export const CategoryPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -15,6 +16,22 @@ export const CategoryPage: React.FC = () => {
   const [siblings, setSiblings] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  useSeo({
+    title: category ? category.name : 'Category',
+    description:
+      category?.description ||
+      'Explore the Subhadarshini range of pure, stone-ground masalas and whole spices.',
+    path: `/category/${slug}`,
+    image: category?.image,
+    structuredData: category
+      ? breadcrumbSchema([
+          { name: 'Home', path: '/' },
+          { name: 'Products', path: '/products' },
+          { name: category.name, path: `/category/${category.slug}` }
+        ])
+      : undefined
+  });
 
   useEffect(() => {
     const load = async () => {

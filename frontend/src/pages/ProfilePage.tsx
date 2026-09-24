@@ -5,8 +5,11 @@ import { ProductCard } from '../components/product/ProductCard';
 import { Link } from 'react-router-dom';
 import { User, Package, Heart, LogOut } from 'lucide-react';
 import { getApiUrl } from '../config/api';
+import { useSeo } from '../hooks/useSeo';
 
 export const ProfilePage: React.FC = () => {
+  useSeo({ title: 'My Account', description: 'Your Subhadarshini account.', path: '/profile', noIndex: true });
+
   const { user, token, logout } = useAuth();
   const { wishlist } = useWishlist();
 

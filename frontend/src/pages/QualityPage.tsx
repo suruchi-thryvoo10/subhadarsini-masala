@@ -2,8 +2,16 @@ import React, { useState } from 'react';
 import { ShieldCheck, Search, Award, CheckCircle2, FileCheck, Sprout, Building2, AlertCircle } from 'lucide-react';
 import { BatchVerification } from '../types';
 import { getApiUrl } from '../config/api';
+import { useSeo } from '../hooks/useSeo';
 
 export const QualityPage: React.FC = () => {
+  useSeo({
+    title: 'Batch Traceability & Lab Reports',
+    description:
+      'Verify any Subhadarshini pack. Enter the batch number to see its purity score, moisture level, microbial check and lab certificate.',
+    path: '/quality'
+  });
+
   const [batchInput, setBatchInput] = useState('SD2026-SP01');
   const [batchResult, setBatchResult] = useState<BatchVerification | null>(null);
   const [loading, setLoading] = useState(false);

@@ -3,8 +3,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { AlertCircle } from 'lucide-react';
 import { getApiUrl } from '../config/api';
+import { useSeo } from '../hooks/useSeo';
 
 export const RegisterPage: React.FC = () => {
+  useSeo({ title: 'Create Account', description: 'Create a Subhadarshini account.', path: '/register', noIndex: true });
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

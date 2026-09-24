@@ -8,6 +8,7 @@ import { getApiUrl } from '../config/api';
 import { ProductGallery } from '../components/product/ProductGallery';
 import { Reveal, StaggerGroup, StaggerItem } from '../components/ui/Reveal';
 import { displayProductName, formatRating } from '../utils/format';
+import { useSeo, breadcrumbSchema, SITE_URL } from '../hooks/useSeo';
 
 export const ProductDetailPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -17,6 +18,44 @@ export const ProductDetailPage: React.FC = () => {
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
   const [loading, setLoading] = useState(true);
+
+  const seoName = product ? displayProductName(product.name) : '';
+  useSeo({
+    title: product ? seoName : 'Product',
+    description:
+      product?.shortDescription ||
+      'Pure, stone-ground Subhadarshini masalas and spices, lab tested batch by batch.',
+    path: `/products/${slug}`,
+    image: product?.images?.[0],
+    type: 'product',
+    structuredData: product
+      ? [
+          {
+            '@context': 'https://schema.org',
+            '@type': 'Product',
+            name: seoName,
+            description: product.shortDescription,
+            image: product.images?.map((i) => `${SITE_URL}${i}`),
+            brand: { '@type': 'Brand', name: 'Subhadarshini' },
+            category:
+              typeof product.category === 'object' ? product.category.name : undefined,
+            offers: product.variants?.map((v) => ({
+              '@type': 'Offer',
+              name: v.size,
+              price: v.discountPrice || v.price,
+              priceCurrency: 'INR',
+              availability: 'https://schema.org/InStock',
+              url: `${SITE_URL}/products/${product.slug}`
+            }))
+          },
+          breadcrumbSchema([
+            { name: 'Home', path: '/' },
+            { name: 'Products', path: '/products' },
+            { name: seoName, path: `/products/${product.slug}` }
+          ])
+        ]
+      : undefined
+  });
 
   useEffect(() => {
     const fetchProduct = async () => {

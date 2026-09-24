@@ -5,8 +5,22 @@ import { Product, Category } from '../types';
 import { Search, SlidersHorizontal, ArrowUpDown } from 'lucide-react';
 import { fetchApi } from '../config/api';
 import { StaggerGroup, StaggerItem } from '../components/ui/Reveal';
+import { useSeo, SITE_URL } from '../hooks/useSeo';
 
 export const ProductsPage: React.FC = () => {
+  useSeo({
+    title: 'Spice & Masala Catalogue',
+    description:
+      'Browse the full Subhadarshini range of stone-ground masalas, basic ground spices, whole spices and kitchen staples — 100% pure, lab tested, made in Odisha.',
+    path: '/products',
+    structuredData: {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: 'Subhadarshini Spice & Masala Catalogue',
+      url: `${SITE_URL}/products`
+    }
+  });
+
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [products, setProducts] = useState<Product[]>([]);

@@ -2,8 +2,16 @@ import React, { useState } from 'react';
 import { MapPin, Phone, Mail, MessageSquare, CheckCircle2, Send } from 'lucide-react';
 import { getApiUrl } from '../config/api';
 import { CONTACT } from '../config/contact';
+import { useSeo } from '../hooks/useSeo';
 
 export const ContactPage: React.FC = () => {
+  useSeo({
+    title: 'Contact Us',
+    description:
+      'Get in touch with Subhadarshini Spices in Bhubaneswar, Odisha — phone, email, WhatsApp and trade enquiries.',
+    path: '/contact'
+  });
+
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');

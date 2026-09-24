@@ -1,8 +1,16 @@
 import React from 'react';
 import { handleImageError } from '../config/images';
 import { Award, ShieldCheck, Heart, Users, Sprout, Cog, Factory } from 'lucide-react';
+import { useSeo } from '../hooks/useSeo';
 
 export const AboutPage: React.FC = () => {
+  useSeo({
+    title: 'Our Story',
+    description:
+      'Subhadarshini Spices was founded in 2024 under Subhadarshini Agro Pvt Ltd in Odisha, to offer pure, premium spices in a market where adulteration is common. Meet the founders and see how we process every batch.',
+    path: '/about'
+  });
+
   return (
     <div className="bg-spice-cream min-h-screen py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-20">
@@ -129,24 +137,39 @@ export const AboutPage: React.FC = () => {
                   {person.label}
                 </h3>
 
-                <div className="flex flex-col sm:flex-row gap-6 sm:gap-10">
-                  <img
-                    src={person.photo}
-                    onError={handleImageError}
-                    alt={person.name}
-                    loading="lazy"
-                    width={700}
-                    height={700}
-                    className="w-40 h-40 sm:w-48 sm:h-48 rounded-2xl object-cover object-top shrink-0 border border-spice-brown/10"
-                  />
+                {/* On a phone the portrait and the name sit on one row so the
+                    photo cannot push the text off the first screen; from sm up
+                    it becomes the wider portrait-beside-copy layout. */}
+                <div className="sm:flex sm:gap-10">
+                  <div className="flex items-center gap-4 sm:block sm:gap-0">
+                    <img
+                      src={person.photo}
+                      onError={handleImageError}
+                      alt={person.name}
+                      loading="lazy"
+                      width={700}
+                      height={700}
+                      className="w-24 h-24 sm:w-48 sm:h-48 rounded-2xl object-cover object-top shrink-0 border border-spice-brown/10"
+                    />
+                    <div className="min-w-0 sm:hidden">
+                      <h4 className="font-serif font-bold text-lg text-spice-brown leading-tight">
+                        {person.name}
+                      </h4>
+                      <p className="text-[11px] font-bold text-spice-red uppercase tracking-wider mt-1">
+                        {person.role}
+                      </p>
+                      <p className="text-[11px] text-ink-500 mt-0.5">{person.qualification}</p>
+                    </div>
+                  </div>
+
                   <div className="min-w-0 max-w-2xl">
-                    <h4 className="font-serif font-bold text-xl sm:text-2xl text-spice-brown">
+                    <h4 className="hidden sm:block font-serif font-bold text-2xl text-spice-brown">
                       {person.name}
                     </h4>
-                    <p className="text-xs font-bold text-spice-red uppercase tracking-wider mt-1.5">
+                    <p className="hidden sm:block text-xs font-bold text-spice-red uppercase tracking-wider mt-1.5">
                       {person.role}
                     </p>
-                    <p className="text-[11px] text-ink-500 mt-1">{person.qualification}</p>
+                    <p className="hidden sm:block text-[11px] text-ink-500 mt-1">{person.qualification}</p>
                     <p className="text-sm text-spice-brown/80 mt-4 leading-relaxed">{person.bio}</p>
                   </div>
                 </div>

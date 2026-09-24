@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Briefcase, MapPin, CheckCircle2, Clock } from 'lucide-react';
 import { getApiUrl } from '../config/api';
+import { useSeo } from '../hooks/useSeo';
 
 export const CareersPage: React.FC = () => {
+  useSeo({
+    title: 'Careers',
+    description: 'Open roles at Subhadarshini Spices, Bhubaneswar, Odisha.',
+    path: '/careers'
+  });
+
   const [careers, setCareers] = useState<any[]>([]);
   const [selectedJob, setSelectedJob] = useState<any | null>(null);
   const [submitted, setSubmitted] = useState(false);
