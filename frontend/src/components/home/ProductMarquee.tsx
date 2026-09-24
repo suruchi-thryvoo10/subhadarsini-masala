@@ -5,6 +5,8 @@ import { Product } from '../../types';
 import { productImageUrl, handleImageError } from '../../config/images';
 import { displayProductName } from '../../utils/format';
 import { useCategoryName } from '../../i18n/categories';
+import { useProductText } from '../../i18n/useProductText';
+import { useT } from '../../i18n/LanguageContext';
 
 interface ProductMarqueeProps {
   products: Product[];
@@ -19,7 +21,9 @@ interface ProductMarqueeProps {
  * and it pauses on hover or keyboard focus via `:hover`/`:focus-within`.
  */
 export const ProductMarquee: React.FC<ProductMarqueeProps> = ({ products }) => {
+  const t = useT();
   const categoryName = useCategoryName();
+  const productText = useProductText();
   if (products.length === 0) return null;
 
   const track = [...products, ...products];
@@ -57,13 +61,13 @@ export const ProductMarquee: React.FC<ProductMarqueeProps> = ({ products }) => {
                 : 'Subhadarshini'}
               </span>
               <h3 className="font-serif font-bold text-lg sm:text-xl text-spice-brown mt-1 leading-tight line-clamp-2">
-                {displayProductName(product.name)}
+                {displayProductName(productText.name(product, product.name))}
               </h3>
               <p className="text-xs text-spice-brown/70 mt-2 line-clamp-2 leading-relaxed">
-                {product.shortDescription}
+                {productText.shortDescription(product)}
               </p>
               <span className="inline-flex items-center gap-1.5 text-xs font-bold text-spice-red mt-4">
-                View Details <ArrowRight className="w-3.5 h-3.5" />
+                {t('action.viewDetails')} <ArrowRight className="w-3.5 h-3.5" />
               </span>
             </div>
           </Link>

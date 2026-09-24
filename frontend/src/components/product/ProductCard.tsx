@@ -7,6 +7,7 @@ import { productImageUrl, handleImageError } from '../../config/images';
 import { displayProductName, formatRating } from '../../utils/format';
 import { useT } from '../../i18n/LanguageContext';
 import { useCategoryName } from '../../i18n/categories';
+import { useProductText } from '../../i18n/useProductText';
 
 interface ProductCardProps {
   product: Product;
@@ -15,6 +16,7 @@ interface ProductCardProps {
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const t = useT();
   const categoryName = useCategoryName();
+  const productText = useProductText();
   const { toggleWishlist, isInWishlist } = useWishlist();
 
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
@@ -56,7 +58,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           )}
           {product.isFeatured && (
             <span className="bg-white text-spice-red border border-spice-red/30 font-bold text-[10px] px-2 py-0.5 rounded-full tracking-wider uppercase shadow">
-              Bestseller
+              {t('products.bestseller')}
             </span>
           )}
         </div>
@@ -77,7 +79,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           to={`/products/${product.slug}`}
           className="absolute inset-x-3 bottom-3 z-10 py-2 rounded-xl bg-spice-brown/90 backdrop-blur-sm text-white text-[11px] font-bold uppercase tracking-wider hidden lg:flex items-center justify-center gap-1.5 shadow-lg opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 focus-visible:opacity-100 focus-visible:translate-y-0 transition-all duration-300 hover:bg-spice-red"
         >
-          <Eye className="w-3.5 h-3.5" /> Quick View
+          <Eye className="w-3.5 h-3.5" /> {t('action.quickView')}
         </Link>
       </div>
 
@@ -105,12 +107,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           {/* Product Name */}
           <Link to={`/products/${product.slug}`} className="block">
             <h3 className="font-serif font-bold text-base text-spice-brown group-hover:text-spice-red transition-colors line-clamp-2 min-h-[2.75rem]">
-              {displayProductName(product.name)}
+              {displayProductName(productText.name(product, product.name))}
             </h3>
           </Link>
 
           <p className="text-xs text-spice-brown/70 mt-1 line-clamp-2 leading-relaxed">
-            {product.shortDescription}
+            {productText.shortDescription(product)}
           </p>
         </div>
 
@@ -154,7 +156,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               to={`/products/${product.slug}`}
               className="w-full sm:w-auto px-3.5 py-2 rounded-xl bg-spice-brown hover:bg-spice-red text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all shadow-sm"
             >
-              {product.isUpcoming ? 'Coming Soon' : 'View Details'}
+              {product.isUpcoming ? t('products.comingSoon') : t('action.viewDetails')}
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>

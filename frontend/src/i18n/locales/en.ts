@@ -158,6 +158,25 @@ export const en = {
   'state.emptyHint': 'Try clearing search keywords or selecting a different category.',
 
   // ---- Footer ----
+  'products.bestseller': 'Bestseller',
+  'products.comingSoon': 'Coming Soon',
+  'footer.blurb': 'Subhadarshini Spices & Foods brings authentic Indian culinary traditions to your kitchen. Stone-ground, 100% pure, farm-sourced spices processed with uncompromising hygienic quality standards.',
+
+  'action.accountLogin': 'Login',
+  'action.quickView': 'Quick View',
+  'footer.allProducts': 'All Products',
+  'footer.blendedMasalas': 'Blended Masalas',
+  'footer.basicGroundSpices': 'Basic Ground Spices',
+  'footer.recipesAssistant': 'Recipes & AI Assistant',
+  'footer.batchLookup': 'Batch Quality Lookup',
+  'footer.storyManufacturing': 'Our Story & Manufacturing',
+  'footer.dealerLocator': 'Dealer Locator',
+  'footer.wholesaleEnquiries': 'Wholesale Enquiries',
+  'footer.labCertified': 'Lab Certified Pure',
+  'footer.fssai': 'FSSAI Licensed',
+  'footer.craftedWith': 'Crafted with',
+  'footer.forKitchens': 'for Authentic Indian Kitchens',
+
   'footer.quickLinks': 'Quick Links',
   'footer.company': 'Company',
   'footer.contactUs': 'Contact Us',

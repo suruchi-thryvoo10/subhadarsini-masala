@@ -92,3 +92,11 @@
   .recipe-motion-img { animation: none; }
   .recipe-motion-step { animation: none; }
 }
+
+/* Translated headings can contain single words far longer than anything in
+   the English copy — Tamil and Malayalam compounds in particular have no
+   space to break at, so a heading sized for English overflowed its column on
+   a narrow phone. Allowing a break inside the word keeps it in the layout. */
+h1, h2, h3, h4 {
+  overflow-wrap: break-word;
+}

@@ -9,8 +9,10 @@ import { ProductGallery } from '../components/product/ProductGallery';
 import { Reveal, StaggerGroup, StaggerItem } from '../components/ui/Reveal';
 import { displayProductName, formatRating } from '../utils/format';
 import { useSeo, breadcrumbSchema, SITE_URL } from '../hooks/useSeo';
+import { useProductText } from '../i18n/useProductText';
 
 export const ProductDetailPage: React.FC = () => {
+  const productText = useProductText();
   const { slug } = useParams<{ slug: string }>();
   const { toggleWishlist, isInWishlist } = useWishlist();
 
@@ -110,7 +112,7 @@ export const ProductDetailPage: React.FC = () => {
         <nav className="text-xs text-ink-500 mb-6 flex items-center gap-2">
           <Link to="/" className="hover:underline">Home</Link> / 
           <Link to="/products" className="hover:underline">Products</Link> / 
-          <span className="text-spice-brown font-bold">{displayProductName(product.name)}</span>
+          <span className="text-spice-brown font-bold">{displayProductName(productText.name(product, product.name))}</span>
         </nav>
 
         {/* Product Grid Layout */}
@@ -148,7 +150,7 @@ export const ProductDetailPage: React.FC = () => {
               </div>
 
               <h1 className="font-serif text-3xl sm:text-4xl font-bold text-spice-brown mt-3">
-                {displayProductName(product.name)}
+                {displayProductName(productText.name(product, product.name))}
               </h1>
 
               {/* Rating — stars reflect the actual score rather than always showing five */}

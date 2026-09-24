@@ -20,14 +20,14 @@ export const Footer: React.FC = () => {
               />
             </Link>
             <p className="text-xs text-spice-beige/80 leading-relaxed max-w-sm">
-              Subhadarshini Spices & Foods brings authentic Indian culinary traditions to your kitchen. Stone-ground, 100% pure, farm-sourced spices processed with uncompromising hygienic quality standards.
+              {t('footer.blurb')}
             </p>
             <div className="flex items-center gap-4 pt-2">
               <div className="flex items-center gap-1.5 text-xs text-spice-turmeric font-semibold">
-                <ShieldCheck className="w-4 h-4" /> Lab Certified Pure
+                <ShieldCheck className="w-4 h-4" /> {t('footer.labCertified')}
               </div>
               <div className="flex items-center gap-1.5 text-xs text-spice-turmeric font-semibold">
-                <Award className="w-4 h-4" /> FSSAI Licensed
+                <Award className="w-4 h-4" /> {t('footer.fssai')}
               </div>
             </div>
           </div>
@@ -38,11 +38,11 @@ export const Footer: React.FC = () => {
               {t('footer.quickLinks')}
             </h4>
             <ul className="space-y-2.5 text-xs text-spice-beige/80">
-              <li><Link to="/products" className="hover:text-spice-turmeric transition-colors">All Products</Link></li>
-              <li><Link to="/products?category=blended-spices" className="hover:text-spice-turmeric transition-colors">Blended Masalas</Link></li>
-              <li><Link to="/products?category=basic-spices" className="hover:text-spice-turmeric transition-colors">Basic Ground Spices</Link></li>
-              <li><Link to="/recipes" className="hover:text-spice-turmeric transition-colors">Recipes & AI Assistant</Link></li>
-              <li><Link to="/quality" className="hover:text-spice-turmeric transition-colors">Batch Quality Lookup</Link></li>
+              <li><Link to="/products" className="hover:text-spice-turmeric transition-colors">{t('footer.allProducts')}</Link></li>
+              <li><Link to="/products?category=blended-spices" className="hover:text-spice-turmeric transition-colors">{t('footer.blendedMasalas')}</Link></li>
+              <li><Link to="/products?category=basic-spices" className="hover:text-spice-turmeric transition-colors">{t('footer.basicGroundSpices')}</Link></li>
+              <li><Link to="/recipes" className="hover:text-spice-turmeric transition-colors">{t('footer.recipesAssistant')}</Link></li>
+              <li><Link to="/quality" className="hover:text-spice-turmeric transition-colors">{t('footer.batchLookup')}</Link></li>
             </ul>
           </div>
 
@@ -52,11 +52,11 @@ export const Footer: React.FC = () => {
               {t('footer.company')}
             </h4>
             <ul className="space-y-2.5 text-xs text-spice-beige/80">
-              <li><Link to="/about" className="hover:text-spice-turmeric transition-colors">Our Story & Manufacturing</Link></li>
-              <li><Link to="/dealers" className="hover:text-spice-turmeric transition-colors">Dealer Locator</Link></li>
-              <li><Link to="/wholesale" className="hover:text-spice-turmeric transition-colors">B2B & Wholesale Enquiries</Link></li>
-              <li><Link to="/careers" className="hover:text-spice-turmeric transition-colors">Careers</Link></li>
-              <li><Link to="/contact" className="hover:text-spice-turmeric transition-colors">Contact Us</Link></li>
+              <li><Link to="/about" className="hover:text-spice-turmeric transition-colors">{t('footer.storyManufacturing')}</Link></li>
+              <li><Link to="/dealers" className="hover:text-spice-turmeric transition-colors">{t('footer.dealerLocator')}</Link></li>
+              <li><Link to="/wholesale" className="hover:text-spice-turmeric transition-colors">{t('footer.wholesaleEnquiries')}</Link></li>
+              <li><Link to="/careers" className="hover:text-spice-turmeric transition-colors">{t('nav.careers')}</Link></li>
+              <li><Link to="/contact" className="hover:text-spice-turmeric transition-colors">{t('footer.contactUs')}</Link></li>
             </ul>
           </div>
 
@@ -121,7 +121,7 @@ export const Footer: React.FC = () => {
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-spice-beige/60 gap-4">
           <p>© 2026 Subhadarshini Spices & Foods Pvt. Ltd. {t('footer.rights')}</p>
           <div className="flex items-center gap-1">
-            <span>Crafted with</span> <Heart className="w-3.5 h-3.5 text-spice-red fill-spice-red" /> <span>for Authentic Indian Kitchens</span>
+            <span>{t('footer.craftedWith')}</span> <Heart className="w-3.5 h-3.5 text-spice-red fill-spice-red" /> <span>{t('footer.forKitchens')}</span>
           </div>
         </div>
       </div>

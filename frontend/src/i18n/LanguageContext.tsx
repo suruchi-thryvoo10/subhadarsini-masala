@@ -1,6 +1,7 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import en, { Dictionary, TranslationKey } from './locales/en';
 import { DEFAULT_LANGUAGE, isSupported } from './languages';
+import { PRODUCT_LOADERS, ProductDictionary } from './products';
 
 const STORAGE_KEY = 'subhadarshini.language';
 
@@ -27,6 +28,8 @@ interface LanguageContextValue {
   language: string;
   setLanguage: (code: string) => void;
   t: (key: TranslationKey) => string;
+  /** Localised product name/description by slug, empty until its chunk lands. */
+  products: ProductDictionary;
 }
 
 const LanguageContext = createContext<LanguageContextValue | null>(null);
@@ -45,6 +48,7 @@ const readStored = (): string => {
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [language, setLanguageState] = useState<string>(DEFAULT_LANGUAGE);
   const [dictionary, setDictionary] = useState<Dictionary>(en);
+  const [products, setProducts] = useState<ProductDictionary>({});
 
   // The stored choice is applied after mount rather than in the initial state
   // so the first render matches what a prerender or a storage-less browser
@@ -59,7 +63,18 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
     if (language === DEFAULT_LANGUAGE) {
       setDictionary(en);
+      setProducts({});
     } else {
+      // Loaded separately from the interface strings: the catalogue text is
+      // much larger, and a page with no product list never needs it.
+      PRODUCT_LOADERS[language]?.()
+        .then((mod) => {
+          if (!cancelled) setProducts(mod.default);
+        })
+        .catch(() => {
+          if (!cancelled) setProducts({});
+        });
+
       LOADERS[language]?.()
         .then((mod) => {
           if (!cancelled) setDictionary(mod.default);
@@ -102,7 +117,10 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     [dictionary]
   );
 
-  const value = useMemo(() => ({ language, setLanguage, t }), [language, setLanguage, t]);
+  const value = useMemo(
+    () => ({ language, setLanguage, t, products }),
+    [language, setLanguage, t, products]
+  );
 
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;
 };

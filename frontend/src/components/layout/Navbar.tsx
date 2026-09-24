@@ -301,7 +301,7 @@ export const Navbar: React.FC = () => {
                 className="inline-flex items-center justify-center gap-1 px-2.5 py-1.5 sm:px-3.5 sm:py-1.5 text-xs font-bold text-spice-red border border-spice-red rounded-full hover:bg-spice-red hover:text-white transition-all shadow-xs shrink-0"
               >
                 <User className="w-4 h-4" />
-                <span className="hidden sm:inline">Login</span>
+                <span className="hidden sm:inline">{t('action.accountLogin')}</span>
               </Link>
             )}
 
@@ -402,7 +402,7 @@ export const Navbar: React.FC = () => {
                 className="pt-3 text-spice-red font-bold flex items-center gap-2"
               >
                 <User className="w-4 h-4 text-spice-red" />
-                Account Login
+                {t('action.accountLogin')}
               </Link>
             )}
 

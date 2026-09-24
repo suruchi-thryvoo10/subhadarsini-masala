@@ -34,7 +34,7 @@ export const HeroSection: React.FC = () => {
               <Sparkles className="w-3.5 h-3.5" /> {t('hero.badge')}
             </div>
 
-            <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-spice-brown leading-[1.15]">
+            <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-spice-brown leading-[1.15]">
               {t('hero.titleLead')} <span className="text-spice-red underline decoration-spice-turmeric/60 underline-offset-8">{t('hero.titleAccent')}</span>
             </h1>
 
@@ -60,15 +60,15 @@ export const HeroSection: React.FC = () => {
             {/* Micro Trust Stats */}
             <div className="pt-6 border-t border-spice-brown/10 grid grid-cols-3 gap-4">
               <div>
-                <span className="font-serif text-2xl font-bold text-spice-red block">100%</span>
+                <span className="font-serif text-2xl font-bold text-spice-red block break-words">100%</span>
                 <span className="text-xs text-spice-brown/70 font-medium">{t('hero.statStoneGround')}</span>
               </div>
               <div>
-                <span className="font-serif text-2xl font-bold text-spice-saffron block">{t('hero.zero')}</span>
+                <span className="font-serif text-2xl font-bold text-spice-saffron block break-words">{t('hero.zero')}</span>
                 <span className="text-xs text-spice-brown/70 font-medium">{t('hero.statNoDyes')}</span>
               </div>
               <div>
-                <span className="font-serif text-2xl font-bold text-spice-brown block">
+                <span className="font-serif text-2xl font-bold text-spice-brown block break-words">
                   {productCount !== null ? productCount : '—'}
                 </span>
                 <span className="text-xs text-spice-brown/70 font-medium">{t('hero.statRange')}</span>
