@@ -17,6 +17,22 @@ const redisUrl = (process.env.REDIS_URL || '').trim();
 
 export const isRedisConfigured = Boolean(redisUrl);
 
+/**
+ * Host and scheme only, never credentials — enough to tell from a health check
+ * whether REDIS_URL points somewhere a deployed function can actually reach.
+ * A URL like redis://redis:6379 works in Docker Compose and resolves nowhere on
+ * Vercel, which looks identical to an outage unless the host is visible.
+ */
+export const redisTarget = (): string | null => {
+  if (!redisUrl) return null;
+  try {
+    const u = new URL(redisUrl);
+    return `${u.protocol}//${u.hostname}:${u.port || '6379'}`;
+  } catch {
+    return 'unparseable';
+  }
+};
+
 export const redis: Redis | null = isRedisConfigured
   ? new Redis(redisUrl, {
       lazyConnect: true,

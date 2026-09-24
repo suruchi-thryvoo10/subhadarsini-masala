@@ -31,15 +31,15 @@ export const HeroSection: React.FC = () => {
             className="space-y-6"
           >
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-spice-saffron/10 border border-spice-saffron/20 text-spice-saffron text-xs font-bold uppercase tracking-wider">
-              <Sparkles className="w-3.5 h-3.5" /> 100% Traditional Stone-Ground Purity
+              <Sparkles className="w-3.5 h-3.5" /> {t('hero.badge')}
             </div>
 
             <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-spice-brown leading-[1.15]">
-              Authentic Indian Flavours, <span className="text-spice-red underline decoration-spice-turmeric/60 underline-offset-8">Crafted With Purity.</span>
+              {t('hero.titleLead')} <span className="text-spice-red underline decoration-spice-turmeric/60 underline-offset-8">{t('hero.titleAccent')}</span>
             </h1>
 
             <p className="text-spice-brown/80 text-base sm:text-lg leading-relaxed max-w-xl">
-              Experience handpicked farm-fresh spices, slow-ground using traditional stone mills to retain natural essential oils, vibrant colour, and rich aromatic heritage.
+              {t('hero.subtitle')}
             </p>
 
             <div className="flex flex-wrap items-center gap-4 pt-2">
@@ -61,17 +61,17 @@ export const HeroSection: React.FC = () => {
             <div className="pt-6 border-t border-spice-brown/10 grid grid-cols-3 gap-4">
               <div>
                 <span className="font-serif text-2xl font-bold text-spice-red block">100%</span>
-                <span className="text-xs text-spice-brown/70 font-medium">Stone Ground</span>
+                <span className="text-xs text-spice-brown/70 font-medium">{t('hero.statStoneGround')}</span>
               </div>
               <div>
-                <span className="font-serif text-2xl font-bold text-spice-saffron block">Zero</span>
-                <span className="text-xs text-spice-brown/70 font-medium">Artificial Dyes</span>
+                <span className="font-serif text-2xl font-bold text-spice-saffron block">{t('hero.zero')}</span>
+                <span className="text-xs text-spice-brown/70 font-medium">{t('hero.statNoDyes')}</span>
               </div>
               <div>
                 <span className="font-serif text-2xl font-bold text-spice-brown block">
                   {productCount !== null ? productCount : '—'}
                 </span>
-                <span className="text-xs text-spice-brown/70 font-medium">Products In Range</span>
+                <span className="text-xs text-spice-brown/70 font-medium">{t('hero.statRange')}</span>
               </div>
             </div>
           </motion.div>
@@ -92,14 +92,17 @@ export const HeroSection: React.FC = () => {
                 />
               </div>
 
-              {/* Floating Quality Badge */}
-              <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-2xl shadow-xl border border-spice-brown/10 flex items-center gap-3">
+              {/* Quality badge. On a phone it sits below the photo as a
+                  normal block: floating it on a negative offset pushed it past
+                  the viewport edge and laid it over the image, which cramped
+                  both. From sm up there is room for the overlap again. */}
+              <div className="mt-4 w-full sm:mt-0 sm:w-auto sm:absolute sm:-bottom-6 sm:-left-6 bg-white p-4 rounded-2xl shadow-lg sm:shadow-xl border border-spice-brown/10 flex items-center gap-3">
                 <div className="w-12 h-12 rounded-full bg-spice-saffron/15 flex items-center justify-center text-spice-saffron">
                   <ShieldCheck className="w-6 h-6" />
                 </div>
                 <div>
-                  <span className="font-serif font-bold text-spice-brown text-sm block">NABL Lab Certified</span>
-                  <span className="text-xs text-ink-500">Batch verification enabled</span>
+                  <span className="font-serif font-bold text-spice-brown text-sm block">{t('hero.badgeCertified')}</span>
+                  <span className="text-xs text-ink-500">{t('hero.badgeCertifiedSub')}</span>
                 </div>
               </div>
 
@@ -109,8 +112,8 @@ export const HeroSection: React.FC = () => {
                   <Award className="w-5 h-5" />
                 </div>
                 <div>
-                  <span className="font-serif font-bold text-xs block text-spice-cream">Heritage Recipe</span>
-                  <span className="text-[10px] text-spice-beige/70">Formulated since 1994</span>
+                  <span className="font-serif font-bold text-xs block text-spice-cream">{t('hero.badgeHeritage')}</span>
+                  <span className="text-[10px] text-spice-beige/70">{t('hero.badgeHeritageSub')}</span>
                 </div>
               </div>
             </div>

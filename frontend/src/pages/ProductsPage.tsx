@@ -112,12 +112,12 @@ export const ProductsPage: React.FC = () => {
         {/* Page Header */}
         <div className="mb-8">
           <h1 className="font-serif text-3xl sm:text-4xl font-bold text-spice-brown">
-            Product Catalogue
+            {t('products.heading')}
           </h1>
           <p className="text-sm text-spice-brown/70 mt-1">
-            Browse our range of pure stone-ground spices, traditional blends, and specialty foods.
+            {t('products.intro')}
             {!loading && !error && total > 0 && (
-              <span className="font-semibold text-spice-brown"> {total} products available.</span>
+              <span className="font-semibold text-spice-brown"> {total} {t('products.available')}</span>
             )}
           </p>
         </div>
@@ -134,7 +134,7 @@ export const ProductsPage: React.FC = () => {
                   : 'bg-spice-beige text-spice-brown hover:bg-spice-saffron/20'
               }`}
             >
-              All Spices
+              {t('products.all')}
             </button>
             {categories.map((cat) => (
               <button
@@ -171,11 +171,11 @@ export const ProductsPage: React.FC = () => {
                 onChange={(e) => handleSortChange(e.target.value)}
                 className="appearance-none bg-spice-beige border border-spice-brown/15 text-spice-brown text-xs font-bold py-2 pl-3 pr-8 rounded-full focus:outline-none focus:border-spice-saffron cursor-pointer"
               >
-                <option value="featured">Sort: Featured</option>
-                <option value="price-low">Price: Low to High</option>
-                <option value="price-high">Price: High to Low</option>
-                <option value="rating">Top Rated</option>
-                <option value="newest">New Arrivals</option>
+                <option value="featured">{t('products.sortFeatured')}</option>
+                <option value="price-low">{t('products.sortPriceLow')}</option>
+                <option value="price-high">{t('products.sortPriceHigh')}</option>
+                <option value="rating">{t('products.sortRating')}</option>
+                <option value="newest">{t('products.sortNewest')}</option>
               </select>
               <ArrowUpDown className="w-3 h-3 text-ink-500 absolute right-3 top-3 pointer-events-none" />
             </div>
@@ -199,18 +199,18 @@ export const ProductsPage: React.FC = () => {
               onClick={fetchProducts}
               className="px-6 py-2.5 bg-spice-red text-white font-bold text-xs rounded-full"
             >
-              Retry
+              {t('action.retry')}
             </button>
           </div>
         ) : products.length === 0 ? (
           <div className="text-center py-20 bg-white rounded-2xl border border-spice-brown/10 p-8">
             <h3 className="font-serif font-bold text-xl text-spice-brown mb-2">{t('state.empty')}</h3>
-            <p className="text-xs text-spice-brown/70 mb-4">Try clearing search keywords or selecting a different category.</p>
+            <p className="text-xs text-spice-brown/70 mb-4">{t('state.emptyHint')}</p>
             <button
               onClick={() => handleCategorySelect('')}
               className="px-6 py-2.5 bg-spice-red text-white font-bold text-xs rounded-full"
             >
-              Reset Filters
+              {t('action.resetFilters')}
             </button>
           </div>
         ) : (

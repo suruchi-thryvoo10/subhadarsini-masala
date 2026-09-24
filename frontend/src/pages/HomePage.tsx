@@ -153,20 +153,20 @@ export const HomePage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-between gap-8">
           <Reveal from="right" className="space-y-3 max-w-2xl">
             <div className="inline-flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full text-xs font-bold">
-              <ShieldCheck className="w-4 h-4 text-spice-turmeric" /> Digital Batch Traceability
+              <ShieldCheck className="w-4 h-4 text-spice-turmeric" /> {t('home.traceBadge')}
             </div>
             <h2 className="font-serif text-3xl sm:text-4xl font-bold text-spice-cream">
-              Verify Your Spice Package Authenticity & Lab Reports
+              {t('home.traceTitle')}
             </h2>
             <p className="text-sm text-spice-cream leading-relaxed">
-              Every Subhadarshini product package carries a unique batch number. Check purity scores, active curcumin levels, and lab test certificates in real-time.
+              {t('home.traceText')}
             </p>
           </Reveal>
           <Link
             to="/quality"
             className="px-8 py-4 rounded-full bg-spice-cream text-spice-brown font-bold text-sm hover:bg-white transition-all shadow-xl shrink-0"
           >
-            Verify Package Batch →
+            {t('action.verifyBatch')} →
           </Link>
         </div>
       </section>
@@ -188,7 +188,7 @@ export const HomePage: React.FC = () => {
               to="/recipes"
               className="text-spice-red font-bold text-sm hover:underline flex items-center gap-1 mt-4 sm:mt-0"
             >
-              Open AI Recipe Assistant →
+              {t('home.openAssistant')} →
             </Link>
           </div>
 
@@ -220,7 +220,7 @@ export const HomePage: React.FC = () => {
                     to="/recipes"
                     className="mt-6 pt-4 border-t border-spice-brown/10 text-spice-red font-bold text-xs flex items-center justify-between hover:text-spice-red-dark"
                   >
-                    View Ingredients & Step-by-Step →
+                    {t('home.viewRecipeSteps')} →
                   </Link>
                 </div>
               </div>

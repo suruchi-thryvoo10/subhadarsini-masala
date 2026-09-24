@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { Category } from '../../types';
 import { resolveImageUrl, handleImageError } from '../../config/images';
+import { useT } from '../../i18n/LanguageContext';
 
 interface CategoryRailProps {
   categories: Category[];
@@ -18,6 +19,7 @@ interface CategoryRailProps {
  * keyboard focus, and switched off entirely for reduced-motion users.
  */
 export const CategoryRail: React.FC<CategoryRailProps> = ({ categories, loading }) => {
+  const t = useT();
   if (loading) {
     return (
       <div className="flex gap-6 overflow-hidden px-4 sm:px-6 lg:px-8">
@@ -62,7 +64,7 @@ export const CategoryRail: React.FC<CategoryRailProps> = ({ categories, loading 
                 {cat.name}
               </h3>
               <span className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-bold text-spice-turmeric mt-1.5 sm:mt-2">
-                Explore
+                {t('action.explore')}
                 <ArrowRight className="w-3.5 h-3.5 group-hover/card:translate-x-1 transition-transform" />
               </span>
             </div>

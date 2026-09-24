@@ -3,6 +3,7 @@ import { Sprout, ShieldCheck, Sparkles, CheckCircle2, HeartHandshake } from 'luc
 import { StaggerGroup, StaggerItem } from '../ui/Reveal';
 import { CountUp } from '../ui/CountUp';
 import { fetchApi } from '../../config/api';
+import { useT } from '../../i18n/LanguageContext';
 
 interface PublicStats {
   products: number;
@@ -13,6 +14,7 @@ interface PublicStats {
 }
 
 export const TrustStrip: React.FC = () => {
+  const t = useT();
   const [stats, setStats] = useState<PublicStats | null>(null);
 
   useEffect(() => {
@@ -22,11 +24,11 @@ export const TrustStrip: React.FC = () => {
   }, []);
 
   const trustPillars = [
-    { icon: Sprout, title: 'Farm Sourced Ingredients', desc: 'Directly from certified spice growers' },
-    { icon: ShieldCheck, title: 'NABL Lab Tested', desc: 'Every batch carries a lab certificate' },
-    { icon: Sparkles, title: 'Hygienically Processed', desc: 'Touchless automated stone grinding' },
-    { icon: CheckCircle2, title: 'Quality Controlled', desc: 'No added colours or starch' },
-    { icon: HeartHandshake, title: 'Authentic Indian Flavours', desc: 'Preserving age-old heritage recipes' }
+    { icon: Sprout, title: t('trust.farmTitle'), desc: t('trust.farmText') },
+    { icon: ShieldCheck, title: t('trust.labTitle'), desc: t('trust.labText') },
+    { icon: Sparkles, title: t('trust.hygieneTitle'), desc: t('trust.hygieneText') },
+    { icon: CheckCircle2, title: t('trust.qualityTitle'), desc: t('trust.qualityText') },
+    { icon: HeartHandshake, title: t('trust.flavourTitle'), desc: t('trust.flavourText') }
   ];
 
   /**
@@ -36,14 +38,14 @@ export const TrustStrip: React.FC = () => {
    */
   const figures = stats
     ? [
-        { to: stats.products, suffix: '', label: 'Products in range' },
-        { to: stats.categories, suffix: '', label: 'Spice categories' },
-        { to: stats.verifiedBatches, suffix: '', label: 'Lab-verified batches' },
+        { to: stats.products, suffix: '', label: t('trust.statProducts') },
+        { to: stats.categories, suffix: '', label: t('trust.statCategories') },
+        { to: stats.verifiedBatches, suffix: '', label: t('trust.statBatches') },
         {
           to: stats.averageRating ?? 0,
           suffix: ' / 5',
           decimals: 1,
-          label: 'Average customer rating'
+          label: t('trust.statRating')
         }
       ].filter((f) => f.to > 0)
     : [];

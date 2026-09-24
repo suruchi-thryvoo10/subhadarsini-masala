@@ -4,7 +4,7 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import { globalErrorHandler } from './middlewares/errorHandler.js';
 import { apiRateLimiter } from './middlewares/rateLimiter.js';
-import { isRedisReady, isRedisConfigured } from './config/redis.js';
+import { isRedisReady, isRedisConfigured, redisTarget } from './config/redis.js';
 import { connectDB, getDbStatus } from './config/db.js';
 
 import authRoutes from './routes/authRoutes.js';
@@ -79,7 +79,7 @@ app.get(['/', '/health', '/api/v1/health'], (req, res) => {
     environment: process.env.NODE_ENV || 'production',
     uptime: process.uptime(),
     timestamp: new Date().toISOString(),
-    redis: { configured: isRedisConfigured, connected: isRedisReady() },
+    redis: { configured: isRedisConfigured, connected: isRedisReady(), target: redisTarget() },
     database: getDbStatus()
   });
 });

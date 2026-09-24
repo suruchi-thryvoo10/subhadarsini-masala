@@ -5,12 +5,14 @@ import { Product } from '../../types';
 import { useWishlist } from '../../context/WishlistContext';
 import { productImageUrl, handleImageError } from '../../config/images';
 import { displayProductName, formatRating } from '../../utils/format';
+import { useT } from '../../i18n/LanguageContext';
 
 interface ProductCardProps {
   product: Product;
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+  const t = useT();
   const { toggleWishlist, isInWishlist } = useWishlist();
 
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
@@ -111,7 +113,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <div className="mt-4 pt-3 border-t border-spice-brown/10">
           {/* Variant Selector */}
           <div className="flex items-center justify-between gap-2 mb-3">
-            <span className="hidden sm:inline text-xs font-semibold text-spice-brown/70">Pack Size:</span>
+            <span className="hidden sm:inline text-xs font-semibold text-spice-brown/70">{t('products.packSize')}:</span>
             <div className="flex flex-wrap items-center gap-1.5 sm:justify-end">
               {variants.map((v, idx) => (
                 <button

@@ -2,8 +2,10 @@ import React from 'react';
 import { handleImageError } from '../config/images';
 import { Award, ShieldCheck, Heart, Users, Sprout, Cog, Factory } from 'lucide-react';
 import { useSeo } from '../hooks/useSeo';
+import { useT } from '../i18n/LanguageContext';
 
 export const AboutPage: React.FC = () => {
+  const t = useT();
   useSeo({
     title: 'Our Story',
     description:
@@ -17,7 +19,7 @@ export const AboutPage: React.FC = () => {
         {/* Brand Story Hero */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
           <span className="text-spice-saffron font-bold text-xs uppercase tracking-widest block">
-            Our Heritage & Purity Philosophy
+            {t('about.heritage')}
           </span>
           <h1 className="font-serif text-4xl sm:text-5xl font-bold text-spice-brown">
             Preserving The Authentic Essence Of Indian Spices
@@ -33,7 +35,7 @@ export const AboutPage: React.FC = () => {
             <div className="w-12 h-12 rounded-2xl bg-spice-red/10 text-spice-red flex items-center justify-center font-bold mb-4">
               <Award className="w-6 h-6" />
             </div>
-            <h3 className="font-serif font-bold text-xl text-spice-brown mb-2">Our Mission</h3>
+            <h3 className="font-serif font-bold text-xl text-spice-brown mb-2">{t('about.missionTitle')}</h3>
             <p className="text-xs text-spice-brown/70 leading-relaxed">
               To deliver 100% pure, unadulterated, farm-sourced spices to every Indian kitchen, preserving health, authentic aroma, and traditional culinary heritage.
             </p>
@@ -43,7 +45,7 @@ export const AboutPage: React.FC = () => {
             <div className="w-12 h-12 rounded-2xl bg-spice-saffron/10 text-spice-saffron flex items-center justify-center font-bold mb-4">
               <ShieldCheck className="w-6 h-6" />
             </div>
-            <h3 className="font-serif font-bold text-xl text-spice-brown mb-2">Our Vision</h3>
+            <h3 className="font-serif font-bold text-xl text-spice-brown mb-2">{t('about.visionTitle')}</h3>
             <p className="text-xs text-spice-brown/70 leading-relaxed">
               To establish Subhadarshini as the benchmark for transparency, batch lab traceability, and quality excellence in the national food & spice industry.
             </p>
@@ -53,7 +55,7 @@ export const AboutPage: React.FC = () => {
             <div className="w-12 h-12 rounded-2xl bg-spice-brown/10 text-spice-brown flex items-center justify-center font-bold mb-4">
               <Heart className="w-6 h-6" />
             </div>
-            <h3 className="font-serif font-bold text-xl text-spice-brown mb-2">Farmer Relationships</h3>
+            <h3 className="font-serif font-bold text-xl text-spice-brown mb-2">{t('about.farmersTitle')}</h3>
             <p className="text-xs text-spice-brown/70 leading-relaxed">
               We partner directly with certified spice farming cooperatives in Odisha, Andhra Pradesh, and Kerala, supporting fair trade prices and sustainable organic cultivation.
             </p>
@@ -100,10 +102,10 @@ export const AboutPage: React.FC = () => {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl mb-12">
             <span className="text-spice-red font-bold text-xs uppercase tracking-widest block mb-2">
-              The People Behind The Brand
+              {t('about.peopleBehind')}
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl font-bold text-spice-brown">
-              Founder &amp; Co-Founder
+              {t('about.founders')}
             </h2>
             <p className="text-sm text-spice-brown/75 mt-3 leading-relaxed">
               Subhadarshini Spices was founded in 2024 under Subhadarshini Agro Pvt Ltd, born from a
@@ -116,7 +118,7 @@ export const AboutPage: React.FC = () => {
           <div className="space-y-14 lg:space-y-20">
             {[
               {
-                label: 'Founder',
+                label: t('about.founder'),
                 name: 'Saini Subhadarshini',
                 role: 'Founder & Managing Director',
                 qualification: 'B.Tech & M.Tech, Computer Science',
@@ -124,7 +126,7 @@ export const AboutPage: React.FC = () => {
                 bio: 'A technology professional turned entrepreneur, driven by a vision to deliver authentic Indian flavours through pure, hygienically processed, farm-sourced spices. She has built a state-of-the-art, fully automatic spice processing unit designed to hold quality at scale. Her vision extends beyond the business — to empower farmers and to uplift sub-urban Odia women within the supply chain.'
               },
               {
-                label: 'Co-Founder',
+                label: t('about.coFounder'),
                 name: 'Amit Kumar Swain',
                 role: 'Director',
                 qualification: 'B.Tech, Electrical Engineering',
