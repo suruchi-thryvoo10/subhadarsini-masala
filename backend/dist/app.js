@@ -18,6 +18,7 @@ import careerRoutes from './routes/careerRoutes.js';
 import reviewRoutes from './routes/reviewRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import statsRoutes from './routes/statsRoutes.js';
+import { edgeCache } from './middleware/edgeCache.js';
 const app = express();
 // Trust reverse proxy (Nginx / Vercel / Cloudflare / AWS Load Balancers)
 app.set('trust proxy', 1);
@@ -57,6 +58,7 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // Apply rate limiter to /api
 app.use('/api', apiRateLimiter);
+app.use(edgeCache);
 // Root & Healthcheck endpoints
 app.get(['/', '/health', '/api/v1/health'], (req, res) => {
     res.status(200).json({

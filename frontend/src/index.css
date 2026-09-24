@@ -60,3 +60,35 @@
   .marquee { overflow-x: auto; }
   .marquee-track { animation: none; }
 }
+
+/* Recipe hero motion. The photo drifts slowly (a Ken Burns move) while the
+   dish's own steps cross-fade over it, so a recipe card reads as something in
+   progress rather than a still. Paused on hover and keyboard focus so anyone
+   reading a step can finish it, and switched off entirely for reduced-motion
+   users, who get the plain photo and the first step. */
+.recipe-motion-img {
+  animation: recipe-kenburns 24s ease-in-out infinite alternate;
+  transform-origin: 50% 55%;
+  will-change: transform;
+}
+.recipe-motion:hover .recipe-motion-img,
+.recipe-motion:focus-within .recipe-motion-img {
+  animation-play-state: paused;
+}
+@keyframes recipe-kenburns {
+  from { transform: scale(1) translate3d(0, 0, 0); }
+  to   { transform: scale(1.12) translate3d(-1.5%, -1.5%, 0); }
+}
+
+.recipe-motion-step {
+  animation: recipe-step-in 600ms ease-out both;
+}
+@keyframes recipe-step-in {
+  from { opacity: 0; transform: translate3d(0, 8px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .recipe-motion-img { animation: none; }
+  .recipe-motion-step { animation: none; }
+}

@@ -5,7 +5,7 @@ import { ChefHat, Sparkles, Clock, Search, X } from 'lucide-react';
 import { getApiUrl } from '../config/api';
 import { resolveImageUrl, handleImageError } from '../config/images';
 import { displayProductName } from '../utils/format';
-import { RecipeVideo } from '../components/recipe/RecipeVideo';
+import { RecipeMotion } from '../components/recipe/RecipeMotion';
 import { SubmitRecipeForm } from '../components/forms/SubmitRecipeForm';
 import { productImageUrl } from '../config/images';
 import { useSeo, SITE_URL } from '../hooks/useSeo';
@@ -116,19 +116,14 @@ export const RecipesPage: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {recipes.map((recipe) => (
               <div key={recipe._id} className="group bg-white rounded-3xl overflow-hidden border border-spice-brown/10 shadow-sm hover:shadow-lg transition-shadow flex flex-col justify-between">
-                <div className="relative aspect-video overflow-hidden">
-                  <img
-                    src={resolveImageUrl(recipe.image)}
-                    onError={handleImageError}
-                    alt={recipe.title}
-                    loading="lazy"
-                    decoding="async"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                  />
-                  <span className="absolute top-3 left-3 bg-spice-red text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase">
-                    {recipe.category}
-                  </span>
-                </div>
+                <RecipeMotion
+                  image={recipe.image}
+                  title={recipe.title}
+                  steps={recipe.instructions || []}
+                  category={recipe.category}
+                  videoUrl={recipe.videoUrl}
+                  videoThumbnail={recipe.videoThumbnail}
+                />
 
                 {/* The masala this dish is built around — the point of the recipe */}
                 {recipe.heroProduct && (
@@ -152,12 +147,6 @@ export const RecipesPage: React.FC = () => {
                       </span>
                     </span>
                   </Link>
-                )}
-
-                {recipe.videoUrl && (
-                  <div className="px-5 pt-5">
-                    <RecipeVideo url={recipe.videoUrl} poster={recipe.videoThumbnail || recipe.image} title={recipe.title} />
-                  </div>
                 )}
 
                 <div className="p-6 flex-1 flex flex-col justify-between">

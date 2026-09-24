@@ -8,10 +8,10 @@ import { CategoryRail } from '../components/home/CategoryRail';
 import { Product, Recipe, Category } from '../types';
 import { ArrowRight, Star, Clock, ChefHat, ShieldCheck, Quote } from 'lucide-react';
 import { fetchApi } from '../config/api';
-import { resolveImageUrl, handleImageError } from '../config/images';
 import { Reveal, StaggerGroup, StaggerItem } from '../components/ui/Reveal';
 import { useSeo, organisationSchema, SITE_URL } from '../hooks/useSeo';
 import { CONTACT } from '../config/contact';
+import { RecipeMotion } from '../components/recipe/RecipeMotion';
 import { useT } from '../i18n/LanguageContext';
 
 export const HomePage: React.FC = () => {
@@ -195,18 +195,14 @@ export const HomePage: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {featuredRecipes.map((recipe) => (
               <div key={recipe._id} className="bg-white rounded-2xl overflow-hidden border border-spice-brown/10 shadow-sm hover:shadow-lg transition-all flex flex-col justify-between">
-                <div className="relative aspect-video">
-                  <img
-                    src={resolveImageUrl(recipe.image)}
-                    onError={handleImageError}
-                    alt={recipe.title}
-                    loading="lazy"
-                    className="w-full h-full object-cover"
-                  />
-                  <span className="absolute top-3 left-3 bg-spice-brown text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">
-                    {recipe.category}
-                  </span>
-                </div>
+                <RecipeMotion
+                  image={recipe.image}
+                  title={recipe.title}
+                  steps={recipe.instructions || []}
+                  category={recipe.category}
+                  videoUrl={recipe.videoUrl}
+                  videoThumbnail={recipe.videoThumbnail}
+                />
                 <div className="p-6 flex-1 flex flex-col justify-between">
                   <div>
                     <div className="flex items-center gap-4 text-xs text-ink-500 mb-2">

@@ -71,12 +71,42 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://subhadarsini-masala.vercel.app/products/subhadarshini-black-salt</loc>
+    <loc>https://subhadarsini-masala.vercel.app/products/subhadarshini-panch-phoran</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://subhadarsini-masala.vercel.app/products/subhadarshini-hing-asafoetida</loc>
+    <loc>https://subhadarsini-masala.vercel.app/products/subhadarshini-royal-dum-biryani-masala</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://subhadarsini-masala.vercel.app/products/subhadarshini-paneer-butter-masala</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://subhadarsini-masala.vercel.app/products/subhadarshini-kashmiri-chilli-powder</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://subhadarsini-masala.vercel.app/products/subhadarshini-special-chicken-curry-masala</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://subhadarsini-masala.vercel.app/products/subhadarshini-mutton-meat-masala</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://subhadarsini-masala.vercel.app/products/subhadarshini-pure-turmeric-powder</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://subhadarsini-masala.vercel.app/products/subhadarshini-red-chilli-powder</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -86,17 +116,22 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://subhadarsini-masala.vercel.app/products/subhadarshini-panch-phoran</loc>
+    <loc>https://subhadarsini-masala.vercel.app/products/subhadarshini-hing-asafoetida</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://subhadarsini-masala.vercel.app/products/subhadarshini-whole-red-chilli</loc>
+    <loc>https://subhadarsini-masala.vercel.app/products/subhadarshini-black-salt</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://subhadarsini-masala.vercel.app/products/subhadarshini-tej-patta</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://subhadarsini-masala.vercel.app/products/subhadarshini-whole-red-chilli</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -111,7 +146,12 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://subhadarsini-masala.vercel.app/products/subhadarshini-mustard-seeds</loc>
+    <loc>https://subhadarsini-masala.vercel.app/products/subhadarshini-chana-masala</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://subhadarsini-masala.vercel.app/products/subhadarshini-egg-curry-masala</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -121,12 +161,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://subhadarsini-masala.vercel.app/products/subhadarshini-chana-masala</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://subhadarsini-masala.vercel.app/products/subhadarshini-egg-curry-masala</loc>
+    <loc>https://subhadarsini-masala.vercel.app/products/subhadarshini-mustard-seeds</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -151,47 +186,12 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://subhadarsini-masala.vercel.app/products/subhadarshini-royal-dum-biryani-masala</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://subhadarsini-masala.vercel.app/products/subhadarshini-paneer-butter-masala</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://subhadarsini-masala.vercel.app/products/subhadarshini-mutton-meat-masala</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://subhadarsini-masala.vercel.app/products/subhadarshini-special-chicken-curry-masala</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://subhadarsini-masala.vercel.app/products/subhadarshini-kashmiri-chilli-powder</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://subhadarsini-masala.vercel.app/products/subhadarshini-coriander-powder</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://subhadarsini-masala.vercel.app/products/subhadarshini-cumin-powder</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://subhadarsini-masala.vercel.app/products/subhadarshini-red-chilli-powder</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://subhadarsini-masala.vercel.app/products/subhadarshini-pure-turmeric-powder</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
