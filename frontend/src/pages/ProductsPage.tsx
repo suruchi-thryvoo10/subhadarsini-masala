@@ -6,6 +6,7 @@ import { Search, SlidersHorizontal, ArrowUpDown } from 'lucide-react';
 import { fetchApi } from '../config/api';
 import { StaggerGroup, StaggerItem } from '../components/ui/Reveal';
 import { useSeo, SITE_URL } from '../hooks/useSeo';
+import { useT } from '../i18n/LanguageContext';
 
 export const ProductsPage: React.FC = () => {
   useSeo({
@@ -21,6 +22,7 @@ export const ProductsPage: React.FC = () => {
     }
   });
 
+  const t = useT();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [products, setProducts] = useState<Product[]>([]);
@@ -156,7 +158,7 @@ export const ProductsPage: React.FC = () => {
                 type="text"
                 name="searchVal"
                 defaultValue={currentSearch}
-                placeholder="Search products..."
+                placeholder={t('action.searchPlaceholder')}
                 className="w-full pl-9 pr-4 py-2 text-xs rounded-full bg-spice-beige border border-spice-brown/15 focus:outline-none focus:border-spice-saffron"
               />
               <Search className="w-3.5 h-3.5 text-spice-brown/50 absolute left-3 top-2.5" />
@@ -190,7 +192,7 @@ export const ProductsPage: React.FC = () => {
         ) : error ? (
           <div className="text-center py-16 bg-white rounded-2xl border border-spice-red/20 p-8">
             <h3 className="font-serif font-bold text-xl text-spice-brown mb-2">
-              We couldn't load the catalogue
+              {t('state.error')}
             </h3>
             <p className="text-xs text-spice-brown/70 mb-4 max-w-md mx-auto">{error}</p>
             <button
@@ -202,7 +204,7 @@ export const ProductsPage: React.FC = () => {
           </div>
         ) : products.length === 0 ? (
           <div className="text-center py-20 bg-white rounded-2xl border border-spice-brown/10 p-8">
-            <h3 className="font-serif font-bold text-xl text-spice-brown mb-2">No products found</h3>
+            <h3 className="font-serif font-bold text-xl text-spice-brown mb-2">{t('state.empty')}</h3>
             <p className="text-xs text-spice-brown/70 mb-4">Try clearing search keywords or selecting a different category.</p>
             <button
               onClick={() => handleCategorySelect('')}

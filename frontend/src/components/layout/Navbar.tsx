@@ -20,10 +20,13 @@ import {
 import { useAuth } from '../../context/AuthContext';
 import { useWishlist } from '../../context/WishlistContext';
 import { CONTACT } from '../../config/contact';
+import { useT } from '../../i18n/LanguageContext';
+import { LanguageSwitcher } from './LanguageSwitcher';
 
 export const Navbar: React.FC = () => {
   const { user, logout, isAdmin } = useAuth();
   const { wishlist } = useWishlist();
+  const t = useT();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -78,15 +81,16 @@ export const Navbar: React.FC = () => {
 
           {/* Right: Quality Verification Link */}
           <div className="flex items-center gap-3 shrink-0 text-[11px] sm:text-xs">
+            <LanguageSwitcher />
             <span className="text-spice-turmeric font-semibold hidden lg:inline">
-              100% Pure Stone-Ground Odia Spices
+              {t('topbar.tagline')}
             </span>
             <Link
               to="/quality"
               className="flex items-center gap-1 text-spice-turmeric hover:text-white font-bold transition-colors underline"
             >
               <ShieldCheck className="w-3.5 h-3.5" />
-              <span>Verify Batch Quality →</span>
+              <span>{t('topbar.verifyBatch')} →</span>
             </Link>
           </div>
         </div>
@@ -113,7 +117,7 @@ export const Navbar: React.FC = () => {
                 isActive('/') ? 'text-spice-red font-bold' : ''
               }`}
             >
-              Home
+              {t('nav.home')}
               {isActive('/') && (
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-spice-red rounded-full" />
               )}
@@ -125,7 +129,7 @@ export const Navbar: React.FC = () => {
                 isActive('/products') ? 'text-spice-red font-bold' : ''
               }`}
             >
-              Products
+              {t('nav.products')}
               {isActive('/products') && (
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-spice-red rounded-full" />
               )}
@@ -137,7 +141,7 @@ export const Navbar: React.FC = () => {
                 isActive('/recipes') ? 'text-spice-red font-bold' : ''
               }`}
             >
-              Recipes
+              {t('nav.recipes')}
               <span className="text-[9px] bg-brand-50 text-spice-red font-extrabold px-1.5 py-0.5 rounded-md uppercase">
                 AI
               </span>
@@ -153,7 +157,7 @@ export const Navbar: React.FC = () => {
               }`}
             >
               <ShieldCheck className="w-4 h-4 text-spice-saffron" />
-              Traceability
+              {t('nav.quality')}
               {isActive('/quality') && (
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-spice-red rounded-full" />
               )}
@@ -165,7 +169,7 @@ export const Navbar: React.FC = () => {
                 isActive('/about') ? 'text-spice-red font-bold' : ''
               }`}
             >
-              Our Story
+              {t('nav.about')}
               {isActive('/about') && (
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-spice-red rounded-full" />
               )}
@@ -177,7 +181,7 @@ export const Navbar: React.FC = () => {
                 isActive('/dealers') ? 'text-spice-red font-bold' : ''
               }`}
             >
-              Dealers
+              {t('nav.dealers')}
               {isActive('/dealers') && (
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-spice-red rounded-full" />
               )}
@@ -189,7 +193,7 @@ export const Navbar: React.FC = () => {
                 isActive('/wholesale') ? 'text-spice-red font-bold' : ''
               }`}
             >
-              Wholesale
+              {t('nav.wholesale')}
               {isActive('/wholesale') && (
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-spice-red rounded-full" />
               )}
@@ -203,7 +207,7 @@ export const Navbar: React.FC = () => {
             <form onSubmit={handleSearchSubmit} className="hidden lg:flex items-center relative">
               <input
                 type="text"
-                placeholder="Search spices..."
+                placeholder={t('action.searchPlaceholder')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-32 xl:w-44 focus:w-56 text-xs py-2 pl-8 pr-3 rounded-full bg-white border border-spice-brown/20 focus:outline-none focus:border-spice-saffron focus:ring-1 focus:ring-spice-saffron transition-all duration-300"
@@ -254,7 +258,7 @@ export const Navbar: React.FC = () => {
                       className="flex items-center gap-2 px-4 py-2 text-spice-brown hover:bg-spice-beige transition-colors"
                     >
                       <User className="w-4 h-4 text-spice-saffron" />
-                      My Profile
+                      {t('action.profile')}
                     </Link>
 
                     <Link
@@ -285,7 +289,7 @@ export const Navbar: React.FC = () => {
                       className="w-full flex items-center gap-2 px-4 py-2 text-spice-red hover:bg-brand-50 transition-colors border-t border-spice-brown/10 mt-1"
                     >
                       <LogOut className="w-4 h-4" />
-                      Sign Out
+                      {t('action.logout')}
                     </button>
                   </div>
                 )}
@@ -320,7 +324,7 @@ export const Navbar: React.FC = () => {
           <form onSubmit={handleSearchSubmit} className="relative">
             <input
               type="text"
-              placeholder="Search spices, ingredients..."
+              placeholder={t('action.searchPlaceholder')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-9 pr-4 py-2 text-sm rounded-full bg-white border border-spice-brown/20 focus:outline-none focus:border-spice-saffron"
@@ -335,21 +339,21 @@ export const Navbar: React.FC = () => {
               onClick={() => setMobileMenuOpen(false)}
               className="pt-2 hover:text-spice-red transition-colors flex items-center justify-between"
             >
-              Home
+              {t('nav.home')}
             </Link>
             <Link
               to="/products"
               onClick={() => setMobileMenuOpen(false)}
               className="pt-3 hover:text-spice-red transition-colors flex items-center justify-between"
             >
-              All Products
+              {t('nav.products')}
             </Link>
             <Link
               to="/recipes"
               onClick={() => setMobileMenuOpen(false)}
               className="pt-3 hover:text-spice-red transition-colors flex items-center justify-between"
             >
-              <span>Recipes</span>
+              <span>{t('nav.recipes')}</span>
               <span className="text-xs bg-spice-saffron text-white font-bold px-2 py-0.5 rounded-full">AI Assistant</span>
             </Link>
             <Link
@@ -357,7 +361,7 @@ export const Navbar: React.FC = () => {
               onClick={() => setMobileMenuOpen(false)}
               className="pt-3 hover:text-spice-red transition-colors flex items-center justify-between"
             >
-              <span>Quality Traceability</span>
+              <span>{t('nav.quality')}</span>
               <ShieldCheck className="w-4 h-4 text-spice-saffron" />
             </Link>
             <Link
@@ -365,21 +369,21 @@ export const Navbar: React.FC = () => {
               onClick={() => setMobileMenuOpen(false)}
               className="pt-3 hover:text-spice-red transition-colors"
             >
-              Our Story
+              {t('nav.about')}
             </Link>
             <Link
               to="/dealers"
               onClick={() => setMobileMenuOpen(false)}
               className="pt-3 hover:text-spice-red transition-colors"
             >
-              Dealer Locator
+              {t('nav.dealers')}
             </Link>
             <Link
               to="/wholesale"
               onClick={() => setMobileMenuOpen(false)}
               className="pt-3 hover:text-spice-red transition-colors"
             >
-              Wholesale Enquiries
+              {t('nav.wholesale')}
             </Link>
 
             {user ? (

@@ -2,8 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ShieldCheck, MapPin, Phone, Mail, Award, Heart, Instagram, Facebook, Globe } from 'lucide-react';
 import { CONTACT } from '../../config/contact';
+import { useT } from '../../i18n/LanguageContext';
 
 export const Footer: React.FC = () => {
+  const t = useT();
   return (
     <footer className="bg-spice-dark text-white pt-16 pb-8 border-t-4 border-spice-turmeric">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -33,7 +35,7 @@ export const Footer: React.FC = () => {
           {/* Quick Links */}
           <div>
             <h4 className="font-serif font-bold text-spice-turmeric text-sm tracking-wider uppercase mb-4">
-              Explore
+              {t('footer.quickLinks')}
             </h4>
             <ul className="space-y-2.5 text-xs text-spice-beige/80">
               <li><Link to="/products" className="hover:text-spice-turmeric transition-colors">All Products</Link></li>
@@ -47,7 +49,7 @@ export const Footer: React.FC = () => {
           {/* Company & Business */}
           <div>
             <h4 className="font-serif font-bold text-spice-turmeric text-sm tracking-wider uppercase mb-4">
-              Company
+              {t('footer.company')}
             </h4>
             <ul className="space-y-2.5 text-xs text-spice-beige/80">
               <li><Link to="/about" className="hover:text-spice-turmeric transition-colors">Our Story & Manufacturing</Link></li>
@@ -61,7 +63,7 @@ export const Footer: React.FC = () => {
           {/* Contact Details */}
           <div>
             <h4 className="font-serif font-bold text-spice-turmeric text-sm tracking-wider uppercase mb-4">
-              Contact Us
+              {t('footer.contactUs')}
             </h4>
             <ul className="space-y-3 text-xs text-spice-beige/80">
               <li className="flex items-start gap-2">
@@ -90,7 +92,7 @@ export const Footer: React.FC = () => {
             </ul>
 
             <h4 className="font-serif font-bold text-spice-turmeric text-sm tracking-wider uppercase mt-8 mb-4">
-              Connect On
+              {t('footer.followUs')}
             </h4>
             <div className="flex items-center gap-3">
               <a
@@ -117,7 +119,7 @@ export const Footer: React.FC = () => {
 
         {/* Bottom Bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-spice-beige/60 gap-4">
-          <p>© 2026 Subhadarshini Spices & Foods Pvt. Ltd. All rights reserved.</p>
+          <p>© 2026 Subhadarshini Spices & Foods Pvt. Ltd. {t('footer.rights')}</p>
           <div className="flex items-center gap-1">
             <span>Crafted with</span> <Heart className="w-3.5 h-3.5 text-spice-red fill-spice-red" /> <span>for Authentic Indian Kitchens</span>
           </div>

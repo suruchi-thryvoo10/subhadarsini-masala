@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom';
 import { Sparkles, ArrowRight, ShieldCheck, Award } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { fetchApi } from '../../config/api';
+import { useT } from '../../i18n/LanguageContext';
 
 export const HeroSection: React.FC = () => {
+  const t = useT();
   const [productCount, setProductCount] = useState<number | null>(null);
 
   useEffect(() => {
@@ -45,13 +47,13 @@ export const HeroSection: React.FC = () => {
                 to="/products"
                 className="px-7 py-3.5 rounded-full bg-spice-red hover:bg-spice-red-dark text-white font-bold text-sm shadow-lg hover:shadow-xl transition-all flex items-center gap-2 group"
               >
-                Explore Products <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                {t('action.exploreProducts')} <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
                 to="/recipes"
                 className="px-7 py-3.5 rounded-full bg-white border border-spice-brown/20 text-spice-brown font-bold text-sm hover:bg-spice-beige transition-colors"
               >
-                Discover Recipes
+                {t('action.discoverRecipes')}
               </Link>
             </div>
 

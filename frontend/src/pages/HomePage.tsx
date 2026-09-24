@@ -12,6 +12,7 @@ import { resolveImageUrl, handleImageError } from '../config/images';
 import { Reveal, StaggerGroup, StaggerItem } from '../components/ui/Reveal';
 import { useSeo, organisationSchema, SITE_URL } from '../hooks/useSeo';
 import { CONTACT } from '../config/contact';
+import { useT } from '../i18n/LanguageContext';
 
 export const HomePage: React.FC = () => {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
@@ -19,6 +20,7 @@ export const HomePage: React.FC = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const t = useT();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -87,17 +89,17 @@ export const HomePage: React.FC = () => {
           <Reveal className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-12">
             <div>
               <span className="text-spice-saffron font-bold text-xs uppercase tracking-widest block mb-2">
-                Curated Collections
+                {t('home.collections')}
               </span>
               <h2 className="font-serif text-3xl sm:text-4xl font-bold text-spice-brown">
-                Explore Our Spice Range
+                {t('home.spiceRange')}
               </h2>
             </div>
             <Link
               to="/products"
               className="text-spice-red font-bold text-sm hover:underline flex items-center gap-1 mt-4 sm:mt-0"
             >
-              View All Catalogue →
+              {t('action.viewAll')} →
             </Link>
           </Reveal>
 
@@ -111,10 +113,10 @@ export const HomePage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Reveal className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-spice-saffron font-bold text-xs uppercase tracking-widest block mb-2">
-              Bestsellers & Favorites
+              {t('home.bestsellers')}
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl font-bold text-spice-brown">
-              Handcrafted Spice Selection
+              {t('home.handcrafted')}
             </h2>
           </Reveal>
 
@@ -127,14 +129,14 @@ export const HomePage: React.FC = () => {
           ) : error ? (
             <div className="text-center bg-white rounded-2xl border border-spice-red/20 p-8">
               <h3 className="font-serif font-bold text-lg text-spice-brown mb-2">
-                We couldn't load the catalogue
+                {t('state.error')}
               </h3>
               <p className="text-xs text-spice-brown/70 mb-4">{error}</p>
               <button
                 onClick={() => window.location.reload()}
                 className="px-6 py-2.5 bg-spice-red text-white font-bold text-xs rounded-full"
               >
-                Try Again
+                {t('action.retry')}
               </button>
             </div>
           ) : (
@@ -176,10 +178,10 @@ export const HomePage: React.FC = () => {
           <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-12">
             <div>
               <span className="text-spice-saffron font-bold text-xs uppercase tracking-widest block mb-2">
-                Kitchen Inspiration
+                {t('home.kitchenInspiration')}
               </span>
               <h2 className="font-serif text-3xl sm:text-4xl font-bold text-spice-brown">
-                Recipes Crafted With Subhadarshini
+                {t('home.recipesCrafted')}
               </h2>
             </div>
             <Link
@@ -238,7 +240,7 @@ export const HomePage: React.FC = () => {
           <div className="text-center max-w-2xl mx-auto mb-12">
             <Quote className="w-10 h-10 text-spice-saffron/40 mx-auto mb-3" />
             <h2 className="font-serif text-3xl sm:text-4xl font-bold text-spice-cream">
-              Loved By Home Cooks & Chefs
+              {t('home.lovedBy')}
             </h2>
           </div>
 
