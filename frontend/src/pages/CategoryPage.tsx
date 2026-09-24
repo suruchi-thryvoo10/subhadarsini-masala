@@ -7,8 +7,10 @@ import { fetchApi } from '../config/api';
 import { resolveImageUrl, handleImageError } from '../config/images';
 import { Reveal, StaggerGroup, StaggerItem } from '../components/ui/Reveal';
 import { useSeo, breadcrumbSchema } from '../hooks/useSeo';
+import { useCategoryName } from '../i18n/categories';
 
 export const CategoryPage: React.FC = () => {
+  const categoryName = useCategoryName();
   const { slug } = useParams<{ slug: string }>();
 
   const [category, setCategory] = useState<Category | null>(null);
@@ -106,11 +108,11 @@ export const CategoryPage: React.FC = () => {
               <span>/</span>
               <Link to="/products" className="hover:text-spice-turmeric">Products</Link>
               <span>/</span>
-              <span className="text-spice-turmeric font-bold">{category.name}</span>
+              <span className="text-spice-turmeric font-bold">{categoryName(category.slug, category.name)}</span>
             </nav>
 
             <h1 className="font-serif text-4xl sm:text-5xl font-bold text-spice-cream leading-tight">
-              {category.name}
+              {categoryName(category.slug, category.name)}
             </h1>
 
             {category.tagline && (

@@ -4,6 +4,7 @@ import { ArrowRight } from 'lucide-react';
 import { Category } from '../../types';
 import { resolveImageUrl, handleImageError } from '../../config/images';
 import { useT } from '../../i18n/LanguageContext';
+import { useCategoryName } from '../../i18n/categories';
 
 interface CategoryRailProps {
   categories: Category[];
@@ -20,6 +21,7 @@ interface CategoryRailProps {
  */
 export const CategoryRail: React.FC<CategoryRailProps> = ({ categories, loading }) => {
   const t = useT();
+  const categoryName = useCategoryName();
   if (loading) {
     return (
       <div className="flex gap-6 overflow-hidden px-4 sm:px-6 lg:px-8">
@@ -61,7 +63,7 @@ export const CategoryRail: React.FC<CategoryRailProps> = ({ categories, loading 
             />
             <div className="relative z-10 bg-spice-dark px-3.5 py-3 sm:px-5 sm:py-4">
               <h3 className="font-serif font-bold text-sm sm:text-lg lg:text-xl text-spice-cream group-hover/card:text-spice-turmeric transition-colors leading-tight">
-                {cat.name}
+                {categoryName(cat.slug, cat.name)}
               </h3>
               <span className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-bold text-spice-turmeric mt-1.5 sm:mt-2">
                 {t('action.explore')}

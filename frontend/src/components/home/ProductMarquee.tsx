@@ -4,6 +4,7 @@ import { ArrowRight } from 'lucide-react';
 import { Product } from '../../types';
 import { productImageUrl, handleImageError } from '../../config/images';
 import { displayProductName } from '../../utils/format';
+import { useCategoryName } from '../../i18n/categories';
 
 interface ProductMarqueeProps {
   products: Product[];
@@ -18,6 +19,7 @@ interface ProductMarqueeProps {
  * and it pauses on hover or keyboard focus via `:hover`/`:focus-within`.
  */
 export const ProductMarquee: React.FC<ProductMarqueeProps> = ({ products }) => {
+  const categoryName = useCategoryName();
   if (products.length === 0) return null;
 
   const track = [...products, ...products];
@@ -50,7 +52,9 @@ export const ProductMarquee: React.FC<ProductMarqueeProps> = ({ products }) => {
 
             <div className="p-5 sm:p-6">
               <span className="text-[11px] font-bold uppercase tracking-wider text-spice-red">
-                {typeof product.category === 'object' ? product.category.name : 'Subhadarshini'}
+                {typeof product.category === 'object'
+                ? categoryName(product.category.slug, product.category.name)
+                : 'Subhadarshini'}
               </span>
               <h3 className="font-serif font-bold text-lg sm:text-xl text-spice-brown mt-1 leading-tight line-clamp-2">
                 {displayProductName(product.name)}

@@ -6,6 +6,7 @@ import { useWishlist } from '../../context/WishlistContext';
 import { productImageUrl, handleImageError } from '../../config/images';
 import { displayProductName, formatRating } from '../../utils/format';
 import { useT } from '../../i18n/LanguageContext';
+import { useCategoryName } from '../../i18n/categories';
 
 interface ProductCardProps {
   product: Product;
@@ -13,6 +14,7 @@ interface ProductCardProps {
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const t = useT();
+  const categoryName = useCategoryName();
   const { toggleWishlist, isInWishlist } = useWishlist();
 
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
@@ -85,7 +87,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           {/* Category Tag & Rating */}
           <div className="flex items-center justify-between text-xs text-spice-saffron font-medium mb-1">
             <span className="uppercase tracking-wider text-[11px] font-bold truncate min-w-0">
-              {typeof product.category === 'object' ? product.category.name : 'Pure Spice'}
+              {typeof product.category === 'object'
+                ? categoryName(product.category.slug, product.category.name)
+                : 'Pure Spice'}
             </span>
             {formatRating(product.ratingAvg) && (
               <div className="flex items-center gap-1 text-spice-brown/80 font-bold shrink-0">

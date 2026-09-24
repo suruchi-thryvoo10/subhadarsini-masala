@@ -7,6 +7,7 @@ import { fetchApi } from '../config/api';
 import { StaggerGroup, StaggerItem } from '../components/ui/Reveal';
 import { useSeo, SITE_URL } from '../hooks/useSeo';
 import { useT } from '../i18n/LanguageContext';
+import { useCategoryName } from '../i18n/categories';
 
 export const ProductsPage: React.FC = () => {
   useSeo({
@@ -23,6 +24,7 @@ export const ProductsPage: React.FC = () => {
   });
 
   const t = useT();
+  const categoryName = useCategoryName();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [products, setProducts] = useState<Product[]>([]);
@@ -146,7 +148,7 @@ export const ProductsPage: React.FC = () => {
                     : 'bg-spice-beige text-spice-brown hover:bg-spice-saffron/20'
                 }`}
               >
-                {cat.name}
+                {categoryName(cat.slug, cat.name)}
               </button>
             ))}
           </div>
