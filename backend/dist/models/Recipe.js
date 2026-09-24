@@ -38,4 +38,7 @@ const RecipeSchema = new Schema({
     isFeatured: { type: Boolean, default: false }
 }, { timestamps: true });
 RecipeSchema.index({ title: 'text', description: 'text', 'ingredients.name': 'text' });
+// Public reads always filter on status and order by featured-then-newest.
+RecipeSchema.index({ status: 1, isFeatured: -1, createdAt: -1 });
+RecipeSchema.index({ source: 1, status: 1 });
 export const Recipe = mongoose.model('Recipe', RecipeSchema);

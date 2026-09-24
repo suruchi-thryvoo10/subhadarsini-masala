@@ -2,10 +2,9 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import dotenv from 'dotenv';
 import { globalErrorHandler } from './middlewares/errorHandler.js';
 import { apiRateLimiter } from './middlewares/rateLimiter.js';
-import { redis } from './config/redis.js';
+import { isRedisReady, isRedisConfigured } from './config/redis.js';
 import { connectDB, getDbStatus } from './config/db.js';
 
 import authRoutes from './routes/authRoutes.js';
@@ -20,8 +19,6 @@ import careerRoutes from './routes/careerRoutes.js';
 import reviewRoutes from './routes/reviewRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import statsRoutes from './routes/statsRoutes.js';
-
-dotenv.config();
 
 const app = express();
 
@@ -80,7 +77,7 @@ app.get(['/', '/health', '/api/v1/health'], (req, res) => {
     environment: process.env.NODE_ENV || 'production',
     uptime: process.uptime(),
     timestamp: new Date().toISOString(),
-    redisConnected: redis.status === 'ready',
+    redis: { configured: isRedisConfigured, connected: isRedisReady() },
     database: getDbStatus()
   });
 });

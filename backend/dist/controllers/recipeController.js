@@ -2,6 +2,7 @@ import { Recipe } from '../models/Recipe.js';
 import { Product } from '../models/Product.js';
 import { AppError } from '../middlewares/errorHandler.js';
 import { z } from 'zod';
+import { cacheKey, cached, invalidateNamespaces, TTL } from '../utils/redisCache.js';
 export const getRecipes = async (req, res, next) => {
     try {
         const { category, search } = req.query;
@@ -16,14 +17,16 @@ export const getRecipes = async (req, res, next) => {
                 { description: { $regex: String(search), $options: 'i' } }
             ];
         }
-        const recipes = await Recipe.find(query)
-            .populate('requiredProducts', 'name slug images variants')
-            .populate('heroProduct', 'name slug images')
-            .sort({ isFeatured: -1, createdAt: -1 });
-        res.status(200).json({
-            success: true,
-            data: recipes
+        const key = cacheKey('recipes', { category: String(category || ''), search: String(search || '') });
+        const payload = await cached(key, TTL.recipes, async () => {
+            const recipes = await Recipe.find(query)
+                .populate('requiredProducts', 'name slug images variants')
+                .populate('heroProduct', 'name slug images')
+                .sort({ isFeatured: -1, createdAt: -1 })
+                .lean();
+            return { success: true, data: recipes };
         });
+        res.status(200).json(payload);
     }
     catch (error) {
         next(error);
@@ -32,16 +35,17 @@ export const getRecipes = async (req, res, next) => {
 export const getRecipeBySlug = async (req, res, next) => {
     try {
         const { slug } = req.params;
-        const recipe = await Recipe.findOne({ slug, status: 'APPROVED' })
-            .populate('requiredProducts')
-            .populate('heroProduct', 'name slug images');
-        if (!recipe) {
-            throw new AppError('Recipe not found', 404, 'RECIPE_NOT_FOUND');
-        }
-        res.status(200).json({
-            success: true,
-            data: recipe
+        const payload = await cached(cacheKey('recipes', `detail:${slug}`), TTL.recipes, async () => {
+            const recipe = await Recipe.findOne({ slug, status: 'APPROVED' })
+                .populate('requiredProducts')
+                .populate('heroProduct', 'name slug images')
+                .lean();
+            if (!recipe) {
+                throw new AppError('Recipe not found', 404, 'RECIPE_NOT_FOUND');
+            }
+            return { success: true, data: recipe };
         });
+        res.status(200).json(payload);
     }
     catch (error) {
         next(error);
@@ -154,6 +158,7 @@ export const submitRecipe = async (req, res, next) => {
             isFeatured: false,
             submittedBy: { name: data.name, email: data.email, phone: data.phone || undefined }
         });
+        await invalidateNamespaces('recipes');
         res.status(201).json({
             success: true,
             message: 'Thank you! Your recipe has been sent to our kitchen team for review. We will be in touch before it is published.'

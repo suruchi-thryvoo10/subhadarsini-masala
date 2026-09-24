@@ -1,81 +1,60 @@
-version: '3.8'
+# Local development stack: MongoDB, Redis and the API.
+#
+# Deliberately single-instance — there is no Nginx and no load balancing here.
+# Production runs the API on Vercel as serverless functions, where Redis is the
+# shared cache across instances.
 
 services:
   mongodb:
     image: mongo:7.0
     container_name: subhadarshini_mongodb
-    restart: always
+    restart: unless-stopped
     ports:
-      - "27017:27017"
+      - '27017:27017'
     volumes:
       - mongo_data:/data/db
     environment:
       MONGO_INITDB_DATABASE: subhadarshini_db
+    healthcheck:
+      test: ['CMD', 'mongosh', '--quiet', '--eval', "db.runCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   redis:
     image: redis:7-alpine
     container_name: subhadarshini_redis
-    restart: always
+    restart: unless-stopped
     ports:
-      - "6379:6379"
+      - '6379:6379'
+    # Cache-only workload: cap the memory and evict the coldest keys rather than
+    # erroring once it fills. No persistence needed — everything is rebuildable.
+    command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru --save ""
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 10s
+      timeout: 3s
+      retries: 5
 
-  backend1:
+  backend:
     build: ./backend
-    container_name: subhadarshini_backend_1
-    environment:
-      - PORT=5000
-      - NODE_ENV=production
-      - MONGODB_URI=mongodb://mongodb:27017/subhadarshini_db
-      - REDIS_URL=redis://redis:6379
-      - JWT_SECRET=subhadarshini_jwt_super_secret_key_2026_production
-    depends_on:
-      - mongodb
-      - redis
-
-  backend2:
-    build: ./backend
-    container_name: subhadarshini_backend_2
-    environment:
-      - PORT=5000
-      - NODE_ENV=production
-      - MONGODB_URI=mongodb://mongodb:27017/subhadarshini_db
-      - REDIS_URL=redis://redis:6379
-      - JWT_SECRET=subhadarshini_jwt_super_secret_key_2026_production
-    depends_on:
-      - mongodb
-      - redis
-
-  backend3:
-    build: ./backend
-    container_name: subhadarshini_backend_3
-    environment:
-      - PORT=5000
-      - NODE_ENV=production
-      - MONGODB_URI=mongodb://mongodb:27017/subhadarshini_db
-      - REDIS_URL=redis://redis:6379
-      - JWT_SECRET=subhadarshini_jwt_super_secret_key_2026_production
-    depends_on:
-      - mongodb
-      - redis
-
-  frontend:
-    build: ./frontend
-    container_name: subhadarshini_frontend
-    restart: always
-
-  nginx:
-    image: nginx:alpine
-    container_name: subhadarshini_nginx
-    restart: always
+    container_name: subhadarshini_backend
+    restart: unless-stopped
     ports:
-      - "80:80"
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - '5000:5000'
+    environment:
+      PORT: 5000
+      NODE_ENV: production
+      MONGODB_URI: mongodb://mongodb:27017/subhadarshini_db
+      REDIS_URL: redis://redis:6379
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:3000}
+      JWT_SECRET: ${JWT_SECRET:?set JWT_SECRET in your .env}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:?set JWT_REFRESH_SECRET in your .env}
     depends_on:
-      - backend1
-      - backend2
-      - backend3
-      - frontend
+      mongodb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
 
 volumes:
   mongo_data:

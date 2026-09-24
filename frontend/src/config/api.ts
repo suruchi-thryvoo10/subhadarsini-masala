@@ -31,6 +31,25 @@ export const getApiUrl = (endpoint: string): string => {
   return API_BASE_URL ? `${API_BASE_URL}${cleanEndpoint}` : cleanEndpoint;
 };
 
+/**
+ * De-duplicates concurrent GETs and briefly caches their results.
+ *
+ * Several components ask for the same thing on one page — the hero and the trust
+ * strip both want /stats, and the catalogue and a form both want the product
+ * list. Without this each one opened its own request. Identical GETs now share a
+ * single in-flight promise, and the result is reused for a short window so a
+ * client-side route change does not immediately refetch what was just loaded.
+ */
+const inFlight = new Map<string, Promise<any>>();
+const recent = new Map<string, { value: any; expiresAt: number }>();
+const GET_TTL_MS = 30_000;
+
+/** Clears the short-lived GET cache, e.g. after a successful write. */
+export const clearApiCache = (): void => {
+  recent.clear();
+  inFlight.clear();
+};
+
 export interface ApiError extends Error {
   status?: number;
   errorCode?: string;
@@ -47,9 +66,22 @@ export const fetchApi = async <T = any>(
   init: RequestInit & { timeoutMs?: number } = {}
 ): Promise<T> => {
   const { timeoutMs = 15000, ...requestInit } = init;
+  const method = (requestInit.method || 'GET').toUpperCase();
+
+  if (method === 'GET') {
+    const fresh = recent.get(endpoint);
+    if (fresh && fresh.expiresAt > Date.now()) return fresh.value as T;
+
+    const pending = inFlight.get(endpoint);
+    if (pending) return pending as Promise<T>;
+  } else {
+    // A write can change anything the GET cache is holding.
+    clearApiCache();
+  }
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
+  const run = async (): Promise<T> => {
   try {
     const res = await fetch(getApiUrl(endpoint), { ...requestInit, signal: controller.signal });
     const body = await res.json().catch(() => null);
@@ -74,4 +106,19 @@ export const fetchApi = async <T = any>(
   } finally {
     clearTimeout(timeoutId);
   }
+  };
+
+  if (method !== 'GET') return run();
+
+  const promise = run()
+    .then((value) => {
+      recent.set(endpoint, { value, expiresAt: Date.now() + GET_TTL_MS });
+      return value;
+    })
+    .finally(() => {
+      inFlight.delete(endpoint);
+    });
+
+  inFlight.set(endpoint, promise);
+  return promise;
 };

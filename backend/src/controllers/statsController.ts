@@ -3,7 +3,7 @@ import { Product } from '../models/Product.js';
 import { Category } from '../models/Category.js';
 import { Batch } from '../models/Batch.js';
 import { Review } from '../models/Review.js';
-import { getCache, setCache } from '../utils/redisCache.js';
+import { cacheKey, cached, TTL } from '../utils/redisCache.js';
 
 /**
  * Public, real catalogue figures for the storefront.
@@ -14,10 +14,8 @@ import { getCache, setCache } from '../utils/redisCache.js';
  */
 export const getPublicStats = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const cacheKey = 'stats:public';
-    const cached = await getCache(cacheKey);
-    if (cached) return res.status(200).json(cached);
-
+    const key = cacheKey('stats', 'public');
+    const payload = await cached(key, TTL.stats, async () => {
     // The average is taken from the Review collection, not from the products'
     // seeded ratingAvg field — otherwise the site would advertise an average
     // built from numbers no customer ever submitted.
@@ -29,7 +27,7 @@ export const getPublicStats = async (req: Request, res: Response, next: NextFunc
       Review.aggregate([{ $group: { _id: null, avg: { $avg: '$rating' } } }])
     ]);
 
-    const responsePayload = {
+      return {
       success: true,
       data: {
         products,
@@ -38,10 +36,10 @@ export const getPublicStats = async (req: Request, res: Response, next: NextFunc
         averageRating: ratingAgg[0]?.avg ? Number(ratingAgg[0].avg.toFixed(1)) : null,
         totalReviews
       }
-    };
+      };
+    });
 
-    await setCache(cacheKey, responsePayload, 600);
-    res.status(200).json(responsePayload);
+    res.status(200).json(payload);
   } catch (error) {
     next(error);
   }

@@ -6,7 +6,7 @@ import { Batch } from '../models/Batch.js';
 import { Enquiry } from '../models/Enquiry.js';
 import { AuditLog } from '../models/AuditLog.js';
 import { AppError } from '../middlewares/errorHandler.js';
-import { deleteCachePattern } from '../utils/redisCache.js';
+import { invalidateNamespaces } from '../utils/redisCache.js';
 export const getDashboardStats = async (req, res, next) => {
     try {
         const [totalProducts, totalOrders, totalUsers, totalEnquiries] = await Promise.all([
@@ -68,7 +68,7 @@ export const createProduct = async (req, res, next) => {
                 ipAddress: req.ip
             });
         }
-        await deleteCachePattern('products:*');
+        await invalidateNamespaces('products', 'categories', 'stats');
         res.status(201).json({
             success: true,
             message: 'Product created successfully',
@@ -100,8 +100,7 @@ export const updateProduct = async (req, res, next) => {
                 ipAddress: req.ip
             });
         }
-        await deleteCachePattern('product:*');
-        await deleteCachePattern('products:*');
+        await invalidateNamespaces('products', 'categories', 'stats');
         res.status(200).json({
             success: true,
             message: 'Product updated successfully',
@@ -249,6 +248,8 @@ export const reviewRecipeSubmission = async (req, res, next) => {
         if (reviewNote !== undefined)
             recipe.reviewNote = reviewNote;
         await recipe.save();
+        // An approval must show up on the site straight away.
+        await invalidateNamespaces('recipes');
         res.status(200).json({ success: true, message: `Submission ${status.toLowerCase()}.`, data: recipe });
     }
     catch (error) {

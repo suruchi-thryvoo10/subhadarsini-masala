@@ -1,3 +1,6 @@
+// Load environment before any module that reads process.env at import time
+// (the Redis client resolves REDIS_URL when its module is first evaluated).
+import 'dotenv/config';
 import app from '../src/app.js';
 import { connectDB, getDbStatus } from '../src/config/db.js';
 import { autoSeedIfEmpty } from '../src/seed/autoSeed.js';

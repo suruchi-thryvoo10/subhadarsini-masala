@@ -1,68 +1,124 @@
-import { redis } from '../config/redis.js';
-const inMemoryFallbackCache = new Map();
-export const getCache = async (key) => {
-    // Bypasses Redis if REDIS_URL is unconfigured or Redis server is unreachable to prevent hanging serverless responses
-    if (!process.env.REDIS_URL || redis.status !== 'ready') {
-        const fallback = inMemoryFallbackCache.get(key);
-        if (fallback && fallback.expiresAt > Date.now()) {
-            return fallback.value;
-        }
+import { redis, isRedisReady } from '../config/redis.js';
+/**
+ * Two-tier read cache.
+ *
+ * Redis is the shared tier: on serverless every invocation may be a fresh
+ * instance, so a per-process cache almost never hits and each request pays for
+ * the database round trip. Redis is what actually makes repeat reads cheap.
+ *
+ * The in-process map is the fallback, used when Redis is not configured or is
+ * down. It keeps a single warm instance fast and guarantees the cache layer can
+ * never take the site down: every Redis call is wrapped and any failure falls
+ * through to the map, and then to MongoDB.
+ */
+export const CACHE_PREFIX = 'subhadarshini';
+/** Default lifetimes, in seconds, by kind of data. */
+export const TTL = {
+    /** Catalogue reads: change only when an admin edits or the seed runs. */
+    products: 600,
+    categories: 1800,
+    recipes: 900,
+    stats: 300
+};
+const memory = new Map();
+/** Bounded so a long-lived instance cannot grow the map without limit. */
+const MEMORY_MAX_KEYS = 500;
+const memoryGet = (key) => {
+    const hit = memory.get(key);
+    if (!hit)
+        return null;
+    if (hit.expiresAt <= Date.now()) {
+        memory.delete(key);
         return null;
     }
-    try {
-        const data = await Promise.race([
-            redis.get(key),
-            new Promise((_, reject) => setTimeout(() => reject(new Error('Redis timeout')), 400))
-        ]);
-        if (data)
-            return JSON.parse(data);
+    return hit.value;
+};
+const memorySet = (key, value, ttlSeconds) => {
+    if (memory.size >= MEMORY_MAX_KEYS) {
+        // Drop the oldest insertion; Map preserves insertion order.
+        const oldest = memory.keys().next().value;
+        if (oldest !== undefined)
+            memory.delete(oldest);
     }
-    catch (err) {
-        const fallback = inMemoryFallbackCache.get(key);
-        if (fallback && fallback.expiresAt > Date.now()) {
-            return fallback.value;
+    memory.set(key, { value, expiresAt: Date.now() + ttlSeconds * 1000 });
+};
+/** Namespaced, stable cache key. */
+export const cacheKey = (namespace, parts = '') => {
+    if (typeof parts === 'string')
+        return `${CACHE_PREFIX}:${namespace}${parts ? `:${parts}` : ''}`;
+    const normalised = Object.keys(parts)
+        .sort()
+        .filter((k) => parts[k] !== undefined && parts[k] !== '')
+        .map((k) => `${k}=${parts[k]}`)
+        .join('&');
+    return `${CACHE_PREFIX}:${namespace}${normalised ? `:${normalised}` : ''}`;
+};
+export const getCache = async (key) => {
+    if (isRedisReady() && redis) {
+        try {
+            const raw = await redis.get(key);
+            if (raw)
+                return JSON.parse(raw);
+            return null;
+        }
+        catch {
+            // fall through to the in-process tier
         }
     }
-    return null;
+    return memoryGet(key);
 };
-export const setCache = async (key, value, ttlSeconds = 300) => {
-    if (!process.env.REDIS_URL || redis.status !== 'ready') {
-        inMemoryFallbackCache.set(key, {
-            value,
-            expiresAt: Date.now() + ttlSeconds * 1000,
-        });
-        return;
-    }
-    try {
-        await redis.set(key, JSON.stringify(value), 'EX', ttlSeconds);
-    }
-    catch (err) {
-        inMemoryFallbackCache.set(key, {
-            value,
-            expiresAt: Date.now() + ttlSeconds * 1000,
-        });
+export const setCache = async (key, value, ttlSeconds = TTL.products) => {
+    memorySet(key, value, ttlSeconds);
+    if (isRedisReady() && redis) {
+        try {
+            await redis.set(key, JSON.stringify(value), 'EX', ttlSeconds);
+        }
+        catch {
+            // The in-process copy above is already stored; nothing else to do.
+        }
     }
 };
+/**
+ * Drop every key under one or more namespaces.
+ *
+ * Uses SCAN rather than KEYS so invalidation cannot block Redis on a large
+ * keyspace. Always clears the in-process tier too, so a stale local copy cannot
+ * survive an admin edit.
+ */
+export const invalidateNamespaces = async (...namespaces) => {
+    for (const ns of namespaces) {
+        const prefix = `${CACHE_PREFIX}:${ns}`;
+        for (const key of [...memory.keys()]) {
+            if (key.startsWith(prefix))
+                memory.delete(key);
+        }
+        if (isRedisReady() && redis) {
+            try {
+                let cursor = '0';
+                do {
+                    const [next, keys] = await redis.scan(cursor, 'MATCH', `${prefix}*`, 'COUNT', 200);
+                    cursor = next;
+                    if (keys.length)
+                        await redis.del(...keys);
+                } while (cursor !== '0');
+            }
+            catch {
+                // Cache stays warm a little longer; TTLs will expire it regardless.
+            }
+        }
+    }
+};
+/** Read-through helper: return the cached value, or compute, store and return it. */
+export const cached = async (key, ttlSeconds, compute) => {
+    const hit = await getCache(key);
+    if (hit !== null)
+        return hit;
+    const value = await compute();
+    await setCache(key, value, ttlSeconds);
+    return value;
+};
+/** Kept for existing call sites that invalidate by pattern. */
 export const deleteCachePattern = async (pattern) => {
-    if (!process.env.REDIS_URL || redis.status !== 'ready') {
-        for (const key of inMemoryFallbackCache.keys()) {
-            if (key.includes(pattern.replace('*', ''))) {
-                inMemoryFallbackCache.delete(key);
-            }
-        }
-        return;
-    }
-    try {
-        const keys = await redis.keys(pattern);
-        if (keys.length > 0) {
-            await redis.del(...keys);
-        }
-    }
-    catch (err) {
-        for (const key of inMemoryFallbackCache.keys()) {
-            if (key.includes(pattern.replace('*', ''))) {
-                inMemoryFallbackCache.delete(key);
-            }
-        }
-    }
+    const namespace = pattern.replace(`${CACHE_PREFIX}:`, '').replace(/[:*].*$/, '');
+    await invalidateNamespaces(namespace);
 };

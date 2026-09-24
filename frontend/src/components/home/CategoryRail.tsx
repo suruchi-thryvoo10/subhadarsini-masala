@@ -24,7 +24,7 @@ export const CategoryRail: React.FC<CategoryRailProps> = ({ categories, loading 
         {[1, 2, 3, 4].map((n) => (
           <div
             key={n}
-            className="w-[min(78vw,320px)] lg:w-[24vw] aspect-[4/5] shrink-0 rounded-2xl bg-white/60 animate-pulse"
+            className="w-[min(58vw,210px)] sm:w-[min(46vw,260px)] lg:w-[24vw] aspect-[4/5] shrink-0 rounded-2xl bg-white/60 animate-pulse"
           />
         ))}
       </div>
@@ -40,14 +40,14 @@ export const CategoryRail: React.FC<CategoryRailProps> = ({ categories, loading 
       <div className="pointer-events-none absolute inset-y-0 left-0 w-12 sm:w-24 z-10 bg-gradient-to-r from-spice-cream to-transparent" />
       <div className="pointer-events-none absolute inset-y-0 right-0 w-12 sm:w-24 z-10 bg-gradient-to-l from-spice-cream to-transparent" />
 
-      <div className="marquee-track flex gap-6 w-max py-2">
+      <div className="marquee-track flex gap-3 sm:gap-6 w-max py-2">
         {track.map((cat, idx) => (
           <Link
             key={`${cat._id}-${idx}`}
             to={`/category/${cat.slug}`}
             aria-hidden={idx >= categories.length}
             tabIndex={idx >= categories.length ? -1 : 0}
-            className="group/card relative w-[min(78vw,320px)] lg:w-[24vw] shrink-0 rounded-2xl overflow-hidden shadow-md aspect-[4/5] flex flex-col justify-end border border-spice-brown/10 hover:shadow-xl transition-shadow bg-spice-beige"
+            className="group/card relative w-[min(58vw,210px)] sm:w-[min(46vw,260px)] lg:w-[24vw] shrink-0 rounded-2xl overflow-hidden shadow-md aspect-[4/5] flex flex-col justify-end border border-spice-brown/10 hover:shadow-xl transition-shadow bg-spice-beige"
           >
             <img
               src={resolveImageUrl(cat.image)}
@@ -55,13 +55,13 @@ export const CategoryRail: React.FC<CategoryRailProps> = ({ categories, loading 
               alt={cat.name}
               loading="lazy"
               decoding="async"
-              className="absolute inset-0 w-full h-full object-contain p-6 pb-28 group-hover/card:scale-105 transition-transform duration-700"
+              className="absolute inset-0 w-full h-full object-contain p-4 pb-24 sm:p-6 sm:pb-28 group-hover/card:scale-105 transition-transform duration-700"
             />
-            <div className="relative z-10 bg-spice-dark px-5 py-4">
-              <h3 className="font-serif font-bold text-lg sm:text-xl text-spice-cream group-hover/card:text-spice-turmeric transition-colors leading-tight">
+            <div className="relative z-10 bg-spice-dark px-3.5 py-3 sm:px-5 sm:py-4">
+              <h3 className="font-serif font-bold text-sm sm:text-lg lg:text-xl text-spice-cream group-hover/card:text-spice-turmeric transition-colors leading-tight">
                 {cat.name}
               </h3>
-              <span className="inline-flex items-center gap-1 text-xs font-bold text-spice-turmeric mt-2">
+              <span className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-bold text-spice-turmeric mt-1.5 sm:mt-2">
                 Explore
                 <ArrowRight className="w-3.5 h-3.5 group-hover/card:translate-x-1 transition-transform" />
               </span>

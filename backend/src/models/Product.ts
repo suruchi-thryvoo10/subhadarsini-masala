@@ -79,4 +79,10 @@ const ProductSchema = new Schema<IProduct>(
 
 ProductSchema.index({ name: 'text', shortDescription: 'text', ingredients: 'text' });
 
+// Every public listing filters on isPublished and sorts by featured-then-newest,
+// so the compound index lets Mongo satisfy the filter and the sort from one scan.
+ProductSchema.index({ isPublished: 1, isFeatured: -1, createdAt: -1 });
+ProductSchema.index({ isPublished: 1, category: 1, isFeatured: -1 });
+ProductSchema.index({ isPublished: 1, ratingAvg: -1 });
+
 export const Product = mongoose.model<IProduct>('Product', ProductSchema);

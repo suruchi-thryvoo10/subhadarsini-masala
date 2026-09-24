@@ -35,7 +35,7 @@ export const ProductMarquee: React.FC<ProductMarqueeProps> = ({ products }) => {
             to={`/products/${product.slug}`}
             aria-hidden={idx >= products.length}
             tabIndex={idx >= products.length ? -1 : 0}
-            className="group/card w-[260px] sm:w-[320px] lg:w-[360px] shrink-0 bg-white rounded-2xl border border-spice-brown/10 shadow-sm hover:shadow-xl transition-shadow duration-300 overflow-hidden"
+            className="group/card w-[210px] sm:w-[300px] lg:w-[360px] shrink-0 bg-white rounded-2xl border border-spice-brown/10 shadow-sm hover:shadow-xl transition-shadow duration-300 overflow-hidden"
           >
             <div className="aspect-[4/3] bg-spice-cream flex items-center justify-center p-6 border-b border-spice-brown/5">
               <img

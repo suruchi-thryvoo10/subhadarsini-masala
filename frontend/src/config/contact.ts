@@ -19,8 +19,14 @@ export const CONTACT = {
   website: 'subhadarshini.com',
   websiteHref: 'https://www.subhadarshini.com',
 
-  whatsapp:
-    'https://api.whatsapp.com/send?phone=916372585804&text=Hola%21%20Quisiera%20m%C3%A1s%20informaci%C3%B3n.',
+  /**
+   * Prefilled WhatsApp enquiry. The number and the message are encoded with
+   * encodeURIComponent so punctuation survives on both the mobile app and
+   * WhatsApp Web; the previous link carried a Spanish default message.
+   */
+  whatsapp: `https://api.whatsapp.com/send?phone=916372585804&text=${encodeURIComponent(
+    "Hi, I'm interested in Subhadarshini products. I would like to know more about the available spices and place an order."
+  )}`,
 
   social: {
     instagram:
