@@ -91,7 +91,7 @@ export const HomePage: React.FC = () => {
               <span className="text-spice-saffron font-bold text-xs uppercase tracking-widest block mb-2">
                 {t('home.collections')}
               </span>
-              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-spice-brown">
+              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-spice-brown break-words">
                 {t('home.spiceRange')}
               </h2>
             </div>
@@ -115,7 +115,7 @@ export const HomePage: React.FC = () => {
             <span className="text-spice-saffron font-bold text-xs uppercase tracking-widest block mb-2">
               {t('home.bestsellers')}
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-spice-brown">
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-spice-brown break-words">
               {t('home.handcrafted')}
             </h2>
           </Reveal>
@@ -176,11 +176,11 @@ export const HomePage: React.FC = () => {
       <section className="py-20 bg-spice-cream">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-12">
-            <div>
+            <div className="min-w-0 max-w-full">
               <span className="text-spice-saffron font-bold text-xs uppercase tracking-widest block mb-2">
                 {t('home.kitchenInspiration')}
               </span>
-              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-spice-brown">
+              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-spice-brown break-words">
                 {t('home.recipesCrafted')}
               </h2>
             </div>

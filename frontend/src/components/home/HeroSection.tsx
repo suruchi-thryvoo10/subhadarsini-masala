@@ -42,18 +42,20 @@ export const HeroSection: React.FC = () => {
               {t('hero.subtitle')}
             </p>
 
-            {/* One row at every width; wraps only if a very narrow screen
-                (or a long translation) genuinely can't fit both. */}
-            <div className="flex flex-wrap items-center gap-2.5 sm:gap-4 pt-2">
+            {/* Always one row. On phones the buttons share the width and get
+                a touch less padding; if a label still can't fit (a very narrow
+                screen or a long translation) it wraps inside its own button
+                instead of pushing the second button onto a new line. */}
+            <div className="flex items-stretch gap-2 sm:gap-4 pt-2">
               <Link
                 to="/products"
-                className="px-4 sm:px-7 py-3.5 whitespace-nowrap rounded-full bg-spice-red hover:bg-spice-red-dark text-white font-bold text-sm shadow-lg hover:shadow-xl transition-all flex items-center gap-2 group"
+                className="flex-auto sm:flex-none min-w-0 px-3 sm:px-7 py-3.5 rounded-full bg-spice-red hover:bg-spice-red-dark text-white font-bold text-[13px] sm:text-sm leading-tight text-center shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-1.5 sm:gap-2 group"
               >
-                {t('action.exploreProducts')} <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                {t('action.exploreProducts')} <ArrowRight className="w-4 h-4 shrink-0 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
                 to="/recipes"
-                className="px-4 sm:px-7 py-3.5 whitespace-nowrap rounded-full bg-white border border-spice-brown/20 text-spice-brown font-bold text-sm hover:bg-spice-beige transition-colors"
+                className="flex-auto sm:flex-none min-w-0 px-3 sm:px-7 py-3.5 rounded-full bg-white border border-spice-brown/20 text-spice-brown font-bold text-[13px] sm:text-sm leading-tight text-center hover:bg-spice-beige transition-colors flex items-center justify-center"
               >
                 {t('action.discoverRecipes')}
               </Link>
