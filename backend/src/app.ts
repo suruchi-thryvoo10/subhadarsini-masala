@@ -19,6 +19,7 @@ import careerRoutes from './routes/careerRoutes.js';
 import reviewRoutes from './routes/reviewRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import statsRoutes from './routes/statsRoutes.js';
+import wishlistRoutes from './routes/wishlistRoutes.js';
 import { edgeCache } from './middleware/edgeCache.js';
 
 const app = express();
@@ -119,6 +120,7 @@ app.use('/api/v1/careers', careerRoutes);
 app.use('/api/v1/reviews', reviewRoutes);
 app.use('/api/v1/admin', adminRoutes);
 app.use('/api/v1/stats', statsRoutes);
+app.use('/api/v1/wishlist', wishlistRoutes);
 
 // Global Error Handler
 app.use(globalErrorHandler);

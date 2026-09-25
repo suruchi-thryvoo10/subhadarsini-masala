@@ -8,6 +8,14 @@ Base Endpoint: `/api/v1`
 - `GET /me`: Fetch authenticated profile info (Requires Bearer token).
 - `PUT /profile`: Update profile info & address book.
 
+## Wishlist (`/api/v1/wishlist`) — Bearer token required, acts only on the caller's own account
+- `GET /`: The signed-in user's saved products (card fields, category populated).
+- `PUT /:productId`: Save a product. Idempotent; `404 PRODUCT_NOT_FOUND` for unknown ids.
+- `DELETE /:productId`: Remove a product. Idempotent.
+- `POST /merge`: `{ productIds: string[] }` (max 200). Folds a guest's locally saved wishlist into the account after sign-in. Idempotent (`$addToSet`), so a retry never duplicates; unknown or malformed ids are skipped and listed in `meta.ignored` instead of failing the request.
+
+Guests' wishlists live only in the browser (`localStorage` key `subhadarshini.guest.v1.wishlist`) and are never sent to the server until the visitor signs in, at which point the frontend calls `/merge` and clears the local copy once the server confirms.
+
 ## Products & Catalog (`/api/v1/products`)
 - `GET /`: Retrieve published products (Supports `category`, `search`, `minPrice`, `maxPrice`, `sort`, `page`, `limit`).
 - `GET /:slug`: Fetch product detail and related items by URL slug.

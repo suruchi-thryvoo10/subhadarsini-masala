@@ -67,8 +67,13 @@ export const fetchApi = async <T = any>(
 ): Promise<T> => {
   const { timeoutMs = 15000, ...requestInit } = init;
   const method = (requestInit.method || 'GET').toUpperCase();
+  // The cache is keyed by URL alone, so a response that depends on who is
+  // asking (anything sent with credentials) must never go into it or be served
+  // from it — otherwise the next person to sign in on this browser could be
+  // handed the previous user's data.
+  const cacheable = method === 'GET' && !new Headers(requestInit.headers).has('Authorization');
 
-  if (method === 'GET') {
+  if (cacheable) {
     const fresh = recent.get(endpoint);
     if (fresh && fresh.expiresAt > Date.now()) return fresh.value as T;
 
@@ -108,7 +113,7 @@ export const fetchApi = async <T = any>(
   }
   };
 
-  if (method !== 'GET') return run();
+  if (!cacheable) return run();
 
   const promise = run()
     .then((value) => {

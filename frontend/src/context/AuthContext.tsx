@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { User } from '../types';
+import { clearApiCache } from '../config/api';
 
 interface AuthContextType {
   user: User | null;
@@ -12,37 +13,49 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(() => {
+const readUser = (): User | null => {
+  try {
     const saved = localStorage.getItem('subhadarshini_user');
     return saved ? JSON.parse(saved) : null;
-  });
+  } catch {
+    return null;
+  }
+};
+
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [user, setUser] = useState<User | null>(readUser);
 
   const [token, setToken] = useState<string | null>(() => {
     return localStorage.getItem('subhadarshini_token');
   });
 
-  const login = (newToken: string, newUser: User) => {
+  // Stable identities: other providers (the wishlist sync) depend on these,
+  // and a new function every render would restart their effects.
+  const login = useCallback((newToken: string, newUser: User) => {
+    // Nothing fetched for the previous visitor should be reused for this one.
+    clearApiCache();
     setToken(newToken);
     setUser(newUser);
     localStorage.setItem('subhadarshini_token', newToken);
     localStorage.setItem('subhadarshini_user', JSON.stringify(newUser));
-  };
+  }, []);
 
-  const logout = () => {
+  const logout = useCallback(() => {
+    clearApiCache();
     setToken(null);
     setUser(null);
     localStorage.removeItem('subhadarshini_token');
     localStorage.removeItem('subhadarshini_user');
-  };
+  }, []);
 
   const isAdmin = user?.role === 'ADMIN' || user?.role === 'MANAGER';
 
-  return (
-    <AuthContext.Provider value={{ user, token, login, logout, isAuthenticated: !!token, isAdmin }}>
-      {children}
-    </AuthContext.Provider>
+  const value = useMemo(
+    () => ({ user, token, login, logout, isAuthenticated: !!token, isAdmin }),
+    [user, token, login, logout, isAdmin]
   );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => {
