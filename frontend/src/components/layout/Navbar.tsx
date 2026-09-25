@@ -35,16 +35,41 @@ export const Navbar: React.FC = () => {
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Close dropdown on outside click
+  // Close the account dropdown on any press outside it, or on Escape.
+  // `pointerdown` rather than `mousedown`: iOS Safari does not fire mouse
+  // events when tapping non-interactive elements, so a tap on the page body
+  // used to leave the menu open on phones.
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
+    if (!userDropdownOpen) return;
+    const handlePointerDown = (e: PointerEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
         setUserDropdownOpen(false);
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+    const handleKey = (e: KeyboardEvent) => e.key === 'Escape' && setUserDropdownOpen(false);
+    document.addEventListener('pointerdown', handlePointerDown);
+    document.addEventListener('keydown', handleKey);
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown);
+      document.removeEventListener('keydown', handleKey);
+    };
+  }, [userDropdownOpen]);
+
+  // Navigating anywhere closes every menu.
+  useEffect(() => {
+    setUserDropdownOpen(false);
+    setMobileMenuOpen(false);
+  }, [location.pathname, location.search]);
+
+  // Only one menu open at a time.
+  const toggleUserDropdown = () => {
+    setUserDropdownOpen((open) => !open);
+    setMobileMenuOpen(false);
+  };
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen((open) => !open);
+    setUserDropdownOpen(false);
+  };
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -62,8 +87,10 @@ export const Navbar: React.FC = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-spice-cream/95 backdrop-blur-md border-b border-spice-saffron/20 shadow-sm transition-all overflow-x-clip">
-      {/* Top Bar with Real Contact & Address Information */}
+    <>
+      {/* Top Bar with Real Contact & Address Information. It sits outside the
+          sticky header so it scrolls away with the page; only the main navbar
+          below stays pinned. */}
       <div className="bg-spice-dark text-spice-beige py-1.5 px-4 text-xs font-medium border-b border-spice-turmeric/30">
         <div className="max-w-[1400px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">
           {/* Left: Factory & Corporate Address + Phone */}
@@ -96,12 +123,13 @@ export const Navbar: React.FC = () => {
         </div>
       </div>
 
+      <header className="sticky top-0 z-50 bg-spice-cream/95 backdrop-blur-md border-b border-spice-saffron/20 shadow-sm transition-all overflow-x-clip">
       {/* Main Navbar Container */}
       <div className="max-w-[1400px] mx-auto px-3 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20 gap-3 lg:gap-6">
           
           {/* Brand Logo */}
-          <Link to="/" className="flex items-center shrink-0 group pr-4 sm:pr-6 border-r border-spice-brown/15">
+          <Link to="/" className="flex items-center shrink-0 group xl:pr-6 xl:border-r xl:border-spice-brown/15">
             <img
               src="/images/brand/logo.webp"
               alt="Subhadarshini Spices & Foods"
@@ -201,7 +229,7 @@ export const Navbar: React.FC = () => {
           </nav>
 
           {/* Action Tools & Icons (Standardized 5x5 Icon Sizes, Zero Overflow) */}
-          <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0 pl-2 sm:pl-4 border-l border-spice-brown/10">
+          <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0 xl:pl-4 xl:border-l xl:border-spice-brown/10">
             
             {/* Search Bar (Expandable on large screens) */}
             <form onSubmit={handleSearchSubmit} className="hidden lg:flex items-center relative">
@@ -233,17 +261,28 @@ export const Navbar: React.FC = () => {
             {user ? (
               <div className="relative" ref={dropdownRef}>
                 <button
-                  onClick={() => setUserDropdownOpen(!userDropdownOpen)}
+                  onClick={toggleUserDropdown}
+                  aria-haspopup="menu"
+                  aria-expanded={userDropdownOpen}
                   className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-spice-brown/5 hover:bg-spice-brown/10 text-spice-brown text-xs font-bold transition-all border border-spice-brown/10"
                 >
                   <UserCheck className="w-4 h-4 text-spice-red" />
                   <span className="hidden sm:inline max-w-[80px] truncate">{user.name.split(' ')[0]}</span>
-                  <ChevronDown className="w-3 h-3 text-ink-500" />
+                  <ChevronDown className={`w-3 h-3 text-ink-500 transition-transform duration-200 ${userDropdownOpen ? 'rotate-180' : ''}`} />
                 </button>
 
-                {/* Dropdown Menu */}
-                {userDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-52 bg-white rounded-xl shadow-xl border border-spice-brown/10 py-2 z-50 text-xs animate-in fade-in slide-in-from-top-2 duration-200">
+                {/* Dropdown Menu. Stays mounted so it can fade/slide both in
+                    and out; `invisible` keeps it out of the tab order and
+                    click path while closed. */}
+                <div
+                  role="menu"
+                  aria-hidden={!userDropdownOpen}
+                  className={`absolute right-0 mt-2 w-52 max-w-[calc(100vw-1.5rem)] bg-white rounded-xl shadow-xl border border-spice-brown/10 py-2 z-50 text-xs origin-top-right transition-[opacity,transform,visibility] duration-200 ease-out motion-reduce:transition-none ${
+                    userDropdownOpen
+                      ? 'visible opacity-100 translate-y-0 scale-100'
+                      : 'invisible opacity-0 -translate-y-1 scale-95 pointer-events-none'
+                  }`}
+                >
                     <div className="px-4 py-2 border-b border-spice-brown/10">
                       <p className="font-bold text-spice-brown truncate">{user.name}</p>
                       <p className="text-[11px] text-ink-500 truncate">{user.email}</p>
@@ -291,8 +330,7 @@ export const Navbar: React.FC = () => {
                       <LogOut className="w-4 h-4" />
                       {t('action.logout')}
                     </button>
-                  </div>
-                )}
+                </div>
               </div>
             ) : (
               <Link
@@ -307,7 +345,7 @@ export const Navbar: React.FC = () => {
 
             {/* Mobile Menu Toggle Button */}
             <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              onClick={toggleMobileMenu}
               className="xl:hidden p-1.5 sm:p-2 text-spice-brown rounded-lg hover:bg-spice-brown/5 transition-colors shrink-0"
               aria-label="Toggle Navigation Menu"
             >
@@ -420,5 +458,6 @@ export const Navbar: React.FC = () => {
         </div>
       )}
     </header>
+    </>
   );
 };

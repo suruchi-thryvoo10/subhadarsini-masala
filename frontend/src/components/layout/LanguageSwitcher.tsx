@@ -44,7 +44,7 @@ export const LanguageSwitcher: React.FC<Props> = ({ className = '' }) => {
   useEffect(() => {
     if (!open) return;
 
-    const onPointer = (e: MouseEvent) => {
+    const onPointer = (e: PointerEvent) => {
       if (!triggerRef.current?.contains(e.target as Node)) {
         // The panel stops propagation itself, so anything reaching here is
         // outside both the trigger and the list.
@@ -53,12 +53,12 @@ export const LanguageSwitcher: React.FC<Props> = ({ className = '' }) => {
     };
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false);
 
-    document.addEventListener('mousedown', onPointer);
+    document.addEventListener('pointerdown', onPointer);
     document.addEventListener('keydown', onKey);
     window.addEventListener('resize', measure);
     window.addEventListener('scroll', measure, true);
     return () => {
-      document.removeEventListener('mousedown', onPointer);
+      document.removeEventListener('pointerdown', onPointer);
       document.removeEventListener('keydown', onKey);
       window.removeEventListener('resize', measure);
       window.removeEventListener('scroll', measure, true);
@@ -126,7 +126,7 @@ export const LanguageSwitcher: React.FC<Props> = ({ className = '' }) => {
             <div className="fixed inset-0 z-[100] flex items-end" role="dialog" aria-modal="true">
               <div className="absolute inset-0 bg-spice-dark/50" aria-hidden="true" />
               <div
-                onMouseDown={(e) => e.stopPropagation()}
+                onPointerDown={(e) => e.stopPropagation()}
                 className="relative w-full max-h-[70vh] overflow-y-auto bg-white rounded-t-3xl shadow-2xl"
               >
                 <div className="sticky top-0 flex items-center justify-between px-4 py-3 bg-white border-b border-spice-brown/10">
@@ -145,7 +145,7 @@ export const LanguageSwitcher: React.FC<Props> = ({ className = '' }) => {
             </div>
           ) : (
             <div
-              onMouseDown={(e) => e.stopPropagation()}
+              onPointerDown={(e) => e.stopPropagation()}
               style={{ top: anchor?.top ?? 0, right: anchor?.right ?? 0 }}
               className="fixed z-[100] w-56 max-h-80 overflow-y-auto rounded-2xl bg-white border border-spice-brown/15 shadow-xl"
             >

@@ -34,7 +34,7 @@
   }
 }
 
-/* Continuous product rail.
+/* Continuous category rail.
    The track renders the set twice and moves exactly -50%, so the second copy
    lands where the first started: a seamless loop with no jump. Paused on hover
    and on keyboard focus, and disabled entirely for reduced-motion users. */
@@ -59,6 +59,20 @@
 @media (prefers-reduced-motion: reduce) {
   .marquee { overflow-x: auto; }
   .marquee-track { animation: none; }
+}
+
+/* Continuous product rail (see ProductMarquee.tsx). The scroller is a real
+   horizontal scroll area driven slowly by JS. It keeps horizontal swipes to
+   itself so they never become browser back/forward, while vertical swipes
+   still scroll the page. */
+.marquee-scroller {
+  overscroll-behavior-x: contain;
+  touch-action: pan-x pan-y;
+  cursor: grab;
+}
+.marquee-scroller.is-dragging {
+  cursor: grabbing;
+  user-select: none;
 }
 
 /* Recipe hero motion. The photo drifts slowly (a Ken Burns move) while the
