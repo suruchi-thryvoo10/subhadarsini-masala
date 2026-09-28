@@ -62,35 +62,41 @@ export const AboutPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Manufacturing Facility */}
-        <div className="bg-white rounded-3xl p-8 md:p-12 border border-spice-brown/10 shadow-sm grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-          <div className="space-y-4">
-            <span className="text-spice-saffron font-bold text-xs uppercase tracking-widest block">
+        {/* Full-width Manufacturing Facility Banner */}
+        <div className="relative rounded-3xl overflow-hidden p-8 md:p-12 text-white border border-spice-brown/10 shadow-xl min-h-[420px] flex items-center">
+          {/* Full-width Background Image */}
+          <div className="absolute inset-0 z-0">
+            <img
+              src="/images/brand/company-facility.jpg"
+              alt="Subhadarshini Agro Manufacturing Facility"
+              className="w-full h-full object-cover object-center filter brightness-[1.05] contrast-[1.05]"
+            />
+            {/* Full-width Dark Gradient Overlays for optimal readability */}
+            <div className="absolute inset-0 bg-gradient-to-r from-spice-dark/95 via-spice-dark/85 lg:via-spice-dark/45 to-transparent z-10" />
+            <div className="absolute inset-0 bg-gradient-to-t from-spice-dark/85 via-transparent to-spice-dark/30 z-10" />
+          </div>
+
+          {/* Banner Content Overlays */}
+          <div className="relative z-20 max-w-2xl space-y-4">
+            <span className="text-spice-turmeric font-extrabold text-xs uppercase tracking-widest inline-flex items-center gap-2 px-3 py-1 rounded-full bg-spice-turmeric/20 border border-spice-turmeric/40 backdrop-blur-md">
               State-Of-The-Art Processing Plant
             </span>
-            <h2 className="font-serif text-3xl font-bold text-spice-brown">
+            <h2 className="font-serif text-3xl sm:text-4xl font-extrabold text-white leading-tight drop-shadow-md">
               Automated Touchless Processing & Stone Grinding
             </h2>
-            <p className="text-xs text-spice-brown/80 leading-relaxed">
+            <p className="text-sm text-spice-cream/90 leading-relaxed font-medium">
               Our central manufacturing facility in Odisha is equipped with heavy-duty granite stone mills that slow-grind whole spices at low temperatures, ensuring zero volatile oil evaporation.
             </p>
-            <div className="grid grid-cols-2 gap-4 pt-4">
-              <div className="p-4 bg-spice-cream rounded-2xl border border-spice-brown/10">
-                <span className="font-serif font-bold text-2xl text-spice-red block">10,000+ Sq.Ft</span>
-                <span className="text-xs text-spice-brown/70">Cleanroom Processing Facility</span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+              <div className="p-4 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20">
+                <span className="font-serif font-bold text-2xl text-spice-turmeric block">10,000+ Sq.Ft</span>
+                <span className="text-xs text-spice-cream/80 font-medium">Cleanroom Processing Facility</span>
               </div>
-              <div className="p-4 bg-spice-cream rounded-2xl border border-spice-brown/10">
+              <div className="p-4 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20">
                 <span className="font-serif font-bold text-2xl text-spice-saffron block">42-Point</span>
-                <span className="text-xs text-spice-brown/70">Lab Quality Control Checks</span>
+                <span className="text-xs text-spice-cream/80 font-medium">Lab Quality Control Checks</span>
               </div>
             </div>
-          </div>
-          <div className="aspect-video rounded-3xl overflow-hidden border border-spice-brown/10">
-            <img
-              src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=1000&q=80"
-              alt="Manufacturing Facility"
-              className="w-full h-full object-cover"
-            />
           </div>
         </div>
       </div>

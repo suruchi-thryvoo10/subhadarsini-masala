@@ -1,59 +1,111 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Sprout, Search, Sparkles, Cog, Flame, ShieldAlert, PackageCheck, Truck } from 'lucide-react';
+import { Sprout, Cog, ShieldCheck, PackageCheck, ArrowRight } from 'lucide-react';
 
 export const ManufacturingStoryTimeline: React.FC = () => {
   const steps = [
-    { title: 'Raw Material', desc: 'Direct farm sourcing of whole unground spices.', icon: Sprout },
-    { title: 'Quality Inspection', desc: 'Physical inspection for moisture, aroma & purity.', icon: Search },
-    { title: 'Cleaning', desc: 'Triple-stage destoning and magnetic metal separation.', icon: Sparkles },
-    { title: 'Grinding', desc: 'Slow traditional stone milling to preserve essential oils.', icon: Cog },
-    { title: 'Blending', desc: 'Precision formulated spice ratio blending.', icon: Flame },
-    { title: 'Lab Testing', desc: 'NABL laboratory verification of purity & microbiology.', icon: ShieldAlert },
-    { title: 'Packaging', desc: 'Aroma-lock multilayer food grade pouch seal.', icon: PackageCheck },
-    { title: 'Distribution', desc: 'Fresh direct supply to retailers & doorstep orders.', icon: Truck }
+    {
+      title: 'Whole Spices Sourced',
+      desc: '100% farm-sourced single-origin whole spices.',
+      icon: Sprout,
+      image: '/images/products/coriander-seeds.webp'
+    },
+    {
+      title: 'Granite Stone Milling',
+      desc: 'Slow-ground at low temperatures to prevent oil loss.',
+      icon: Cog,
+      image: '/images/products/turmeric-powder.webp'
+    },
+    {
+      title: 'Touchless Processing',
+      desc: 'Automated magnetic cleaning & hygienic sorting.',
+      icon: ShieldCheck,
+      image: '/images/products/panch-phoran.webp'
+    },
+    {
+      title: 'Finished Subhadarshini Masala',
+      desc: 'Aroma-locked multi-layer pouch seal ready for your kitchen.',
+      icon: PackageCheck,
+      image: '/images/products/chicken-masala.webp'
+    }
   ];
 
   return (
-    <section className="py-20 bg-spice-beige/40">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="text-spice-saffron font-bold text-xs uppercase tracking-widest block mb-2">
-            Purity In Every Grain
+    <section className="py-20 bg-spice-beige/40 border-y border-spice-brown/10 relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        {/* Main Section Header with EXACT REQUIRED HEADING & TEXT */}
+        <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
+          <span className="text-spice-saffron font-bold text-xs uppercase tracking-widest block">
+            Purity & Science In Every Grain
           </span>
+
+          {/* EXACT HEADING */}
           <h2 className="font-serif text-3xl sm:text-4xl font-bold text-spice-brown">
-            The Subhadarshini Production Journey
+            Automated Touchless Processing & Stone Grinding
           </h2>
-          <p className="text-sm text-spice-brown/70 mt-3">
-            From farm fields to your kitchen handi, follow how we transform pristine whole spices into aromatic masterpieces.
+
+          {/* EXACT BODY COPY */}
+          <p className="text-sm sm:text-base text-spice-brown/80 leading-relaxed max-w-2xl mx-auto">
+            Our central manufacturing facility in Odisha is equipped with heavy-duty granite stone mills that slow-grind whole spices at low temperatures, ensuring zero volatile oil evaporation.
           </p>
         </div>
 
-        {/* Timeline Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {steps.map((step, idx) => {
-            const Icon = step.icon;
-            return (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: idx * 0.08 }}
-                className="bg-white p-6 rounded-2xl border border-spice-brown/10 shadow-sm relative group hover:shadow-lg transition-all"
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <div className="w-10 h-10 rounded-xl bg-spice-saffron/10 text-spice-saffron flex items-center justify-center font-bold group-hover:bg-spice-red group-hover:text-white transition-colors">
-                    <Icon className="w-5 h-5" />
+        {/* Visual Storytelling Flow: Whole Spices -> Stone Grinding -> Careful Processing -> Finished Subhadarshini Masala */}
+        <div className="mb-12 bg-white rounded-3xl p-6 sm:p-8 border border-spice-brown/10 shadow-sm">
+          <h3 className="font-serif font-bold text-xl text-spice-brown mb-6 text-center">
+            From Raw Spice To Authentic Subhadarshini Masala
+          </h3>
+
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 relative">
+            {steps.map((step, idx) => {
+              const Icon = step.icon;
+              return (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: idx * 0.1 }}
+                  className="bg-spice-cream rounded-2xl p-5 border border-spice-brown/10 flex flex-col justify-between relative group hover:border-spice-red transition-all"
+                >
+                  <div>
+                    <div className="relative w-full h-32 mb-4 rounded-xl overflow-hidden bg-white p-2 flex items-center justify-center border border-spice-brown/5 shadow-inner">
+                      <img
+                        src={step.image}
+                        alt={step.title}
+                        className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                      />
+                      <span className="absolute top-2 left-2 w-7 h-7 rounded-full bg-spice-brown text-white font-bold text-xs flex items-center justify-center">
+                        0{idx + 1}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="w-7 h-7 rounded-lg bg-spice-saffron/10 text-spice-saffron flex items-center justify-center shrink-0">
+                        <Icon className="w-4 h-4" />
+                      </div>
+                      <h4 className="font-serif font-bold text-base text-spice-brown leading-tight">
+                        {step.title}
+                      </h4>
+                    </div>
+
+                    <p className="text-xs text-spice-brown/70 leading-relaxed">
+                      {step.desc}
+                    </p>
                   </div>
-                  <span className="font-serif text-xs font-bold text-ink-500">0{idx + 1}</span>
-                </div>
-                <h3 className="font-serif font-bold text-lg text-spice-brown mb-1">{step.title}</h3>
-                <p className="text-xs text-spice-brown/70 leading-relaxed">{step.desc}</p>
-              </motion.div>
-            );
-          })}
+
+                  {idx < steps.length - 1 && (
+                    <div className="hidden md:flex absolute -right-3 top-1/2 -translate-y-1/2 z-10 w-6 h-6 rounded-full bg-spice-saffron text-white items-center justify-center shadow-md">
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </div>
+                  )}
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
+
       </div>
     </section>
   );

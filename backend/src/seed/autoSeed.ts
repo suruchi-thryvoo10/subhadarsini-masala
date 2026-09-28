@@ -975,7 +975,7 @@ export const autoSeedIfEmpty = async () => {
       ]);
     }
 
-    // 5. Seed Recipes
+    // 5. Seed Recipes (6 heritage & house recipes)
     const recipeDefs = [
         {
           title: 'Traditional Odia Mamsa Kasa (Spiced Mutton Curry)',
@@ -990,8 +990,8 @@ export const autoSeedIfEmpty = async () => {
           description: 'Rich, slow-cooked mutton curry in caramelised onion and stone-ground spices.',
           ingredients: [
             { name: 'Tender Mutton', quantity: '500g' },
-            { name: 'Subhadarshini Pure Mustard Oil', quantity: '3 tbsp', isSubhadarshiniProduct: true },
-            { name: 'Subhadarshini Royal Garam Masala', quantity: '2 tbsp', isSubhadarshiniProduct: true },
+            { name: 'Subhadarshini Pure Mustard Oil / Ghee', quantity: '3 tbsp', isSubhadarshiniProduct: true },
+            { name: 'Subhadarshini Mutton & Meat Masala', quantity: '2 tbsp', isSubhadarshiniProduct: true },
             { name: 'Subhadarshini Pure Turmeric Powder', quantity: '1 tbsp', isSubhadarshiniProduct: true },
             { name: 'Subhadarshini Red Chilli Powder', quantity: '1.5 tbsp', isSubhadarshiniProduct: true },
             { name: 'Sliced Onions', quantity: '3 large' },
@@ -1001,7 +1001,7 @@ export const autoSeedIfEmpty = async () => {
             'Marinate mutton with Subhadarshini Turmeric Powder, red chilli, and curd for 30 minutes.',
             'Heat mustard oil in a heavy handi, saute onions till deep brown.',
             'Add ginger-garlic paste and cook till raw aroma vanishes.',
-            'Stir in Subhadarshini Royal Garam Masala, add marinated mutton and slow cook on medium heat for 40 mins.',
+            'Stir in Subhadarshini Mutton & Meat Masala, add marinated mutton and slow cook on medium heat for 40 mins.',
             'Garnish with fresh coriander leaves and serve with hot boiled rice or paratha.'
           ],
           requiredProducts: [allProducts[0]._id, allProducts[1]._id, allProducts[2]._id],
@@ -1020,7 +1020,6 @@ export const autoSeedIfEmpty = async () => {
           description: 'The everyday Odia one-pot of toor dal simmered with raw banana, pumpkin and roasted spice.',
           ingredients: [
             { name: 'Toor Dal (Arhar)', quantity: '1 cup' },
-            { name: 'Subhadarshini Heritage Odia Dalma Masala', quantity: '1.5 tbsp', isSubhadarshiniProduct: true },
             { name: 'Subhadarshini Panch Phoran', quantity: '1 tsp', isSubhadarshiniProduct: true },
             { name: 'Subhadarshini Pure Turmeric Powder', quantity: '1/2 tsp', isSubhadarshiniProduct: true },
             { name: 'Raw Banana, Pumpkin & Brinjal', quantity: '2 cups, cubed' },
@@ -1031,7 +1030,7 @@ export const autoSeedIfEmpty = async () => {
             'Pressure cook the toor dal with turmeric and the cubed vegetables until just tender.',
             'Heat ghee in a pan and crackle Subhadarshini Panch Phoran with dried red chilli.',
             'Add grated ginger and fry for thirty seconds until fragrant.',
-            'Pour the tempering into the dal, stir in Subhadarshini Dalma Masala and simmer for five minutes.',
+            'Pour the tempering into the dal, stir well and simmer for five minutes.',
             'Finish with a spoon of ghee and serve hot with steamed rice.'
           ],
           requiredProducts: [],
@@ -1050,7 +1049,7 @@ export const autoSeedIfEmpty = async () => {
           description: 'Rohu simmered in a sharp ground-mustard gravy, the coastal Odia classic.',
           ingredients: [
             { name: 'Rohu or Katla Fish', quantity: '600g, cut into steaks' },
-            { name: 'Subhadarshini Fish Curry Masala', quantity: '2 tbsp', isSubhadarshiniProduct: true },
+            { name: 'Subhadarshini Fish Masala', quantity: '2 tbsp', isSubhadarshiniProduct: true },
             { name: 'Subhadarshini Mustard Seeds', quantity: '2 tbsp, ground to paste', isSubhadarshiniProduct: true },
             { name: 'Subhadarshini Pure Turmeric Powder', quantity: '1 tsp', isSubhadarshiniProduct: true },
             { name: 'Mustard Oil', quantity: '4 tbsp' },
@@ -1061,8 +1060,94 @@ export const autoSeedIfEmpty = async () => {
             'Rub the fish steaks with turmeric and salt, then rest for ten minutes.',
             'Shallow fry the fish in hot mustard oil until lightly golden on both sides, then set aside.',
             'In the same oil, fry crushed garlic and green chillies until aromatic.',
-            'Add the ground mustard paste and Subhadarshini Fish Curry Masala, and cook on low heat so the mustard does not turn bitter.',
+            'Add the ground mustard paste and Subhadarshini Fish Masala, and cook on low heat so the mustard does not turn bitter.',
             'Slide the fish back in with a cup of warm water and simmer for eight minutes. Serve with rice.'
+          ],
+          requiredProducts: [],
+          isFeatured: true
+        },
+        {
+          title: 'Subhadarshini Special Chicken Curry',
+          slug: 'subhadarshini-special-chicken-curry',
+          heroProductSlug: 'subhadarshini-special-chicken-curry-masala',
+          category: 'Non-Vegetarian',
+          prepTimeMinutes: 15,
+          cookTimeMinutes: 35,
+          difficulty: 'EASY',
+          servings: 4,
+          image: '/images/products/chicken-masala.webp',
+          description: 'Authentic tavern-style chicken curry cooked with slow-roasted spices and ginger-garlic paste.',
+          ingredients: [
+            { name: 'Fresh Chicken', quantity: '750g, curry cut' },
+            { name: 'Subhadarshini Special Chicken Curry Masala', quantity: '2.5 tbsp', isSubhadarshiniProduct: true },
+            { name: 'Subhadarshini Pure Turmeric Powder', quantity: '1 tsp', isSubhadarshiniProduct: true },
+            { name: 'Subhadarshini Red Chilli Powder', quantity: '1 tsp', isSubhadarshiniProduct: true },
+            { name: 'Onions & Tomato Puree', quantity: '2 cups' },
+            { name: 'Mustard Oil', quantity: '3 tbsp' }
+          ],
+          instructions: [
+            'Coat chicken in Subhadarshini Turmeric and Red Chilli powder for 15 minutes.',
+            'Saute finely chopped onions in mustard oil until caramelised.',
+            'Add Subhadarshini Special Chicken Curry Masala and tomato puree, stir till oil separates.',
+            'Add chicken pieces, cover and cook on low flame for 25 minutes until succulent.',
+            'Garnish with fresh coriander and serve hot with rotis or rice.'
+          ],
+          requiredProducts: [],
+          isFeatured: true
+        },
+        {
+          title: 'Royal Dum Biryani',
+          slug: 'royal-dum-biryani',
+          heroProductSlug: 'subhadarshini-royal-dum-biryani-masala',
+          category: 'Royal Special',
+          prepTimeMinutes: 25,
+          cookTimeMinutes: 40,
+          difficulty: 'MEDIUM',
+          servings: 6,
+          image: '/images/products/biryani-masala.webp',
+          description: 'Aromatic layered rice dish cooked under sealed dum with whole spices and biryani masala.',
+          ingredients: [
+            { name: 'Long Grain Basmati Rice', quantity: '500g' },
+            { name: 'Subhadarshini Royal Dum Biryani Masala', quantity: '3 tbsp', isSubhadarshiniProduct: true },
+            { name: 'Subhadarshini Coriander Seeds & Tej Patta', quantity: '1 tbsp', isSubhadarshiniProduct: true },
+            { name: 'Fried Onions (Birista)', quantity: '1 cup' },
+            { name: 'Fresh Mint & Saffron Milk', quantity: '1/2 cup' },
+            { name: 'Pure Ghee', quantity: '3 tbsp' }
+          ],
+          instructions: [
+            'Parboil basmati rice with whole spices until 70% cooked, then drain.',
+            'Layer vegetables or marinated meat at the bottom of a heavy handi.',
+            'Sprinkle Subhadarshini Royal Dum Biryani Masala, fried onions, mint, and ghee between layers.',
+            'Seal handi lid with dough and cook on low heat (dum) for 25 minutes.',
+            'Gently fluff rice and serve with raita.'
+          ],
+          requiredProducts: [],
+          isFeatured: true
+        },
+        {
+          title: 'Shahi Paneer Butter Masala',
+          slug: 'shahi-paneer-butter-masala',
+          heroProductSlug: 'subhadarshini-paneer-butter-masala',
+          category: 'Vegetarian',
+          prepTimeMinutes: 10,
+          cookTimeMinutes: 20,
+          difficulty: 'EASY',
+          servings: 4,
+          image: '/images/products/paneer-masala.webp',
+          description: 'Velvety smooth cottage cheese curry in tomato-cashew gravy with kasuri methi.',
+          ingredients: [
+            { name: 'Fresh Cottage Cheese (Paneer)', quantity: '300g, cubed' },
+            { name: 'Subhadarshini Shahi Paneer Masala', quantity: '2 tbsp', isSubhadarshiniProduct: true },
+            { name: 'Subhadarshini Kasuri Methi', quantity: '1 tbsp', isSubhadarshiniProduct: true },
+            { name: 'Fresh Tomato Puree & Cashew Paste', quantity: '1.5 cups' },
+            { name: 'Butter & Fresh Cream', quantity: '2 tbsp' }
+          ],
+          instructions: [
+            'Melt butter in a pan and add tomato puree and cashew paste.',
+            'Add Subhadarshini Shahi Paneer Masala and cook until smooth and fragrant.',
+            'Stir in fresh cream, paneer cubes, and crushed Subhadarshini Kasuri Methi.',
+            'Simmer gently for 5 minutes without boiling.',
+            'Serve with naan, butter kulcha, or jeera rice.'
           ],
           requiredProducts: [],
           isFeatured: true

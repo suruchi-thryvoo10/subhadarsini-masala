@@ -147,7 +147,7 @@ export const Navbar: React.FC = () => {
             >
               {t('nav.home')}
               {isActive('/') && (
-                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-spice-red rounded-full" />
+                <span className="absolute bottom-0 left-0 w-full h-[1.5px] bg-spice-red rounded-full" />
               )}
             </Link>
 
@@ -159,7 +159,7 @@ export const Navbar: React.FC = () => {
             >
               {t('nav.products')}
               {isActive('/products') && (
-                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-spice-red rounded-full" />
+                <span className="absolute bottom-0 left-0 w-full h-[1.5px] bg-spice-red rounded-full" />
               )}
             </Link>
 
@@ -174,7 +174,7 @@ export const Navbar: React.FC = () => {
                 AI
               </span>
               {isActive('/recipes') && (
-                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-spice-red rounded-full" />
+                <span className="absolute bottom-0 left-0 w-full h-[1.5px] bg-spice-red rounded-full" />
               )}
             </Link>
 
@@ -187,7 +187,7 @@ export const Navbar: React.FC = () => {
               <ShieldCheck className="w-4 h-4 text-spice-saffron" />
               {t('nav.quality')}
               {isActive('/quality') && (
-                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-spice-red rounded-full" />
+                <span className="absolute bottom-0 left-0 w-full h-[1.5px] bg-spice-red rounded-full" />
               )}
             </Link>
 
@@ -199,7 +199,7 @@ export const Navbar: React.FC = () => {
             >
               {t('nav.about')}
               {isActive('/about') && (
-                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-spice-red rounded-full" />
+                <span className="absolute bottom-0 left-0 w-full h-[1.5px] bg-spice-red rounded-full" />
               )}
             </Link>
 
@@ -211,7 +211,7 @@ export const Navbar: React.FC = () => {
             >
               {t('nav.dealers')}
               {isActive('/dealers') && (
-                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-spice-red rounded-full" />
+                <span className="absolute bottom-0 left-0 w-full h-[1.5px] bg-spice-red rounded-full" />
               )}
             </Link>
 
@@ -223,7 +223,7 @@ export const Navbar: React.FC = () => {
             >
               {t('nav.wholesale')}
               {isActive('/wholesale') && (
-                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-spice-red rounded-full" />
+                <span className="absolute bottom-0 left-0 w-full h-[1.5px] bg-spice-red rounded-full" />
               )}
             </Link>
           </nav>
