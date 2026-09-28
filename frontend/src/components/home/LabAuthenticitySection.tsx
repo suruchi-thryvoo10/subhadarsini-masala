@@ -17,20 +17,20 @@ export const LabAuthenticitySection: React.FC = () => {
   };
 
   return (
-    <section className="relative overflow-hidden py-24 text-white border-y border-spice-saffron/20 min-h-[520px] flex items-center">
-      {/* Full-width Background Image */}
+    <section className="relative overflow-hidden text-white border-y border-spice-saffron/20 min-h-[min(92svh,720px)] sm:min-h-[560px] lg:min-h-[520px] flex items-end lg:items-center">
+      {/* Full-bleed facility photo — crop shifts per breakpoint so the building, cars, and sign stay visible */}
       <div className="absolute inset-0 z-0">
         <img
           src="/images/brand/company-facility.jpg"
           alt="Subhadarshini Private Limited Central Manufacturing Facility"
-          className="w-full h-full object-cover object-center filter brightness-[1.1] contrast-[1.05]"
+          className="facility-cover-img filter brightness-[1.1] contrast-[1.05]"
         />
-        {/* Full-width Gradient Overlays for optimal content contrast */}
-        <div className="absolute inset-0 bg-gradient-to-r from-spice-dark/95 via-spice-dark/75 lg:via-spice-dark/30 to-transparent z-10" />
-        <div className="absolute inset-0 bg-gradient-to-t from-spice-dark/80 via-transparent to-spice-dark/20 z-10" />
+        <div className="absolute inset-0 z-10 bg-gradient-to-t from-spice-dark via-spice-dark/55 to-black/15 lg:hidden" />
+        <div className="absolute inset-0 z-10 hidden lg:block bg-gradient-to-r from-spice-dark/95 via-spice-dark/30 to-transparent" />
+        <div className="absolute inset-0 z-10 hidden lg:block bg-gradient-to-t from-spice-dark/80 via-transparent to-spice-dark/20" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 w-full">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 w-full pt-36 pb-10 sm:pt-28 sm:pb-16 lg:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           
           {/* Left Text & Verification Form */}

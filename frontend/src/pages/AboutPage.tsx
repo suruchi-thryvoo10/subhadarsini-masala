@@ -63,21 +63,19 @@ export const AboutPage: React.FC = () => {
         </div>
 
         {/* Full-width Manufacturing Facility Banner */}
-        <div className="relative rounded-3xl overflow-hidden p-8 md:p-12 text-white border border-spice-brown/10 shadow-xl min-h-[420px] flex items-center">
-          {/* Full-width Background Image */}
+        <div className="relative rounded-3xl overflow-hidden text-white border border-spice-brown/10 shadow-xl min-h-[380px] sm:min-h-[420px] lg:min-h-[460px] flex items-end lg:items-center">
           <div className="absolute inset-0 z-0">
             <img
               src="/images/brand/company-facility.jpg"
               alt="Subhadarshini Agro Manufacturing Facility"
-              className="w-full h-full object-cover object-center filter brightness-[1.05] contrast-[1.05]"
+              className="facility-cover-img filter brightness-[1.05] contrast-[1.05]"
             />
-            {/* Full-width Dark Gradient Overlays for optimal readability */}
-            <div className="absolute inset-0 bg-gradient-to-r from-spice-dark/95 via-spice-dark/85 lg:via-spice-dark/45 to-transparent z-10" />
-            <div className="absolute inset-0 bg-gradient-to-t from-spice-dark/85 via-transparent to-spice-dark/30 z-10" />
+            <div className="absolute inset-0 z-10 bg-gradient-to-t from-spice-dark via-spice-dark/50 to-black/10 lg:hidden" />
+            <div className="absolute inset-0 z-10 hidden lg:block bg-gradient-to-r from-spice-dark/95 via-spice-dark/45 to-transparent" />
+            <div className="absolute inset-0 z-10 hidden lg:block bg-gradient-to-t from-spice-dark/85 via-transparent to-spice-dark/30" />
           </div>
 
-          {/* Banner Content Overlays */}
-          <div className="relative z-20 max-w-2xl space-y-4">
+          <div className="relative z-20 max-w-2xl space-y-4 p-6 sm:p-8 md:p-12 pt-40 sm:pt-28 lg:pt-12">
             <span className="text-spice-turmeric font-extrabold text-xs uppercase tracking-widest inline-flex items-center gap-2 px-3 py-1 rounded-full bg-spice-turmeric/20 border border-spice-turmeric/40 backdrop-blur-md">
               State-Of-The-Art Processing Plant
             </span>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { HeroSection } from '../components/home/HeroSection';
 import { StatsSection } from '../components/home/StatsSection';
@@ -205,6 +205,65 @@ const DEFAULT_HERITAGE_RECIPES: Recipe[] = [
   }
 ];
 
+const RECIPE_VIDEOS: Record<string, string> = {
+  'traditional-odia-mamsa-kasa': '/video/mutton.mp4',
+  'heritage-odia-dalma': '/video/daal.mp4',
+  'machha-besara-odia-fish-curry': '/video/fish.mp4',
+  'subhadarshini-special-chicken-curry': '/video/chicken.mp4',
+  'royal-dum-biryani': '/video/biryani.mp4',
+  'shahi-paneer-butter-masala': '/video/paneer.mp4'
+};
+
+const AutoplayRecipeVideo: React.FC<{ src: string; poster?: string; title: string }> = ({ src, poster, title }) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const playWhenVisible = () => {
+      if (video.getAttribute('src') !== src) {
+        video.src = src;
+        video.load();
+      }
+      void video.play().catch(() => undefined);
+    };
+
+    if (!('IntersectionObserver' in window)) {
+      playWhenVisible();
+      return () => video.pause();
+    }
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        playWhenVisible();
+      } else {
+        video.pause();
+      }
+    }, { threshold: 0.25 });
+
+    observer.observe(video);
+    return () => {
+      observer.disconnect();
+      video.pause();
+    };
+  }, [src]);
+
+  return (
+    <video
+      ref={videoRef}
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="none"
+      poster={poster}
+      aria-label={`${title} recipe video`}
+      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+    />
+  );
+};
+
 export const HomePage: React.FC = () => {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -370,6 +429,7 @@ export const HomePage: React.FC = () => {
               const heroMasalaImg = recipe.heroProduct
                 ? productImageUrl(recipe.heroProduct)
                 : '/images/products/ground-spice-generic.webp';
+              const videoSrc = RECIPE_VIDEOS[recipe.slug];
 
               return (
                 <div
@@ -380,12 +440,16 @@ export const HomePage: React.FC = () => {
                   <div>
                     {/* Cooked Dish Image Header with Attached Small Masala Badge */}
                     <div className="relative aspect-[16/9] overflow-hidden bg-spice-brown">
-                      <img
-                        src={recipe.image}
-                        onError={handleImageError}
-                        alt={recipe.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
+                      {videoSrc ? (
+                        <AutoplayRecipeVideo src={videoSrc} poster={recipe.image} title={recipe.title} />
+                      ) : (
+                        <img
+                          src={recipe.image}
+                          onError={handleImageError}
+                          alt={recipe.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                      )}
                       <span className="absolute top-2.5 left-2.5 bg-white/95 backdrop-blur-md px-2.5 py-0.5 rounded-full text-[10px] font-extrabold text-spice-brown uppercase tracking-wider shadow-xs z-10">
                         {recipe.category || 'Recipe'}
                       </span>

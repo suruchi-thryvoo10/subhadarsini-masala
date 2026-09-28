@@ -22,7 +22,6 @@ const SLIDES = [
     ),
     subtext:
       'Formulated with whole handpicked spices slow-milled on granite stone mills in Odisha to keep natural volatile oils & aroma locked in.',
-    objectPosition: '70% center',
   },
   {
     id: 'ambassador',
@@ -39,7 +38,6 @@ const SLIDES = [
     ),
     subtext:
       'Stone-ground on traditional granite mills to preserve the volatile oils that give every dish its authentic, deep-rooted flavour.',
-    objectPosition: '85% center',
   },
   {
     id: 'man-turmeric',
@@ -56,7 +54,6 @@ const SLIDES = [
     ),
     subtext:
       'Pure sun-dried turmeric stone-ground without additives, preserving the natural curcumin, colour and earthy warmth of every pinch.',
-    objectPosition: '70% center',
   },
 ];
 
@@ -146,7 +143,7 @@ export const HeroSection: React.FC = () => {
       ref={containerRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative min-h-[600px] lg:min-h-[660px] overflow-hidden bg-spice-dark text-white border-b border-spice-brown/10 flex flex-col justify-between [perspective:1200px]"
+      className="relative min-h-[min(88svh,640px)] sm:min-h-[560px] md:min-h-[600px] lg:min-h-[660px] overflow-hidden bg-spice-dark text-white border-b border-spice-brown/10 flex flex-col justify-between [perspective:1200px]"
     >
 
       {/* ── SLIDING BACKGROUND IMAGES ─────────────────────────────────────── */}
@@ -163,6 +160,7 @@ export const HeroSection: React.FC = () => {
         >
           {/* Parallax wrapper */}
           <motion.div
+            className="w-full h-full overflow-hidden"
             style={
               !prefersReducedMotion
                 ? {
@@ -171,21 +169,19 @@ export const HeroSection: React.FC = () => {
                     rotateX: bgRotateX,
                     rotateY: bgRotateY,
                     transformStyle: 'preserve-3d',
-                    width: '100%',
-                    height: '100%',
                   }
-                : { width: '100%', height: '100%' }
+                : undefined
             }
           >
             <motion.img
               src={slide.image}
               alt={slide.alt}
-              className="w-full h-full object-cover filter contrast-[1.04] brightness-[1.02]"
-              style={{ objectPosition: slide.objectPosition }}
+              data-slide={slide.id}
+              className="hero-cover-img filter contrast-[1.04] brightness-[1.02]"
               animate={
-                !prefersReducedMotion
-                  ? { scale: [1.03, 1.08, 1.03], rotate: [0, 0.3, 0] }
-                  : { scale: 1.03 }
+                prefersReducedMotion
+                  ? { scale: 1 }
+                  : { scale: [1, 1.04, 1], rotate: [0, 0.2, 0] }
               }
               transition={{
                 duration: 12,
@@ -196,9 +192,11 @@ export const HeroSection: React.FC = () => {
             />
           </motion.div>
 
-          {/* Gradient overlays */}
-          <div className="absolute inset-0 bg-gradient-to-r from-spice-dark/95 via-spice-dark/75 lg:via-spice-dark/35 to-transparent z-10" />
-          <div className="absolute inset-0 bg-gradient-to-t from-spice-dark/80 via-transparent to-spice-dark/30 z-10" />
+          {/* Mobile/tablet: fade from the bottom so the photo stays visible above the copy.
+              Laptop: left-to-right wash so the subject on the right stays bright. */}
+          <div className="absolute inset-0 z-10 bg-gradient-to-t from-spice-dark via-spice-dark/55 to-black/20 lg:hidden" />
+          <div className="absolute inset-0 z-10 hidden lg:block bg-gradient-to-r from-spice-dark/95 via-spice-dark/35 to-transparent" />
+          <div className="absolute inset-0 z-10 hidden lg:block bg-gradient-to-t from-spice-dark/80 via-transparent to-spice-dark/30" />
         </motion.div>
       </AnimatePresence>
 
@@ -226,7 +224,7 @@ export const HeroSection: React.FC = () => {
       )}
 
       {/* ── HERO CONTENT OVERLAY ──────────────────────────────────────────── */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 relative z-20 w-full my-auto">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-16 sm:pt-16 sm:pb-20 lg:py-16 relative z-20 w-full mt-auto lg:my-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
 
           {/* Left Side: Headline & Actions */}

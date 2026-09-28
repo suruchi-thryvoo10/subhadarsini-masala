@@ -87,3 +87,76 @@
 h1, h2, h3, h4 {
   overflow-wrap: break-word;
 }
+
+/*
+  Cinematic cover photos are landscape. On a tall phone they would otherwise
+  crop the subject out; each breakpoint keeps the focal point in frame.
+*/
+.hero-cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 62% 18%;
+}
+.hero-cover-img[data-slide='saree-lady'] {
+  object-position: 62% 16%;
+}
+.hero-cover-img[data-slide='ambassador'] {
+  object-position: 78% 12%;
+}
+.hero-cover-img[data-slide='man-turmeric'] {
+  object-position: 64% 14%;
+}
+
+.facility-cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Building, parked cars, and the SUBHADARSINI sign stay in frame */
+  object-position: 78% 48%;
+}
+
+@media (min-width: 640px) {
+  .hero-cover-img[data-slide='saree-lady'] {
+    object-position: 66% 28%;
+  }
+  .hero-cover-img[data-slide='ambassador'] {
+    object-position: 80% 22%;
+  }
+  .hero-cover-img[data-slide='man-turmeric'] {
+    object-position: 68% 24%;
+  }
+  .facility-cover-img {
+    object-position: 80% 50%;
+  }
+}
+
+@media (min-width: 768px) {
+  .hero-cover-img[data-slide='saree-lady'] {
+    object-position: 68% 40%;
+  }
+  .hero-cover-img[data-slide='ambassador'] {
+    object-position: 82% 36%;
+  }
+  .hero-cover-img[data-slide='man-turmeric'] {
+    object-position: 69% 38%;
+  }
+  .facility-cover-img {
+    object-position: 72% 52%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-cover-img[data-slide='saree-lady'] {
+    object-position: 70% 50%;
+  }
+  .hero-cover-img[data-slide='ambassador'] {
+    object-position: 85% 50%;
+  }
+  .hero-cover-img[data-slide='man-turmeric'] {
+    object-position: 70% 50%;
+  }
+  .facility-cover-img {
+    object-position: center center;
+  }
+}
