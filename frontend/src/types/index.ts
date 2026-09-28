@@ -107,7 +107,8 @@ export interface Recipe {
   cookTimeMinutes: number;
   difficulty: 'EASY' | 'MEDIUM' | 'ADVANCED';
   servings: number;
-  image: string;
+  image?: string;
+  video?: string;
   description: string;
   ingredients: Array<{
     name: string;

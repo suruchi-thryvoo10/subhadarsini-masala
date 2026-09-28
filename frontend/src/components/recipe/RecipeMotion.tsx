@@ -59,7 +59,7 @@ export const RecipeMotion: React.FC<Props> = ({
   if (videoUrl) {
     return (
       <div className={`relative aspect-video overflow-hidden ${className}`}>
-        <RecipeVideo url={videoUrl} poster={videoThumbnail || image} title={title} />
+        <RecipeVideo url={videoUrl} poster={videoThumbnail || image} title={title} autoPlay />
       </div>
     );
   }

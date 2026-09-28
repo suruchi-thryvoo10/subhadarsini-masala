@@ -8,6 +8,7 @@ interface RecipeVideoProps {
   /** Poster frame; falls back to the recipe photo. */
   poster?: string;
   title: string;
+  autoPlay?: boolean;
 }
 
 const youTubeId = (url: string): string | null => {
@@ -27,13 +28,14 @@ const vimeoId = (url: string): string | null => {
  * stays fast and no embed cookies are set on arrival. Falls back to a plain
  * link for anything that is not a recognised embed or a direct video file.
  */
-export const RecipeVideo: React.FC<RecipeVideoProps> = ({ url, poster, title }) => {
+export const RecipeVideo: React.FC<RecipeVideoProps> = ({ url, poster, title, autoPlay = false }) => {
   const [playing, setPlaying] = useState(false);
 
   const yt = youTubeId(url);
   const vm = vimeoId(url);
   const isFile = /\.(mp4|webm|ogg)(\?|$)/i.test(url);
   const embeddable = Boolean(yt || vm || isFile);
+  const shouldPlay = playing || autoPlay;
 
   const posterSrc = poster
     ? resolveImageUrl(poster)
@@ -41,9 +43,12 @@ export const RecipeVideo: React.FC<RecipeVideoProps> = ({ url, poster, title }) 
     ? `https://i.ytimg.com/vi/${yt}/hqdefault.jpg`
     : undefined;
 
-  if (!playing) {
+  if (!shouldPlay || !embeddable) {
     return (
-      <div className="relative aspect-video rounded-2xl overflow-hidden bg-spice-dark border border-spice-brown/10">
+      <div
+        className="relative aspect-video rounded-2xl overflow-hidden bg-spice-dark border border-spice-brown/10"
+        onClick={(event) => event.stopPropagation()}
+      >
         {posterSrc && (
           <img
             src={posterSrc}
@@ -86,17 +91,28 @@ export const RecipeVideo: React.FC<RecipeVideoProps> = ({ url, poster, title }) 
   }
 
   return (
-    <div className="relative aspect-video rounded-2xl overflow-hidden bg-spice-dark border border-spice-brown/10">
+    <div
+      className="relative aspect-video rounded-2xl overflow-hidden bg-spice-dark border border-spice-brown/10"
+      onClick={(event) => event.stopPropagation()}
+    >
       {isFile ? (
-        <video src={url} controls autoPlay playsInline className="w-full h-full object-cover">
+        <video
+          src={url}
+          controls
+          autoPlay
+          muted={autoPlay}
+          loop={autoPlay}
+          playsInline
+          className="w-full h-full object-cover"
+        >
           <track kind="captions" />
         </video>
       ) : (
         <iframe
           src={
             yt
-              ? `https://www.youtube-nocookie.com/embed/${yt}?autoplay=1&rel=0`
-              : `https://player.vimeo.com/video/${vm}?autoplay=1`
+              ? `https://www.youtube-nocookie.com/embed/${yt}?autoplay=1&mute=${autoPlay ? 1 : 0}&rel=0`
+              : `https://player.vimeo.com/video/${vm}?autoplay=1&muted=${autoPlay ? 1 : 0}`
           }
           title={title}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

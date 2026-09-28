@@ -7,6 +7,7 @@ import { handleImageError, productImageUrl } from '../config/images';
 import { displayProductName } from '../utils/format';
 import { SubmitRecipeForm } from '../components/forms/SubmitRecipeForm';
 import { RecipeModal } from '../components/recipe/RecipeModal';
+import { RecipeMotion } from '../components/recipe/RecipeMotion';
 import { useSeo, SITE_URL } from '../hooks/useSeo';
 
 // Hardcoded default heritage recipes with cooked food dish images
@@ -20,7 +21,7 @@ const DEFAULT_HERITAGE_RECIPES: Recipe[] = [
     cookTimeMinutes: 45,
     difficulty: 'MEDIUM',
     servings: 4,
-    image: '/images/recipes/mamsa-kasa.webp',
+    video: '/video/mutton.mp4',
     description: 'Rich slow-cooked mutton curry in caramelised onion and stone-ground spices.',
     ingredients: [
       { name: 'Tender Mutton', quantity: '500g' },
@@ -51,7 +52,7 @@ const DEFAULT_HERITAGE_RECIPES: Recipe[] = [
     cookTimeMinutes: 30,
     difficulty: 'EASY',
     servings: 4,
-    image: '/images/recipes/odia-dalma.webp',
+    video: '/video/daal.mp4',
     description: 'The everyday Odia one-pot of toor dal simmered with raw banana, pumpkin and Panch Phoran.',
     ingredients: [
       { name: 'Toor Dal (Arhar)', quantity: '1 cup' },
@@ -82,7 +83,7 @@ const DEFAULT_HERITAGE_RECIPES: Recipe[] = [
     cookTimeMinutes: 25,
     difficulty: 'MEDIUM',
     servings: 4,
-    image: '/images/recipes/machha-besara.webp',
+    video: '/video/fish.mp4',
     description: 'Rohu fish simmered in sharp mustard garlic gravy.',
     ingredients: [
       { name: 'Fresh Rohu Fish Steaks', quantity: '600g' },
@@ -113,7 +114,7 @@ const DEFAULT_HERITAGE_RECIPES: Recipe[] = [
     cookTimeMinutes: 35,
     difficulty: 'EASY',
     servings: 4,
-    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-pzKdY1HWoressqzFGHlu9FgRBKFhsoWkp21nN_PU1g&s=10',
+    video: '/video/chicken.mp4',
     description: 'Authentic tavern-style chicken curry cooked with slow-roasted spices.',
     ingredients: [
       { name: 'Fresh Chicken', quantity: '750g' },
@@ -144,7 +145,7 @@ const DEFAULT_HERITAGE_RECIPES: Recipe[] = [
     cookTimeMinutes: 40,
     difficulty: 'MEDIUM',
     servings: 6,
-    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcWLQFyIpchYmqH-hhyxqhIcwYbVASOkhcH7x2gFlutQ&s=10',
+    video: '/video/biryani.mp4',
     description: 'Aromatic layered rice dish cooked under sealed dum with biryani masala.',
     ingredients: [
       { name: 'Long Grain Basmati Rice', quantity: '500g' },
@@ -175,7 +176,7 @@ const DEFAULT_HERITAGE_RECIPES: Recipe[] = [
     cookTimeMinutes: 20,
     difficulty: 'EASY',
     servings: 4,
-    image: '/images/recipes/shahi-paneer-butter-masala.jpg',
+    video: '/video/paneer.mp4',
     description: 'Velvety smooth cottage cheese curry in tomato cashew butter gravy.',
     ingredients: [
       { name: 'Fresh Paneer Cubes', quantity: '300g' },
@@ -239,12 +240,13 @@ export const RecipesPage: React.FC = () => {
       const data = await res.json();
       if (data.success && data.data?.length >= 3) {
         const combined = data.data.map((apiRec: Recipe) => {
-          // If API recipe has no image, inherit from the matching hardcoded entry
-          if (!apiRec.image) {
-            const match = DEFAULT_HERITAGE_RECIPES.find((d) => d.slug === apiRec.slug);
-            if (match?.image) return { ...apiRec, image: match.image };
-          }
-          return apiRec;
+          const match = DEFAULT_HERITAGE_RECIPES.find((d) => d.slug === apiRec.slug);
+          return {
+            ...apiRec,
+            image: apiRec.image || match?.image,
+            videoUrl: apiRec.videoUrl || apiRec.video || match?.videoUrl || match?.video,
+            videoThumbnail: apiRec.videoThumbnail || match?.videoThumbnail
+          };
         });
         DEFAULT_HERITAGE_RECIPES.forEach((defRec) => {
           if (!combined.some((r: Recipe) => r.slug === defRec.slug)) {
@@ -349,11 +351,14 @@ export const RecipesPage: React.FC = () => {
                   <div>
                     {/* Cooked Dish Image Header with Attached Small Masala Badge */}
                     <div className="relative aspect-[16/9] overflow-hidden bg-spice-brown">
-                      <img
-                        src={recipe.image}
-                        onError={handleImageError}
-                        alt={recipe.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      <RecipeMotion
+                        image={recipe.image || ''}
+                        title={recipe.title}
+                        steps={recipe.instructions || []}
+                        category={recipe.category}
+                        videoUrl={recipe.videoUrl || recipe.video}
+                        videoThumbnail={recipe.videoThumbnail}
+                        className="h-full"
                       />
                       <span className="absolute top-2.5 left-2.5 bg-white/95 backdrop-blur-md px-2.5 py-0.5 rounded-full text-[10px] font-extrabold text-spice-brown uppercase tracking-wider shadow-xs z-10">
                         {recipe.category || 'Traditional Recipe'}
