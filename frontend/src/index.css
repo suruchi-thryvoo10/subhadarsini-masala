@@ -96,16 +96,17 @@ h1, h2, h3, h4 {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 62% 18%;
+  object-position: center center;
 }
 .hero-cover-img[data-slide='saree-lady'] {
-  object-position: 62% 16%;
+  object-position: center center;
+  
 }
 .hero-cover-img[data-slide='ambassador'] {
-  object-position: 78% 12%;
+  object-position: center center;
 }
 .hero-cover-img[data-slide='man-turmeric'] {
-  object-position: 64% 14%;
+  object-position: center center;
 }
 
 .facility-cover-img {
@@ -113,21 +114,21 @@ h1, h2, h3, h4 {
   height: 100%;
   object-fit: cover;
   /* Building, parked cars, and the SUBHADARSINI sign stay in frame */
-  object-position: 78% 48%;
+  object-position: center center;
 }
 
 @media (min-width: 640px) {
   .hero-cover-img[data-slide='saree-lady'] {
-    object-position: 66% 28%;
+    object-position: 59% 18%;
   }
   .hero-cover-img[data-slide='ambassador'] {
-    object-position: 80% 22%;
+    object-position: 60% 22%;
   }
   .hero-cover-img[data-slide='man-turmeric'] {
     object-position: 68% 24%;
   }
   .facility-cover-img {
-    object-position: 80% 50%;
+    object-position: 60% 50%;
   }
 }
 
