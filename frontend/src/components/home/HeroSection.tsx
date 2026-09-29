@@ -9,7 +9,8 @@ import { useT } from '../../i18n/LanguageContext';
 const SLIDES = [
   {
     id: 'saree-lady',
-    image: '/images/brand/hero-saree-lady.png',
+    desktopImage: '/images/brand/hero-saree-lady.png',
+    mobileImage: '/images/brand/lady with saare mob.png',
     alt: 'Subhadarshini Garam Masala – Lady in Saree',
     tag: 'GARAM MASALA — RICH AROMA & AUTHENTIC BLEND',
     headline: (
@@ -25,7 +26,8 @@ const SLIDES = [
   },
   {
     id: 'ambassador',
-    image: '/images/brand/hero-ambassador.jpg',
+    desktopImage: '/images/brand/hero-ambassador.jpg',
+    mobileImage: '/images/brand/hero-ambassdor-mob.png',
     alt: 'Subhadarshini Masala Brand Ambassador',
     tag: 'SUBHADARSHINI MASALA — 100% PURE & STONE GROUND',
     headline: (
@@ -41,7 +43,8 @@ const SLIDES = [
   },
   {
     id: 'man-turmeric',
-    image: '/images/brand/hero-man-turmeric.png',
+    desktopImage: '/images/brand/hero-man-turmeric.png',
+    mobileImage: '/images/brand/man with masala mob.png',
     alt: 'Subhadarshini Turmeric Powder',
     tag: 'TURMERIC POWDER — 100% NATURAL & CHEMICAL-FREE',
     headline: (
@@ -173,23 +176,29 @@ export const HeroSection: React.FC = () => {
                 : undefined
             }
           >
-            <motion.img
-              src={slide.image}
-              alt={slide.alt}
-              data-slide={slide.id}
-              className="hero-cover-img filter contrast-[1.04] brightness-[1.02]"
-              animate={
-                prefersReducedMotion
-                  ? { scale: 1 }
-                  : { scale: [1, 1.04, 1], rotate: [0, 0.2, 0] }
-              }
-              transition={{
-                duration: 12,
-                repeat: Infinity,
-                repeatType: 'reverse',
-                ease: 'easeInOut',
-              }}
-            />
+            <picture className="block w-full h-full">
+              <source
+                media="(max-width: 767px)"
+                srcSet={encodeURI(slide.mobileImage)}
+              />
+              <motion.img
+                src={slide.desktopImage}
+                alt={slide.alt}
+                data-slide={slide.id}
+                className="hero-cover-img filter contrast-[1.04] brightness-[1.02]"
+                animate={
+                  prefersReducedMotion
+                    ? { scale: 1 }
+                    : { scale: [1, 1.04, 1], rotate: [0, 0.2, 0] }
+                }
+                transition={{
+                  duration: 12,
+                  repeat: Infinity,
+                  repeatType: 'reverse',
+                  ease: 'easeInOut',
+                }}
+              />
+            </picture>
           </motion.div>
 
           {/* Mobile/tablet: fade from the bottom so the photo stays visible above the copy.

@@ -12,151 +12,253 @@
 ::-webkit-scrollbar {
   width: 8px;
 }
+
 ::-webkit-scrollbar-track {
   background: #F5EBED;
 }
+
 ::-webkit-scrollbar-thumb {
   background: #BF1D3A;
   border-radius: 4px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: #9D152E;
 }
 
-/* Horizontally scrollable strips (category chips) keep the gesture, drop the bar */
+/* Horizontally scrollable strips */
 @layer utilities {
   .scrollbar-none {
     scrollbar-width: none;
     -ms-overflow-style: none;
   }
+
   .scrollbar-none::-webkit-scrollbar {
     display: none;
   }
 }
 
-/* Self-scrolling product and category rails (see useAutoScrollRail). A real
-   horizontal scroll area driven slowly by JS. It keeps horizontal swipes to
-   itself so they never become browser back/forward, while vertical swipes
-   still scroll the page. */
+/* Self-scrolling product and category rails */
 .rail-scroller {
   overscroll-behavior-x: contain;
   touch-action: pan-x pan-y;
   cursor: grab;
 }
+
 .rail-scroller.is-dragging {
   cursor: grabbing;
   user-select: none;
 }
 
-/* Recipe hero motion. The photo drifts slowly (a Ken Burns move) while the
-   dish's own steps cross-fade over it, so a recipe card reads as something in
-   progress rather than a still. Paused on hover and keyboard focus so anyone
-   reading a step can finish it, and switched off entirely for reduced-motion
-   users, who get the plain photo and the first step. */
+/* Recipe hero motion */
 .recipe-motion-img {
   animation: recipe-kenburns 24s ease-in-out infinite alternate;
   transform-origin: 50% 55%;
   will-change: transform;
 }
+
 .recipe-motion:hover .recipe-motion-img,
 .recipe-motion:focus-within .recipe-motion-img {
   animation-play-state: paused;
 }
+
 @keyframes recipe-kenburns {
-  from { transform: scale(1) translate3d(0, 0, 0); }
-  to   { transform: scale(1.12) translate3d(-1.5%, -1.5%, 0); }
+  from {
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: scale(1.12) translate3d(-1.5%, -1.5%, 0);
+  }
 }
 
 .recipe-motion-step {
   animation: recipe-step-in 600ms ease-out both;
 }
+
 @keyframes recipe-step-in {
-  from { opacity: 0; transform: translate3d(0, 8px, 0); }
-  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+  from {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .recipe-motion-img { animation: none; }
-  .recipe-motion-step { animation: none; }
+  .recipe-motion-img {
+    animation: none;
+  }
+
+  .recipe-motion-step {
+    animation: none;
+  }
 }
 
-/* Translated headings can contain single words far longer than anything in
-   the English copy — Tamil and Malayalam compounds in particular have no
-   space to break at, so a heading sized for English overflowed its column on
-   a narrow phone. Allowing a break inside the word keeps it in the layout. */
-h1, h2, h3, h4 {
+/* Prevent long translated words from overflowing */
+h1,
+h2,
+h3,
+h4 {
   overflow-wrap: break-word;
 }
 
-/*
-  Cinematic cover photos are landscape. On a tall phone they would otherwise
-  crop the subject out; each breakpoint keeps the focal point in frame.
-*/
+/* =========================================================
+   HERO IMAGES
+   ========================================================= */
+
 .hero-cover-img {
   width: 100%;
   height: 100%;
+  display: block;
   object-fit: cover;
   object-position: center center;
 }
+
+/* =========================================================
+   DESKTOP DEFAULT POSITIONING
+   ========================================================= */
+
 .hero-cover-img[data-slide='saree-lady'] {
-  object-position: center center;
-  
+  object-position: 70% 50%;
 }
+
 .hero-cover-img[data-slide='ambassador'] {
-  object-position: center center;
+  object-position: 85% 50%;
 }
+
 .hero-cover-img[data-slide='man-turmeric'] {
-  object-position: center center;
+  object-position: 70% 50%;
 }
+
+/* =========================================================
+   MOBILE HERO
+   ========================================================= */
+
+@media (max-width: 639px) {
+  .hero-cover-img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center center;
+  }
+
+  .hero-cover-img[data-slide='saree-lady'] {
+    object-fit: cover;
+    object-position: 60% center;
+  }
+
+  /*
+   * AMBASSADOR
+   */
+  .hero-cover-img[data-slide='ambassador'] {
+    object-fit: cover;
+    object-position: center center;
+  }
+
+  /*
+   * MAN WITH TURMERIC
+   */
+  .hero-cover-img[data-slide='man-turmeric'] {
+    object-fit: cover;
+    object-position: center center;
+  }
+}
+
+/* =========================================================
+   SMALL TABLETS
+   ========================================================= */
+
+@media (min-width: 640px) and (max-width: 767px) {
+  .hero-cover-img {
+    object-fit: cover;
+  }
+
+  .hero-cover-img[data-slide='saree-lady'] {
+    object-position: 59% 18%;
+  }
+
+  .hero-cover-img[data-slide='ambassador'] {
+    object-position: 60% 22%;
+  }
+
+  .hero-cover-img[data-slide='man-turmeric'] {
+    object-position: 68% 24%;
+  }
+}
+
+/* =========================================================
+   TABLETS
+   ========================================================= */
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .hero-cover-img {
+    object-fit: cover;
+  }
+
+  .hero-cover-img[data-slide='saree-lady'] {
+    object-position: 68% 40%;
+  }
+
+  .hero-cover-img[data-slide='ambassador'] {
+    object-position: 82% 36%;
+  }
+
+  .hero-cover-img[data-slide='man-turmeric'] {
+    object-position: 69% 38%;
+  }
+}
+
+/* =========================================================
+   DESKTOP
+   ========================================================= */
+
+@media (min-width: 1024px) {
+  .hero-cover-img {
+    object-fit: cover;
+  }
+
+  .hero-cover-img[data-slide='saree-lady'] {
+    object-position: 70% 50%;
+  }
+
+  .hero-cover-img[data-slide='ambassador'] {
+    object-position: 85% 50%;
+  }
+
+  .hero-cover-img[data-slide='man-turmeric'] {
+    object-position: 70% 50%;
+  }
+}
+
+/* =========================================================
+   FACILITY IMAGE
+   ========================================================= */
 
 .facility-cover-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* Building, parked cars, and the SUBHADARSINI sign stay in frame */
   object-position: center center;
 }
 
 @media (min-width: 640px) {
-  .hero-cover-img[data-slide='saree-lady'] {
-    object-position: 59% 18%;
-  }
-  .hero-cover-img[data-slide='ambassador'] {
-    object-position: 60% 22%;
-  }
-  .hero-cover-img[data-slide='man-turmeric'] {
-    object-position: 68% 24%;
-  }
   .facility-cover-img {
     object-position: 60% 50%;
   }
 }
 
 @media (min-width: 768px) {
-  .hero-cover-img[data-slide='saree-lady'] {
-    object-position: 68% 40%;
-  }
-  .hero-cover-img[data-slide='ambassador'] {
-    object-position: 82% 36%;
-  }
-  .hero-cover-img[data-slide='man-turmeric'] {
-    object-position: 69% 38%;
-  }
   .facility-cover-img {
     object-position: 72% 52%;
   }
 }
 
 @media (min-width: 1024px) {
-  .hero-cover-img[data-slide='saree-lady'] {
-    object-position: 70% 50%;
-  }
-  .hero-cover-img[data-slide='ambassador'] {
-    object-position: 85% 50%;
-  }
-  .hero-cover-img[data-slide='man-turmeric'] {
-    object-position: 70% 50%;
-  }
   .facility-cover-img {
     object-position: center center;
   }
