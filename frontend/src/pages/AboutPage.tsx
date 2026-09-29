@@ -65,11 +65,17 @@ export const AboutPage: React.FC = () => {
         {/* Full-width Manufacturing Facility Banner */}
         <div className="relative rounded-3xl overflow-hidden text-white border border-spice-brown/10 shadow-xl min-h-[380px] sm:min-h-[420px] lg:min-h-[460px] flex items-end lg:items-center">
           <div className="absolute inset-0 z-0">
-            <img
-              src="/images/brand/company-facility.jpg"
-              alt="Subhadarshini Agro Manufacturing Facility"
-              className="facility-cover-img filter brightness-[1.05] contrast-[1.05]"
-            />
+            <picture className="block w-full h-full">
+              <source
+                media="(max-width: 767px)"
+                srcSet="/images/brand/company-facility-mob.png"
+              />
+              <img
+                src="/images/brand/company-facility.jpg"
+                alt="Subhadarshini Agro Manufacturing Facility"
+                className="facility-cover-img filter brightness-[1.05] contrast-[1.05]"
+              />
+            </picture>
             <div className="absolute inset-0 z-10 bg-gradient-to-t from-spice-dark via-spice-dark/50 to-black/10 lg:hidden" />
             <div className="absolute inset-0 z-10 hidden lg:block bg-gradient-to-r from-spice-dark/95 via-spice-dark/45 to-transparent" />
             <div className="absolute inset-0 z-10 hidden lg:block bg-gradient-to-t from-spice-dark/85 via-transparent to-spice-dark/30" />

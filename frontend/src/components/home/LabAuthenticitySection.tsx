@@ -20,11 +20,17 @@ export const LabAuthenticitySection: React.FC = () => {
     <section className="relative overflow-hidden text-white border-y border-spice-saffron/20 min-h-[min(92svh,720px)] sm:min-h-[560px] lg:min-h-[520px] flex items-end lg:items-center">
       {/* Full-bleed facility photo — crop shifts per breakpoint so the building, cars, and sign stay visible */}
       <div className="absolute inset-0 z-0">
-        <img
-          src="/images/brand/company-facility.jpg"
-          alt="Subhadarshini Private Limited Central Manufacturing Facility"
-          className="facility-cover-img filter brightness-[1.1] contrast-[1.05]"
-        />
+        <picture className="block w-full h-full">
+          <source
+            media="(max-width: 767px)"
+            srcSet="/images/brand/company-facility-mob.png"
+          />
+          <img
+            src="/images/brand/company-facility.jpg"
+            alt="Subhadarshini Private Limited Central Manufacturing Facility"
+            className="facility-cover-img filter brightness-[1.1] contrast-[1.05]"
+          />
+        </picture>
         <div className="absolute inset-0 z-10 bg-gradient-to-t from-spice-dark via-spice-dark/55 to-black/15 lg:hidden" />
         <div className="absolute inset-0 z-10 hidden lg:block bg-gradient-to-r from-spice-dark/95 via-spice-dark/30 to-transparent" />
         <div className="absolute inset-0 z-10 hidden lg:block bg-gradient-to-t from-spice-dark/80 via-transparent to-spice-dark/20" />
