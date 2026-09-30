@@ -233,7 +233,7 @@ export const HeroSection: React.FC = () => {
       )}
 
       {/* ── HERO CONTENT OVERLAY ──────────────────────────────────────────── */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-16 sm:pt-16 sm:pb-20 lg:py-16 relative z-20 w-full mt-auto lg:my-auto">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-12 sm:pt-16 sm:pb-20 lg:py-16 relative z-20 w-full mt-auto lg:my-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
 
           {/* Left Side: Headline & Actions */}
@@ -242,25 +242,25 @@ export const HeroSection: React.FC = () => {
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.55, delay: 0.15 }}
-            className="lg:col-span-7 space-y-6 max-w-2xl"
+            className="lg:col-span-7 flex flex-col gap-4 sm:gap-6 max-w-2xl"
           >
             {/* Brand Tag */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-spice-saffron/20 border border-spice-saffron/40 text-spice-turmeric text-xs font-extrabold uppercase tracking-widest backdrop-blur-md">
-              <Sparkles className="w-3.5 h-3.5 animate-pulse" />
+            <div className="order-5 lg:order-none inline-flex items-center gap-2 px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-spice-saffron/20 border border-spice-saffron/40 text-[9px] sm:text-xs font-extrabold uppercase tracking-widest backdrop-blur-md">
+              <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 animate-pulse" />
               {slide.tag}
             </div>
 
             {/* Headline */}
-            <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.1]">
+            <h1 className="order-4 lg:order-none font-serif text-2xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.1]">
               {slide.headline}
             </h1>
 
-            <p className="text-spice-cream/90 text-base sm:text-lg leading-relaxed font-medium drop-shadow-sm">
+            <p className="order-2 lg:order-none hidden lg:block text-spice-cream/90 text-base sm:text-lg leading-relaxed font-medium drop-shadow-sm">
               {slide.subtext}
             </p>
 
             {/* Sourcing Chain Pill */}
-            <div className="p-3.5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 text-xs font-bold text-spice-cream flex flex-wrap items-center gap-2 max-w-xl shadow-lg">
+            <div className="order-3 lg:order-none hidden lg:flex p-3.5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 text-xs font-bold text-spice-cream flex-wrap items-center gap-2 max-w-xl shadow-lg">
               <span className="text-spice-turmeric font-serif font-extrabold">Subhadarshini</span>
               <ChevronRight className="w-3.5 h-3.5 text-spice-turmeric" />
               <span>Farm Spices</span>
@@ -271,36 +271,36 @@ export const HeroSection: React.FC = () => {
             </div>
 
             {/* CTA Buttons */}
-            <div className="flex items-stretch gap-3 sm:gap-4 pt-2">
+            <div className="order-6 lg:order-none flex items-stretch gap-2 sm:gap-4 pt-2">
               <Link
                 to="/products"
-                className="px-8 py-4 rounded-full bg-spice-red hover:bg-spice-red-dark text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider shadow-xl hover:shadow-2xl transition-all flex items-center justify-center gap-2 group"
+                className="px-3 py-3 sm:px-8 sm:py-4 rounded-full bg-spice-red hover:bg-spice-red-dark text-white font-extrabold text-[10px] sm:text-sm uppercase tracking-wider shadow-xl hover:shadow-2xl transition-all flex items-center justify-center gap-1.5 sm:gap-2 group"
               >
-                {t('action.exploreProducts')} <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                {t('action.exploreProducts')} <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
                 to="/recipes"
-                className="px-8 py-4 rounded-full bg-white/15 hover:bg-white/25 border border-white/30 text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider backdrop-blur-md transition-all flex items-center justify-center"
+                className="px-3 py-3 sm:px-8 sm:py-4 rounded-full bg-white/15 hover:bg-white/25 border border-white/30 text-white font-extrabold text-[10px] sm:text-sm uppercase tracking-wider backdrop-blur-md transition-all flex items-center justify-center"
               >
                 {t('action.discoverRecipes')}
               </Link>
             </div>
 
             {/* Trust Stats */}
-            <div className="pt-6 border-t border-white/15 grid grid-cols-3 gap-4 max-w-lg">
+            <div className="order-7 lg:order-none pt-4 sm:pt-6 border-t border-white/15 grid grid-cols-3 gap-2 sm:gap-4 max-w-lg">
               <div>
-                <span className="font-serif text-2xl sm:text-3xl font-extrabold text-spice-turmeric block">100%</span>
-                <span className="text-xs text-spice-beige/80 font-medium">Stone Ground</span>
+                <span className="font-serif text-xl sm:text-3xl font-extrabold text-spice-turmeric block">100%</span>
+                <span className="text-[10px] sm:text-xs text-spice-beige/80 font-medium">Stone Ground</span>
               </div>
               <div>
-                <span className="font-serif text-2xl sm:text-3xl font-extrabold text-white block">ZERO</span>
-                <span className="text-xs text-spice-beige/80 font-medium">Added Dyes</span>
+                <span className="font-serif text-xl sm:text-3xl font-extrabold text-white block">ZERO</span>
+                <span className="text-[10px] sm:text-xs text-spice-beige/80 font-medium">Added Dyes</span>
               </div>
               <div>
-                <span className="font-serif text-2xl sm:text-3xl font-extrabold text-spice-cream block">
+                <span className="font-serif text-xl sm:text-3xl font-extrabold text-spice-cream block">
                   {productCount !== null ? productCount : 34}+
                 </span>
-                <span className="text-xs text-spice-beige/80 font-medium">Masalas Range</span>
+                <span className="text-[10px] sm:text-xs text-spice-beige/80 font-medium">Masalas Range</span>
               </div>
             </div>
           </motion.div>
